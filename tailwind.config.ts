@@ -4,6 +4,7 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/containers/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -19,25 +20,46 @@ const config: Config = {
         caption: ["0.625rem", { lineHeight: "0.875rem" }],
       },
       colors: {
-        "bg-090": "#111827",
-        "bg-080": "#202A37",
-        "bg-070": "#bfdbfe",
-        "dark-100": "#000000",
-        "dark-080": "#333333",
-        "light-090": "#f9f9f9",
-        "msg-error": "#d03803",
-        "msg-success": "#118e66",
-        "cta-dark-090": "#233876",
-        "cta-dark-080": "#1e3a8a",
-        "cta-100": "#2563eb",
-        "cta-090": "#1d4ed8",
-        "cta-light-090": "#c3ddfd",
-        "text-light": "#ffffff",
-        "text-secondary-080": "#A4CAFE",
-        "text-alternative": "#9ca3af",
-        "text-primary": "#3b82f6",
-        "text-hover-primary": "#9061f9",
-        "text-dark-090": "#89919e",
+        bgDark: {
+          "090": "#111827",
+          "080": "#202A37",
+          "070": "#374151",
+        },
+        dark: {
+          "100": "#000000",
+          "080": "#333333",
+        },
+        light: {
+          "090": "#f9f9f9",
+        },
+        msg: {
+          error: "#d03803",
+          success: "#118e66",
+        },
+        cta: {
+          "100": "#2563eb",
+          "090": "#1d4ed8",
+        },
+        ctaLight: {
+          "090": "#bfdbfe",
+          "080": "#c3ddfd",
+        },
+        ctaDark: {
+          "090": "#233876",
+          "080": "#1e3a8a",
+        },
+        txtBrand: {
+          primary: "#3b82f6",
+          "primary-hover": "#9061f9",
+          secondary: "#A4CAFE",
+          alternative: "#9ca3af",
+        },
+        txtDark: {
+          "090": "#89919e",
+        },
+        txtLight: {
+          "100": "#ffffff",
+        },
       },
     },
   },
