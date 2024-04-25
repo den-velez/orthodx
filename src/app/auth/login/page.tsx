@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const LoginPage = () => {
   return (
     <section className=' bg-gray-50 dark:bg-gray-900 h-screen'>
-      <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
+      <div className='flex flex-col items-center justify-center px-3 py-8 mx-auto md:h-screen lg:py-0'>
         <a
           href='/'
           className='flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white'>
@@ -77,11 +78,11 @@ const LoginPage = () => {
               </button>
               <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
                 ¿No tienes cuenta?{" "}
-                <a
-                  href='#'
+                <Link
+                  href='/auth/signup'
                   className='font-medium text-primary-600 hover:underline dark:text-primary-500'>
                   Crear cuenta
-                </a>
+                </Link>
               </p>
             </form>
           </div>

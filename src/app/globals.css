@@ -12,6 +12,9 @@
   }
 }
 
+html {
+  background-color: rgb(17 24 39 / 98%);
+}
 body {
   margin: 0 auto;
   max-width: 800px;
