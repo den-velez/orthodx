@@ -42,7 +42,17 @@ const HomePage = () => {
           </h5>
         </CardContainer>
       </div>
-      <div className='w-full flex justify-center'>
+
+      <div className='w-full h-[60px] flex justify-center'>
+        <ButtonComponent
+          variant='secondary'
+          label='OrthoDx Store'
+          widthfull
+          anchor
+          anchorUrl='/store'
+        />
+      </div>
+      <div className='w-full h-[96px] flex justify-center'>
         <ButtonComponent
           variant='primary'
           label='Crear Cuenta'

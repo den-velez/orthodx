@@ -18,7 +18,7 @@ const ButtonComponent = (props: ButtonProps) => {
       case "primary":
         return `h-full flex items-center justify-center bg-cta-100 text-txtLight-100 text-center shadow border border-bgDark-080 capitalize hover:bg-ctaDark-080 active:border-[4px] active:bg-cta-100 ${width}`;
       case "secondary":
-        return "bg-gray-300 text-gray-800";
+        return `h-full flex items-center justify-center text-txtLight-100 text-center shadow border border-[4px] border-bgDark-080 capitalize hover:bg-bgDark-070 active:border-[6px] active:bg-bgDark-080 ${width}`;
       case "alternative":
         return "bg-yellow-500 text-white";
     }
