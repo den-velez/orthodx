@@ -16,7 +16,7 @@ const ButtonComponent = (props: ButtonProps) => {
   const getButtonStyle = () => {
     switch (props.variant) {
       case "primary":
-        return `bg-cta-100 text-txtLight-100 text-center shadow border border-bgDark-080 hover:bg-ctaDark-080 active:border-[4px] active:bg-cta-100 ${width}`;
+        return `h-full flex items-center justify-center bg-cta-100 text-txtLight-100 text-center shadow border border-bgDark-080 capitalize hover:bg-ctaDark-080 active:border-[4px] active:bg-cta-100 ${width}`;
       case "secondary":
         return "bg-gray-300 text-gray-800";
       case "alternative":
@@ -29,8 +29,8 @@ const ButtonComponent = (props: ButtonProps) => {
       <Link
         href={props.anchorUrl || "#"}
         type={typeButton}
-        className={`px-4 py-2 rounded-[12px] ${getButtonStyle()}`}>
-        {props.label}
+        className={`block px-4 py-2 rounded-[12px] ${getButtonStyle()}`}>
+        <span className='text-h5'>{props.label}</span>
       </Link>
     );
   } else {
@@ -38,7 +38,7 @@ const ButtonComponent = (props: ButtonProps) => {
       <button
         type={typeButton}
         className={`px-4 py-2 rounded-[12px] ${getButtonStyle()}`}>
-        {props.label}
+        <span className='text-h5'>{props.label}</span>
       </button>
     );
   }
