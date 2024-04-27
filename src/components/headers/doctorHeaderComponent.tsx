@@ -1,9 +1,14 @@
 import Image from "next/image";
 
-const DoctorHeaderComponent = () => {
-  const avatar = "https://i.pravatar.cc/150?u=fake@pravatar.com";
-  const name = "Dr. John Doe";
-  const credits = 100;
+interface IDoctorHeaderComponent {
+  avatar: string;
+  name: string;
+  credits: number;
+}
+
+const DoctorHeaderComponent = (props: IDoctorHeaderComponent) => {
+  const { avatar, name, credits } = props;
+
   return (
     <header className='flex justify-between p-3 min-h-24 bg-bgDark-080 shadow'>
       <div className='flex flex-col justify-between text-txtBrand-secondary'>

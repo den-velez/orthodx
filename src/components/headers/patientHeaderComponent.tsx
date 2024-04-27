@@ -1,10 +1,14 @@
 import Image from "next/image";
 
-const PatientHeaderComponent = () => {
-  const avatar = "https://i.pravatar.cc/150?u=fake@pravatar.com";
-  const patientName = "Dr. John Doe";
-  const patientAge = 100;
-  const doctorOffice = "Ortho & lab";
+interface IPatientHeaderComponent {
+  avatar: string;
+  patientName: string;
+  patientAge: number;
+  doctorOffice: string;
+}
+
+const PatientHeaderComponent = (props: IPatientHeaderComponent) => {
+  const { avatar, patientName, patientAge, doctorOffice } = props;
 
   return (
     <header className='flex gap-6 p-3 min-h-[120px] bg-bgDark-080 shadow'>

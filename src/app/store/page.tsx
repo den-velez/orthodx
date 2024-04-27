@@ -6,7 +6,7 @@ import { PRODUCT_MOCK } from "@/constants/contants";
 
 const StorePage = () => {
   return (
-    <main className='px-3 pt-6 pb-[60px]'>
+    <main className='h-screen px-3 pt-6 pb-[60px] bg-bgDark-090'>
       <CardContainer>
         <Link href='/' className='flex justify-center p-3'>
           <Image

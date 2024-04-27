@@ -11,8 +11,8 @@ const Product = ({ params }: { params: { slug: string } }) => {
   const slug = parseInt(params.slug, 10);
   const [product] = PRODUCT_MOCK.filter((product) => product.id === slug);
   return (
-    <main className='px-3 pt-3 pb-[60px]'>
-      <div>
+    <main className='h-screen px-3 pt-3 pb-[60px] bg-bgDark-090'>
+      <div className='flex justify-center'>
         <Image
           className='w-full h-auto mr-2 sm:max-w-md'
           src='/images/logo-white.png'

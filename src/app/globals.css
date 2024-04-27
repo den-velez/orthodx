@@ -13,9 +13,10 @@
 }
 
 html {
-  background-color: rgb(17 24 39 / 98%);
+  background-color: rgb(17 24 39 / 80%);
 }
 body {
   margin: 0 auto;
+  border: 1px solid #333;
   max-width: 800px;
 }
