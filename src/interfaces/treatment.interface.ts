@@ -1,4 +1,4 @@
-export interface ToothSizeModel {
+export interface IToothSize {
   d11: number;
   d12: number;
   d13: number;
@@ -16,7 +16,7 @@ export interface ToothSizeModel {
   discrepancy: string;
 }
 
-export interface TreatmentModel {
+export interface ITreatment {
   createdAt: string;
   updatedAt: string;
   treatment: string;

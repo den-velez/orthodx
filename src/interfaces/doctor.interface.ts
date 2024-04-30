@@ -1,4 +1,4 @@
-export interface DoctorModel {
+export interface IDoctor {
   greetings: string;
   email: string;
   name: string;

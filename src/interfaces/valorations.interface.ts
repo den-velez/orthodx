@@ -1,4 +1,4 @@
-export interface CephalometryModel {
+export interface ICephalometry {
   createdAt: string;
   updatedAt: string;
   NA: number;
@@ -17,7 +17,7 @@ export interface CephalometryModel {
   observacionPanoramica: number;
 }
 
-export interface DentalModel {
+export interface IDental {
   createdAt: string;
   updatedAt: string;
   relacionMolarDer: string;
@@ -37,7 +37,7 @@ export interface DentalModel {
   obsevacionesOclusion: string;
 }
 
-export interface ArchesModel {
+export interface IArches {
   createdAt: string;
   updatedAt: string;
   d11: number;
@@ -60,15 +60,15 @@ export interface ArchesModel {
   dist6a6Sup: number;
 }
 
-export interface OdontogramModel {
+export interface IOdontogram {
   createdAt: string;
   updatedAt: string;
-  teeth: ToothModel[];
+  teeth: ITooth[];
   generalPathology: string[];
   observations: string;
 }
 
-export interface ToothModel {
+export interface ITooth {
   tooth: string;
   toothState: string;
   toothPathology: string;

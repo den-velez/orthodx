@@ -1,4 +1,4 @@
-export interface DiagnosticModel {
+export interface IDiagnostic {
   createdAt: string;
   updatedAt: string;
   alturaInferior: number;
@@ -31,9 +31,9 @@ export interface DiagnosticModel {
   distancia6_6: number;
   distanciaLongAnt: number;
   discrepancia: string;
-  expansion: ExpansionModel;
+  expansion: IExpansion;
 }
-interface ExpansionModel {
+interface IExpansion {
   korkhause: ExpansionItem;
   korkhauseMod: ExpansionItem;
   mordidaCruzada: ExpansionItem;
