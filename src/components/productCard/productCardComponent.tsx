@@ -9,10 +9,10 @@ interface IProductCardComponentProps {
 
 const ProductCardComponent = (props: IProductCardComponentProps) => {
   return (
-    <CardContainer styles='py-6 px-6  '>
-      <div className='mb-6'>
+    <CardContainer styles='py-6 px-6 min-h-60 flex flex-col justify-between'>
+      <div className='mb-6 flex-grow flex flex-col justify-center gap-3'>
         <h3 className='text-h3 text-txtLight-100 text-center'>{props.title}</h3>
-        <p className='text-h3 text-txtLight-100 text-center'>
+        <p className='text-h2 text-txtLight-100 text-center'>
           <span>{"$ "}</span>
           <span>{props.price}</span>
         </p>
