@@ -1,3 +1,5 @@
+import { doctor } from "@/components/icons/iconList";
+
 export const BTN_STORE_TITLE = "store";
 export const BTN_STORE_LABEL = "comprar";
 
@@ -21,3 +23,42 @@ export const PATIENT_MOCK_VALUE = {
   patientAge: 100,
   doctorOffice: "Ortho & lab",
 };
+
+export const PATIENTLIST_MOCK = [
+  {
+    id: 1,
+    name: "Jhon",
+    age: 25,
+    doctorOffice: "Ortho & lab",
+    avatar: "https://i.imgur.com/LDOO4Qs.jpg",
+    creationAt: "2024-05-06T22:44:03.000Z",
+    updatedAt: "2024-05-06T22:44:03.000Z",
+  },
+  {
+    id: 2,
+    name: "Maria",
+    age: 25,
+    doctorOffice: "Ortho & lab",
+    avatar: "https://i.imgur.com/DTfowdu.jpg",
+    creationAt: "2024-05-06T22:44:03.000Z",
+    updatedAt: "2024-05-06T22:44:03.000Z",
+  },
+  {
+    id: 3,
+    name: "Admin",
+    age: 25,
+    doctorOffice: "Ortho & lab",
+    avatar: "https://i.imgur.com/yhW6Yw1.jpg",
+    creationAt: "2024-05-06T22:44:03.000Z",
+    updatedAt: "2024-05-06T22:44:03.000Z",
+  },
+  {
+    id: 4,
+    name: "sitt",
+    age: 25,
+    doctorOffice: "Ortho & lab",
+    avatar: "https://i.imgur.com/yhW6Yw1.jpg",
+    creationAt: "2024-05-06T23:14:20.000Z",
+    updatedAt: "2024-05-06T23:14:20.000Z",
+  },
+];

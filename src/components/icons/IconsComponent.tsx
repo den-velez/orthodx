@@ -1,7 +1,7 @@
-import { back, edit, home, doctor, shop, signOut } from "./iconList";
+import { back, edit, home, doctor, shop, signOut, search } from "./iconList";
 
 type IconProps = {
-  icon: "back " | "edit" | "home" | "doctor" | "shop" | "signOut";
+  icon: "back " | "edit" | "home" | "doctor" | "shop" | "signOut" | "search";
 };
 
 const IconContainer = ({ children }: { children: React.ReactNode }) => {
@@ -11,14 +11,14 @@ const IconContainer = ({ children }: { children: React.ReactNode }) => {
       height='32'
       viewBox='0 0 32 32'
       fill='#89919E'
-      className='hover:fill-txtBrand-secondary hover:scale-125'
+      className='flex justify-end hover:fill-txtBrand-secondary hover:scale-125'
       xmlns='http://www.w3.org/2000/svg'>
       {children}
     </svg>
   );
 };
 
-const Icons = (props: IconProps) => {
+const IconsComponent = (props: IconProps) => {
   const { icon } = props;
 
   let iconSelected;
@@ -34,9 +34,11 @@ const Icons = (props: IconProps) => {
       return <IconContainer>{shop()}</IconContainer>;
     case "signOut":
       return <IconContainer>{signOut()}</IconContainer>;
+    case "search":
+      return <IconContainer>{search()}</IconContainer>;
     default:
       return <IconContainer>{back()}</IconContainer>;
   }
 };
 
-export default Icons;
+export default IconsComponent;

@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
 import DoctorHeaderComponent from "@/components/headers/doctorHeaderComponent";
@@ -26,7 +25,7 @@ const DoctorPage = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   console.log(watch("doctorSaludo"));
   return (
-    <main className='bg-bgDark-090'>
+    <div className='bg-bgDark-090'>
       <DoctorHeaderComponent {...DOCTOR_MOCK_VALUE} />
 
       <main className='px-3 pt-6 pb-[60px]'>
@@ -90,7 +89,7 @@ const DoctorPage = () => {
         </div>
       </main>
       <FooterComponent type='doctor' />
-    </main>
+    </div>
   );
 };
 

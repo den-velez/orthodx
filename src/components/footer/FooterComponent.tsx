@@ -1,11 +1,11 @@
-import Icons from "@/components/icons/Icons";
+import { IconsComponent } from "@/components";
 
 interface FooterProps {
   type: "doctor" | "home" | "patient" | "patient-edit";
 }
 
 type FooterItem = {
-  icon: "signOut" | "home" | "shop" | "home";
+  icon: "signOut" | "home" | "shop" | "edit" | "doctor";
 };
 
 const FooterComponent = (props: FooterProps) => {
@@ -26,7 +26,7 @@ const FooterComponent = (props: FooterProps) => {
       icon: "signOut",
     },
     {
-      icon: "home",
+      icon: "doctor",
     },
     {
       icon: "shop",
@@ -76,7 +76,7 @@ const FooterComponent = (props: FooterProps) => {
     <footer className='flex items-center justify-evenly h-[90px] bg-bgDark-080'>
       {getFooter().map((item, index) => (
         <button key={index}>
-          <Icons icon={item.icon} />
+          <IconsComponent icon={item.icon} />
         </button>
       ))}
     </footer>

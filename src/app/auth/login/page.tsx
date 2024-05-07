@@ -77,6 +77,8 @@ const LoginPage = () => {
                 label='Ingresar'
                 type='submit'
                 widthfull
+                anchor
+                anchorUrl='/patients'
               />
 
               <p className='text-small font-light text-gray-500 dark:text-gray-400'>
