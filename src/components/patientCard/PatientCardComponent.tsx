@@ -1,19 +1,24 @@
 import Image from "next/image";
+import Link from "next/link";
 
 type PatientCardComponentProps = {
+  id: string | number;
   avatar: string;
   name: string;
   type: "fav" | "regular";
 };
 
 export default function PatientCardComponent({
+  id,
   avatar,
   name,
   type = "regular",
 }: PatientCardComponentProps) {
   if (type === "fav") {
     return (
-      <div className='p-3 flex flex-col items-center justify-between gap-3 bg-bgDark-070 rounded-[12px]'>
+      <Link
+        href={`/patients/${id}`}
+        className='p-3 flex flex-col items-center justify-between gap-3 bg-bgDark-070 rounded-[12px] border border-bgDark-090 shadow hover:border-light-090'>
         <Image
           className='w-[48px] h-[48px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
           width={48}
@@ -22,11 +27,13 @@ export default function PatientCardComponent({
           alt={name}
         />
         <p className='text-txtLight-100'>{name}</p>
-      </div>
+      </Link>
     );
   } else {
     return (
-      <div className='px-3 py-2 flex items-center justify-between bg-bgDark-070 rounded-[12px]'>
+      <Link
+        href={`/patients/${id}`}
+        className='px-3 py-2 flex items-center justify-between bg-bgDark-070 rounded-[12px] border border-bgDark-090 shadow hover:border-light-090'>
         <p className='text-txtLight-100 text-h5'>{name}</p>
         <Image
           className='w-[48px] h-[48px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
@@ -35,7 +42,7 @@ export default function PatientCardComponent({
           src={avatar}
           alt={name}
         />
-      </div>
+      </Link>
     );
   }
 }

@@ -10,6 +10,7 @@ import {
 
 export interface IPatient {
   id: string | number;
+  fav?: boolean;
   createdAt?: string;
   updatedAt?: string;
   avatar: string;
