@@ -9,22 +9,23 @@ import {
 } from "./index";
 
 export interface IPatient {
-  createdAt: string;
-  updatedAt: string;
+  id: string | number;
+  createdAt?: string;
+  updatedAt?: string;
   avatar: string;
   name: string;
-  age: number;
-  doctorOffice: string;
-  doctorId: string;
-  drawRequest: IDrawRequest;
-  valorationRx: ICephalometry;
-  valorationDental: IDental;
-  valorationArches: IArches;
-  valorationOdotontogram: IOdontogram;
-  resultDiagnostic: IDiagnostic;
-  toothSizeTreatment: IToothSize;
-  treatment: ITreatment;
-  assets: IPatientAssets[];
+  age?: number;
+  doctorOffice?: string;
+  doctorId?: string;
+  drawRequest?: IDrawRequest;
+  valorationRx?: ICephalometry;
+  valorationDental?: IDental;
+  valorationArches?: IArches;
+  valorationOdotontogram?: IOdontogram;
+  resultDiagnostic?: IDiagnostic;
+  toothSizeTreatment?: IToothSize;
+  treatment?: ITreatment;
+  assets?: IPatientAssets[];
 }
 
 interface IDrawRequest {
