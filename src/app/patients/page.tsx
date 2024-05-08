@@ -10,7 +10,15 @@ import { PatientsContainer } from "@/containers";
 import { DOCTOR_MOCK_VALUE } from "@/constants/contants";
 import { Suspense } from "react";
 
-export default function PatientsList({ searchParams }: { searchParams: any }) {
+type TSearcParams = {
+  modal?: boolean;
+};
+
+export default function PatientsList({
+  searchParams,
+}: {
+  searchParams: TSearcParams;
+}) {
   return (
     <>
       <ModalComponent isOpen={searchParams.modal || false}>

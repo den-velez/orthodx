@@ -4,6 +4,8 @@ import {
   ButtonComponent,
   TreatmentDoneComponent,
   TreatmentPendingComponent,
+  ModalComponent,
+  PatientDrawComponent,
 } from "@/components";
 import {
   PATIENT_MOCK_VALUE,
@@ -11,9 +13,16 @@ import {
   TREATMENT_MOCK,
 } from "@/constants/contants";
 
-export default function Patient() {
+export default function Patient({
+  searchParams,
+}: {
+  searchParams: { draw?: boolean };
+}) {
   return (
     <>
+      <ModalComponent isOpen={searchParams.draw || false}>
+        <PatientDrawComponent />
+      </ModalComponent>
       <PatientHeaderComponent {...PATIENT_MOCK_VALUE} />
       <main className='grid gap-6 bg-bgDark-090 px-3 pt-6 pb-[60px]'>
         <section className=' flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
@@ -48,6 +57,8 @@ export default function Patient() {
               label='Solicitar Trazado'
               variant='primary-dark'
               widthfull
+              anchor
+              anchorUrl='/patients/2?draw=true'
             />
             <ButtonComponent
               label='Valoración'

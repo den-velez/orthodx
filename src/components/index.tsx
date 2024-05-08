@@ -10,6 +10,7 @@ import PatientEditComponent from "./patientEdit/PatientEditComponent";
 import ModalComponent from "./modal/ModalComponent";
 import TreatmentDoneComponent from "./treatments/treatmentDoneComponent";
 import TreatmentPendingComponent from "./treatments/treatmentPendingComponent";
+import PatientDrawComponent from "./patientDraw/patientDrawComponent";
 
 export {
   ButtonComponent,
@@ -18,6 +19,7 @@ export {
   IconsComponent,
   ModalComponent,
   PatientCardComponent,
+  PatientDrawComponent,
   PatientEditComponent,
   PatientHeaderComponent,
   ProductCardComponent,
