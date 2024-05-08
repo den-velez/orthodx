@@ -23,7 +23,6 @@ const DoctorPage = () => {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-  console.log(watch("doctorSaludo"));
   return (
     <div className='bg-bgDark-090'>
       <DoctorHeaderComponent {...DOCTOR_MOCK_VALUE} />
@@ -53,7 +52,7 @@ const DoctorPage = () => {
                 placeholder='Saludo'
                 {...register("doctorSaludo")}
               />
-              {errors.doctorSaludo && <span>This field is required</span>}
+              {errors.doctorSaludo && <span>Campo Requerido</span>}
             </div>
             <div className='flex flex-col mt-6'>
               <label
@@ -66,7 +65,7 @@ const DoctorPage = () => {
                 placeholder='Nombre del doctor'
                 {...register("doctorName")}
               />
-              {errors.doctorName && <span>This field is required</span>}
+              {errors.doctorName && <span>Campo Requerido</span>}
             </div>
             <div className='mt-[60px] h-[60px] w-full'>
               <ButtonComponent

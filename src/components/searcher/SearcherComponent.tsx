@@ -30,6 +30,7 @@ export default function SearcherComponent() {
           className='p-3 text-body min-h-12 bg-bgDark-070 text-txtDark-090 focus:text-txtLight-100 focus:outline-none'
           type='text'
           placeholder='Buscar pacientes'
+          value={searchParams.get("name") ?? ""}
           onChange={handlerChange}
         />
       </div>
