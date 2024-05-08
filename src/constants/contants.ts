@@ -1,4 +1,5 @@
 import { IPatient } from "@/interfaces/patient.interface";
+import { ITreatment } from "@/interfaces/treatment.interface";
 
 export const BTN_STORE_TITLE = "store";
 export const BTN_STORE_LABEL = "comprar";
@@ -104,5 +105,61 @@ export const PATIENTLIST_MOCK: IPatient[] = [
     avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
     createdAt: "2024-05-06T23:14:20.000Z",
     updatedAt: "2024-05-06T23:14:20.000Z",
+  },
+];
+
+export const TREATMENT_MOCK: ITreatment[] = [
+  {
+    treatment: "Trazado",
+    done: false,
+    finishedAt: "12 Dic 2024",
+  },
+  {
+    treatment: "Diagnostico",
+    done: false,
+    finishedAt: "12 Dic 2024",
+  },
+  {
+    treatment: "Tamaño Dental",
+    done: false,
+    finishedAt: "12 Dic 2024",
+  },
+  {
+    treatment: "Diagnostico",
+    done: false,
+    finishedAt: "12 Dic 2024",
+  },
+  {
+    treatment: "Trazado",
+    done: false,
+    finishedAt: "12 Dic 2024",
+  },
+  {
+    treatment: "Diagnostico",
+    done: false,
+    finishedAt: "12 Dic 2024",
+  },
+];
+
+export const TREATMENT_DONE_MOCK: ITreatment[] = [
+  {
+    treatment: "Trazado",
+    done: true,
+    finishedAt: "12 Dic 2024",
+  },
+  {
+    treatment: "Diagnostico",
+    done: true,
+    finishedAt: "12 Dic 2024",
+  },
+  {
+    treatment: "Tamaño Dental",
+    done: true,
+    finishedAt: "12 Dic 2024",
+  },
+  {
+    treatment: "Diagnostico",
+    done: true,
+    finishedAt: "12 Dic 2024",
   },
 ];

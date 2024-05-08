@@ -17,10 +17,10 @@ export interface IToothSize {
 }
 
 export interface ITreatment {
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   treatment: string;
-  priority: number;
-  done: boolean;
-  finishedAt: string;
+  priority?: number;
+  done?: boolean;
+  finishedAt?: string;
 }

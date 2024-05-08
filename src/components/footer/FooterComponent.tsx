@@ -41,7 +41,7 @@ const FooterComponent = (props: FooterProps) => {
       icon: "home",
     },
     {
-      icon: "shop",
+      icon: "edit",
     },
   ];
 
@@ -66,7 +66,7 @@ const FooterComponent = (props: FooterProps) => {
       case "patient":
         return patientFooter;
       case "patient-edit":
-        return patientFooter;
+        return patientEditFooter;
       default:
         return homeFooter;
     }

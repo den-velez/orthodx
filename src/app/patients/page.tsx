@@ -10,7 +10,7 @@ import { PatientsContainer } from "@/containers";
 import { DOCTOR_MOCK_VALUE } from "@/constants/contants";
 import { Suspense } from "react";
 
-export default function PatientsPage({ searchParams }: { searchParams: any }) {
+export default function PatientsList({ searchParams }: { searchParams: any }) {
   return (
     <>
       <ModalComponent isOpen={searchParams.modal || false}>

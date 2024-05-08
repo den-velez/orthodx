@@ -18,7 +18,7 @@ const ButtonComponent = (props: ButtonProps) => {
       case "primary":
         return `h-full flex items-center justify-center bg-cta-100 text-txtLight-100 text-center shadow border border-bgDark-080 capitalize hover:bg-ctaDark-090 hover:border-ctaLight-090 active:border-[4px] active:bg-cta-100 ${width}`;
       case "primary-dark":
-        return `h-full flex items-center justify-center bg-ctaDark-090 text-ctaLight-090 text-center shadow border border-bgDark-080 capitalize hover:bg-ctaDark-080 hover:text-txtLight-100 hover:border-ctaLight-090 active:border-[4px] active:bg-ctaDark-090 ${width}`;
+        return `h-full flex items-center justify-center bg-ctaDark-090 text-txtBrand-secondary text-center shadow border border-bgDark-080 capitalize hover:bg-ctaDark-080 hover:text-txtLight-100 hover:border-ctaLight-090 active:border-[4px] active:bg-ctaDark-090 ${width}`;
       case "secondary":
         return `h-full flex items-center justify-center text-txtLight-100 text-center shadow border border-[4px] border-ctaDark-080 capitalize hover:bg-bgDark-070 hover:border-ctaLight-090 active:border-[6px] active:bg-bgDark-080 ${width}`;
       case "alternative":

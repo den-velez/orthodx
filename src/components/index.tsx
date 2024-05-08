@@ -8,6 +8,8 @@ import ProductCardComponent from "./productCard/productCardComponent";
 import SearcherComponent from "./searcher/SearcherComponent";
 import PatientEditComponent from "./patientEdit/PatientEditComponent";
 import ModalComponent from "./modal/ModalComponent";
+import TreatmentDoneComponent from "./treatments/treatmentDoneComponent";
+import TreatmentPendingComponent from "./treatments/treatmentPendingComponent";
 
 export {
   ButtonComponent,
@@ -19,5 +21,7 @@ export {
   PatientEditComponent,
   PatientHeaderComponent,
   ProductCardComponent,
+  TreatmentDoneComponent,
+  TreatmentPendingComponent,
   SearcherComponent,
 };

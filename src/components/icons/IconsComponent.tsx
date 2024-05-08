@@ -1,7 +1,24 @@
-import { back, edit, home, doctor, shop, signOut, search } from "./iconList";
+import {
+  back,
+  edit,
+  home,
+  doctor,
+  shop,
+  signOut,
+  search,
+  trash,
+} from "./iconList";
 
 type IconProps = {
-  icon: "back " | "edit" | "home" | "doctor" | "shop" | "signOut" | "search";
+  icon:
+    | "back "
+    | "edit"
+    | "home"
+    | "doctor"
+    | "shop"
+    | "signOut"
+    | "search"
+    | "trash";
 };
 
 const IconContainer = ({ children }: { children: React.ReactNode }) => {
@@ -36,6 +53,8 @@ const IconsComponent = (props: IconProps) => {
       return <IconContainer>{signOut()}</IconContainer>;
     case "search":
       return <IconContainer>{search()}</IconContainer>;
+    case "trash":
+      return <IconContainer>{trash()}</IconContainer>;
     default:
       return <IconContainer>{back()}</IconContainer>;
   }
