@@ -67,11 +67,17 @@ export default function Cephalometry() {
           </div>
         </form>
       </div>
-      <div className='mt-[60px] h-[60px]'>
+      {/* <div className='mt-[60px] h-[60px]'>
         <ButtonComponent label='Guardar' variant='primary' widthfull />
-      </div>
-      <div className='h-[60px]'>
-        <ButtonComponent label='Siguiente' variant='primary' widthfull />
+      </div> */}
+      <div className='mt-[60px] h-[60px]'>
+        <ButtonComponent
+          label='Siguiente'
+          variant='primary'
+          widthfull
+          anchor
+          anchorUrl='/patients/2/dental'
+        />
       </div>
     </>
   );
