@@ -1,3 +1,10 @@
+export type TCephalometryItem = {
+  label: string;
+  rangeLabel?: string;
+  rangeMin?: number;
+  rangeMax?: number;
+};
+
 export interface ICephalometry {
   createdAt: string;
   updatedAt: string;

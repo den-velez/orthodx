@@ -23,7 +23,6 @@ export default function Patient({
       <ModalComponent isOpen={searchParams.draw || false}>
         <PatientDrawComponent />
       </ModalComponent>
-      <PatientHeaderComponent {...PATIENT_MOCK_VALUE} />
       <main className='grid gap-6 bg-bgDark-090 px-3 pt-6 pb-[60px]'>
         <section className=' flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
           <h3 className='mb-[60px] text-h3 text-txtLight-100 text-center'>
@@ -64,6 +63,8 @@ export default function Patient({
               label='Valoración'
               variant='primary-dark'
               widthfull
+              anchor
+              anchorUrl='/patients/2/cephalometry'
             />
             <ButtonComponent
               label='Tamaño Dental'
@@ -78,7 +79,6 @@ export default function Patient({
           </div>
         </section>
       </main>
-      <FooterComponent type='patient-edit' />
     </>
   );
 }

@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        sm: "440px",
+      },
       fontSize: {
         h1: ["3rem", { lineHeight: "3.125rem" }],
         h2: ["2.5rem", { lineHeight: "2.625rem" }],
