@@ -10,7 +10,7 @@ import PatientEditComponent from "./patientEdit/PatientEditComponent";
 import ModalComponent from "./modal/ModalComponent";
 import TreatmentDoneComponent from "./treatments/treatmentDoneComponent";
 import TreatmentPendingComponent from "./treatments/treatmentPendingComponent";
-import PatientDrawComponent from "./patientDraw/patientDrawComponent";
+import PatientDrawComponent from "./patientDraw/PatientDrawComponent";
 
 export {
   ButtonComponent,
