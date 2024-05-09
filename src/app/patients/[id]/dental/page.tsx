@@ -135,7 +135,7 @@ export default function DentalValoration() {
     <>
       <form action='' className='grid gap-6'>
         <section className='px-3 py-6 bg-bgDark-080 rounded-[12px] shadow'>
-          <h3 className='mb-6 text-h3 text-txtBrand-secondary text-center capitalize'>
+          <h3 className='mb-6 text-h3 text-light-090 text-center capitalize'>
             Dental
           </h3>
           <div className='grid gap-3'>
@@ -145,7 +145,7 @@ export default function DentalValoration() {
           </div>
         </section>
         <section className='px-3 py-6 bg-bgDark-080 rounded-[12px] shadow'>
-          <h3 className='mb-6 text-h3 text-txtBrand-secondary text-center capitalize'>
+          <h3 className='mb-6 text-h3 text-light-090 text-center capitalize'>
             Arcadas
           </h3>
           <div className='grid gap-3'>
