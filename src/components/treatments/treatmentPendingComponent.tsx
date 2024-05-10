@@ -21,14 +21,14 @@ function TreatmentItem({ treatment }: ITreatment) {
 
 export default function TreatmentPendingComponent({
   treatments = [],
+  title = "Tratamientos por Realizar",
 }: {
   treatments: ITreatment[];
+  title?: string;
 }) {
   return (
     <div className='w-full'>
-      <h4 className='text-h4 text-ctaLight-090 text-center'>
-        Tratamientos por Realizar
-      </h4>
+      <h4 className='text-h4 text-ctaLight-090 text-center'>{title}</h4>
       <div className='mt-3 grid gap-3'>
         {treatments.map((treatment) => {
           if (treatment.done) return null;
