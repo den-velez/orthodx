@@ -88,7 +88,7 @@ export default function ArcadasValoration() {
           variant='primary'
           widthfull
           anchor
-          anchorUrl='/patients/2/arcadas'
+          anchorUrl='/patients/2/odontogram'
         />
       </div>
     </form>

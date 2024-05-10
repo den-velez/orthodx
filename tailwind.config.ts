@@ -64,6 +64,9 @@ const config: Config = {
           "100": "#ffffff",
         },
       },
+      gridTemplateColumns: {
+        "16fr": "repeat(16, minmax(0, 1fr))",
+      },
     },
   },
   plugins: [],
