@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <PatientHeaderComponent {...PATIENT_MOCK_VALUE} />
-      <main className='h-screen px-3 py-6 pb-[60px] bg-bgDark-090'>
+      <main className='min-h-screen px-3 py-6 pb-[60px] bg-bgDark-090'>
         {children}
       </main>
       <FooterComponent type='patient-edit' />
