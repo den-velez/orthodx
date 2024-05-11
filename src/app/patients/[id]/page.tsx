@@ -75,6 +75,8 @@ export default function Patient({
               label='Diagnóstico'
               variant='primary-dark'
               widthfull
+              anchor
+              anchorUrl='/patients/2/diagnostic'
             />
           </div>
         </section>
