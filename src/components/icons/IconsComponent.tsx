@@ -7,6 +7,7 @@ import {
   signOut,
   search,
   trash,
+  list,
 } from "./iconList";
 
 type IconProps = {
@@ -18,7 +19,8 @@ type IconProps = {
     | "shop"
     | "signOut"
     | "search"
-    | "trash";
+    | "trash"
+    | "list";
 };
 
 const IconContainer = ({ children }: { children: React.ReactNode }) => {
@@ -55,6 +57,8 @@ const IconsComponent = (props: IconProps) => {
       return <IconContainer>{search()}</IconContainer>;
     case "trash":
       return <IconContainer>{trash()}</IconContainer>;
+    case "list":
+      return <IconContainer>{list()}</IconContainer>;
     default:
       return <IconContainer>{back()}</IconContainer>;
   }
