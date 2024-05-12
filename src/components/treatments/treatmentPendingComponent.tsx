@@ -3,7 +3,7 @@ import { IconsComponent } from "@/components";
 
 function TreatmentItem({ treatment }: ITreatment) {
   return (
-    <div className='px-3 flex items-center gap-3'>
+    <div className='flex items-center gap-3'>
       <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
         <input className='w-7 h-7 ' type='checkbox' name='' id='' />
       </div>

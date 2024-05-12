@@ -37,6 +37,8 @@ export default function Patient({
               label='Plan de Tratamiento'
               variant='primary-dark'
               widthfull
+              anchor
+              anchorUrl='/patients/2/treatments'
             />
             <ButtonComponent
               label='Galeria'

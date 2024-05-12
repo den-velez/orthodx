@@ -2,7 +2,7 @@ import { ITreatment } from "@/interfaces/treatment.interface";
 
 function TreatmentItem({ treatment, finishedAt }: ITreatment) {
   return (
-    <div className='px-3 flex gap-3'>
+    <div className='flex gap-3'>
       <div className='px-3 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
         <span>{treatment}</span>
       </div>
