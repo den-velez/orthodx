@@ -72,6 +72,8 @@ export default function Patient({
               label='Tamaño Dental'
               variant='primary-dark'
               widthfull
+              anchor
+              anchorUrl='/patients/2/dental_size'
             />
             <ButtonComponent
               label='Diagnóstico'
