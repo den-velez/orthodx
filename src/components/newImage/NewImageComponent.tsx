@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { ButtonComponent } from "@/components";
 
-export default function PatientDrawComponent() {
+export default function NewImageComponent() {
   return (
     <section className='p-6 rounded-[12px] bg-bgDark-080'>
       <h3 className='text-h3 text-txtLight-100 text-center'>

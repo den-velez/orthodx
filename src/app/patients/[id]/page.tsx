@@ -1,17 +1,11 @@
 import {
-  PatientHeaderComponent,
-  FooterComponent,
   ButtonComponent,
   TreatmentDoneComponent,
   TreatmentPendingComponent,
   ModalComponent,
-  PatientDrawComponent,
+  NewImageComponent,
 } from "@/components";
-import {
-  PATIENT_MOCK_VALUE,
-  TREATMENT_DONE_MOCK,
-  TREATMENT_MOCK,
-} from "@/constants/contants";
+import { TREATMENT_DONE_MOCK, TREATMENT_MOCK } from "@/constants/contants";
 
 export default function Patient({
   searchParams,
@@ -21,7 +15,7 @@ export default function Patient({
   return (
     <>
       <ModalComponent isOpen={searchParams.draw || false}>
-        <PatientDrawComponent />
+        <NewImageComponent />
       </ModalComponent>
       <main className='grid gap-6 bg-bgDark-090 px-3 pt-6 pb-[60px]'>
         <section className=' flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
@@ -44,7 +38,13 @@ export default function Patient({
               variant='primary-dark'
               widthfull
             />
-            <ButtonComponent label='Galeria' variant='primary-dark' widthfull />
+            <ButtonComponent
+              label='Galeria'
+              variant='primary-dark'
+              widthfull
+              anchor
+              anchorUrl='/patients/2/gallery'
+            />
           </div>
         </section>
         <section className='flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>

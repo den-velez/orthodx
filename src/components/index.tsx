@@ -10,16 +10,18 @@ import PatientEditComponent from "./patientEdit/PatientEditComponent";
 import ModalComponent from "./modal/ModalComponent";
 import TreatmentDoneComponent from "./treatments/treatmentDoneComponent";
 import TreatmentPendingComponent from "./treatments/treatmentPendingComponent";
-import PatientDrawComponent from "./patientDraw/PatientDrawComponent";
+import NewImageComponent from "./newImage/NewImageComponent";
+import GalleryComponent from "./gallery/GalleryComponent";
 
 export {
   ButtonComponent,
   DoctorHeaderComponent,
   FooterComponent,
+  GalleryComponent,
   IconsComponent,
   ModalComponent,
   PatientCardComponent,
-  PatientDrawComponent,
+  NewImageComponent,
   PatientEditComponent,
   PatientHeaderComponent,
   ProductCardComponent,
