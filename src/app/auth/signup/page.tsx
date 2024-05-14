@@ -17,7 +17,7 @@ import {
   ModalMessageComponent,
   ModalComponent,
 } from "@/components";
-import { auth } from "@/firebase/firebase";
+import { auth } from "@/lib/firebase/firebase";
 
 type FormData = {
   email: string;

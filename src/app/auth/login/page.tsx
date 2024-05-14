@@ -10,7 +10,7 @@ import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ButtonComponent } from "@/components";
-import { auth } from "@/firebase/firebase";
+import { auth } from "@/lib/firebase/firebase";
 
 type FormData = {
   email: string;
