@@ -1,8 +1,29 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import ButtonComponent from "@/components/button/ButtonComponent";
 
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+import { auth } from "@/firebase/firebase";
+
 const SignUpPage = () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log("submit");
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        "emamail@mail.com",
+        "der2rerad"
+      );
+      // Handle successful sign-in
+    } catch (error) {
+      // Handle errors
+    }
+  };
+
   return (
     <section className='bg-gray-50 dark:bg-gray-900 h-screen'>
       <div className='flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0'>
@@ -22,7 +43,7 @@ const SignUpPage = () => {
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white'>
               Crea una cuenta
             </h1>
-            <form className='space-y-4 md:space-y-6' action='#'>
+            <form className='space-y-4 md:space-y-6' onSubmit={handleSubmit}>
               <div>
                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Email
@@ -107,3 +128,44 @@ const SignUpPage = () => {
 };
 
 export default SignUpPage;
+
+// import React, { useState } from 'react';
+// import { auth } from './firebase';
+
+// const SignIn = () => {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       await auth.signInWithEmailAndPassword(email, password);
+//       // Handle successful sign-in
+//     } catch (error) {
+//       // Handle errors
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+//       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+//       <button type="submit">Sign In</button>
+//     </form>
+//   );
+// };
+
+// export default SignIn;
+
+// import { useAuthState } from 'react-firebase-hooks/auth';
+// import { auth } from './firebase';
+
+// const ProtectedRoute = ({ children }) => {
+//   const [user] = useAuthState(auth);
+
+//   if (!user) {
+//     return <Redirect to="/signin" />;
+//   }
+
+//   return children;
+// };
