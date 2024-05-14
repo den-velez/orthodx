@@ -1,8 +1,57 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import ButtonComponent from "@/components/button/ButtonComponent";
+import { useRouter } from "next/navigation";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+import { useForm } from "react-hook-form";
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { ButtonComponent } from "@/components";
+import { auth } from "@/firebase/firebase";
+
+type FormData = {
+  email: string;
+  password: string;
+};
+
+const FormSchema: ZodType<FormData> = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
 
 const LoginPage = () => {
+  const router = useRouter();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<FormData>({
+    resolver: zodResolver(FormSchema), // Apply the zodResolver
+  });
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      reset({ email: "", password: "" });
+
+      router.push("/patients");
+    } catch (error) {
+      setError("root", {
+        message: "El email o la contraseña son incorrectos",
+      });
+    }
+  };
+
   return (
     <section className=' bg-gray-50 dark:bg-gray-900 h-screen'>
       <div className='flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0'>
@@ -22,19 +71,25 @@ const LoginPage = () => {
             <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white'>
               Ingresa a tu cuenta
             </h1>
-            <form className='space-y-4 md:space-y-6' action='#'>
+            <form
+              className='space-y-4 md:space-y-6'
+              onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                   Email
                 </label>
                 <input
                   type='email'
-                  name='email'
                   id='email'
+                  {...register("email")}
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                   placeholder='name@company.com'
-                  required
                 />
+                {errors.email && (
+                  <span className='text-caption text-msg-error'>
+                    {errors.email.message}
+                  </span>
+                )}
               </div>
               <div>
                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
@@ -42,16 +97,20 @@ const LoginPage = () => {
                 </label>
                 <input
                   type='password'
-                  name='password'
                   id='password'
+                  {...register("password")}
                   placeholder='••••••••'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                  required
                 />
+                {errors.password && (
+                  <span className='text-caption text-msg-error'>
+                    {errors.password.message}
+                  </span>
+                )}
               </div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-start'>
-                  <div className='flex items-center h-5'>
+                  {/* <div className='flex items-center h-5'>
                     <input
                       id='remember'
                       aria-describedby='remember'
@@ -64,23 +123,27 @@ const LoginPage = () => {
                     <label className='text-gray-500 dark:text-gray-300'>
                       Recuerdame
                     </label>
-                  </div>
+                  </div> */}
                 </div>
-                <a
-                  href='#'
+                <Link
+                  href='/auth/forgot-password'
                   className='text-txtBrand-primary hover:text-txtBrand-primary-hover hover:underline'>
                   ¿olvidaste el password?
-                </a>
+                </Link>
               </div>
-              <ButtonComponent
-                variant='primary'
-                label='Ingresar'
-                type='submit'
-                widthfull
-                anchor
-                anchorUrl='/patients'
-              />
-
+              <div className='h-[60px]'>
+                <ButtonComponent
+                  variant='primary'
+                  label='Ingresar'
+                  type='submit'
+                  widthfull
+                />
+              </div>
+              {errors.root && (
+                <p className='text-h5 text-msg-error text-center'>
+                  {errors.root.message}
+                </p>
+              )}
               <p className='text-small font-light text-gray-500 dark:text-gray-400'>
                 ¿No tienes cuenta?{" "}
                 <Link
