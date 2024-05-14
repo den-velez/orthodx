@@ -12,6 +12,7 @@ import TreatmentDoneComponent from "./treatments/treatmentDoneComponent";
 import TreatmentPendingComponent from "./treatments/treatmentPendingComponent";
 import NewImageComponent from "./newImage/NewImageComponent";
 import GalleryComponent from "./gallery/GalleryComponent";
+import ModalMessageComponent from "./modalMessage/ModalMessageComponent";
 
 export {
   ButtonComponent,
@@ -20,6 +21,7 @@ export {
   GalleryComponent,
   IconsComponent,
   ModalComponent,
+  ModalMessageComponent,
   PatientCardComponent,
   NewImageComponent,
   PatientEditComponent,
