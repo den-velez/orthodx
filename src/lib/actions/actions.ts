@@ -1,7 +1,7 @@
 "use server";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, updateDoc, doc } from "firebase/firestore";
 import { cookies } from "next/headers";
 import CryptoJS from "crypto-js";
 import { auth, db } from "@/lib/firebase/firebase";
@@ -76,6 +76,19 @@ export async function createDoctor(newDoctorData: {
 
   try {
     await addDoc(collection(db, "doctors"), payload);
+    revalidatePath("/patients");
+    return true;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    return false;
+  }
+}
+
+export async function updateDoctor(payload: any, doctorId: string) {
+  try {
+    const docRef = doc(db, "doctors", doctorId);
+    await updateDoc(docRef, payload);
+
     revalidatePath("/patients");
     return true;
   } catch (e) {

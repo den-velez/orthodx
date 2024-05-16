@@ -1,12 +1,16 @@
 "use client";
 import Image from "next/image";
+import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
+import { getDoc, doc } from "firebase/firestore";
+
 import CardContainer from "@/containers/card/CardContainer";
 import { ButtonComponent, FooterComponent } from "@/components";
-import { createDoctor } from "@/lib/actions/actions";
+import { createDoctor, updateDoctor } from "@/lib/actions/actions";
+import { db } from "@/lib/firebase/firebase";
 
 type FormData = {
   saludo: string;
@@ -18,22 +22,65 @@ const FormSchema: ZodType<FormData> = z.object({
   name: z.string().min(1),
 });
 
-export default function DoctorPage() {
+export default async function DoctorPage() {
   const router = useRouter();
+  const params = useParams<{ doctorId: string }>();
+
+  const doctorId = (params.doctorId as string) || undefined;
+  let doctorFormDefaultValues = {
+    name: "",
+    saludo: "",
+  };
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(FormSchema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: doctorFormDefaultValues,
+  });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      await createDoctor(data);
+      if (params.doctorId === "new") {
+        await createDoctor(data);
+      } else {
+        const doctorId = (params.doctorId as string) || "";
+        const payload = { ...doctorFormDefaultValues, ...data };
+        await updateDoctor(payload, doctorId);
+      }
       router.push("/patients");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
+
+  useEffect(() => {
+    const doctorData = async (id: string) => {
+      const docRef = doc(db, "doctors", id);
+      const docSnap = await getDoc(docRef);
+      let doctorData = undefined;
+      if (docSnap.exists()) {
+        doctorData = docSnap.data();
+      } else {
+        console.log("No such document!");
+      }
+      return doctorData;
+    };
+
+    if (doctorId !== "new" && doctorId !== undefined) {
+      const getDoctorData = async () => {
+        const doctor = (await doctorData(doctorId)) as FormData;
+        setValue("name", doctor.name);
+        setValue("saludo", doctor.saludo);
+        doctorFormDefaultValues = doctor;
+      };
+
+      getDoctorData();
+    }
+  }, []);
 
   return (
     <div className='bg-bgDark-090'>

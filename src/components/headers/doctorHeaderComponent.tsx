@@ -6,8 +6,10 @@ import { cookies } from "next/headers";
 import CryptoJS from "crypto-js";
 import { db } from "@/lib/firebase/firebase";
 import ButtonComponent from "../button/ButtonComponent";
+import Link from "next/link";
 
 interface IDoctorHeaderComponent {
+  id: string;
   avatar: string;
   name: string;
   credits: number;
@@ -21,14 +23,17 @@ const getData = async (): Promise<IDoctorHeaderComponent | undefined> => {
   );
   const q = query(collection(db, "doctors"), where("email", "==", doctor));
   const querySnapshot = await getDocs(q);
-  const data = querySnapshot.docs.map(
-    (doc) => doc.data() as IDoctorHeaderComponent
-  );
+  const data = querySnapshot.docs.map((doc) => {
+    return {
+      ...doc.data(),
+      id: doc.id,
+    };
+  });
 
   if (!data[0]) {
     return undefined;
   }
-  return data[0];
+  return data[0] as IDoctorHeaderComponent;
 };
 
 export default async function DoctorHeaderComponent() {
@@ -39,7 +44,7 @@ export default async function DoctorHeaderComponent() {
       <header className='flex items-center justify-between p-3 min-h-24 bg-bgDark-080 shadow'>
         <ButtonComponent
           anchor
-          anchorUrl='/doctors/editar'
+          anchorUrl='/doctors/new'
           label='ir a registrar datos del doctor(a)'
           variant='secondary'
           widthfull
@@ -58,13 +63,15 @@ export default async function DoctorHeaderComponent() {
         </p>
       </div>
       <div>
-        <Image
-          className='w-[72px] h-[72px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
-          width={40}
-          height={40}
-          src={doctorData.avatar}
-          alt={doctorData.name}
-        />
+        <Link href={`/doctors/${doctorData.id}`}>
+          <Image
+            className='w-[72px] h-[72px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
+            width={40}
+            height={40}
+            src={doctorData.avatar}
+            alt={doctorData.name}
+          />
+        </Link>
       </div>
     </header>
   );
