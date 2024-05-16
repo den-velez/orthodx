@@ -4,10 +4,8 @@ import Image from "next/image";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { addDoc, collection } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { ButtonComponent } from "@/components";
-import { db } from "@/lib/firebase/firebase";
 import { createPatient } from "@/lib/actions/actions";
 
 type FormData = {

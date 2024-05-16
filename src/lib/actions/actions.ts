@@ -58,3 +58,28 @@ export async function createPatient(newPatientData: {
     return false;
   }
 }
+
+export async function createDoctor(newDoctorData: {
+  name: string;
+  saludo: string;
+}) {
+  const key = process.env.CRYPTO_SECRET || "";
+  const doctorRaw = cookies().get("userID")?.value || "";
+  const doctorEmail = CryptoJS.AES.decrypt(doctorRaw, key).toString(
+    CryptoJS.enc.Utf8
+  );
+
+  const payload = {
+    ...newDoctorData,
+    email: doctorEmail,
+  };
+
+  try {
+    await addDoc(collection(db, "doctors"), payload);
+    revalidatePath("/patients");
+    return true;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    return false;
+  }
+}
