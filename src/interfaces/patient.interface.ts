@@ -8,13 +8,16 @@ import {
   ITreatment,
 } from "./index";
 
-export interface IPatient {
+export interface IPatientCard {
   id: string | number;
+  avatar: string;
+  name: string;
+}
+
+export interface IPatient extends IPatientCard {
   fav?: boolean;
   createdAt?: string;
   updatedAt?: string;
-  avatar: string;
-  name: string;
   age?: number;
   doctorOffice?: string;
   doctorId?: string;

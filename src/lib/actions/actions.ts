@@ -22,7 +22,7 @@ export async function login(email: string, password: string) {
   }
 
   cookies().set({
-    name: "token",
+    name: "userID",
     secure: true,
     value: ciphertext,
     path: "/",

@@ -1,26 +1,27 @@
 "use client";
 
-import { ChangeEvent } from "react";
 import { IconsComponent } from "@/components";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
+
+const WAIT_BEFORE_SEARCH = 300;
 
 export default function SearcherComponent() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const handlerChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handlerSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
-    const value = event.target.value;
-    if (value) {
-      params.set("name", value);
+    if (term) {
+      params.set("name", term);
     } else {
       params.delete("name");
     }
 
     replace(`${pathname}?${params.toString()}`);
-  };
+  }, WAIT_BEFORE_SEARCH);
 
   return (
     <div className='px-3 py-6 bg-bgDark-080'>
@@ -30,8 +31,8 @@ export default function SearcherComponent() {
           className='p-3 text-body min-h-12 bg-bgDark-070 text-txtDark-090 focus:text-txtLight-100 focus:outline-none'
           type='text'
           placeholder='Buscar pacientes'
-          value={searchParams.get("name") ?? ""}
-          onChange={handlerChange}
+          defaultValue={searchParams.get("name") ?? ""}
+          onChange={(event) => handlerSearch(event.target.value)}
         />
       </div>
     </div>

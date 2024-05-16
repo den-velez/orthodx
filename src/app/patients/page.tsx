@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import {
   DoctorHeaderComponent,
   FooterComponent,
@@ -7,21 +9,17 @@ import {
   ModalComponent,
 } from "@/components";
 import { PatientsContainer } from "@/containers";
-import { DOCTOR_MOCK_VALUE } from "@/constants/contants";
-import { Suspense } from "react";
-import { headers } from "next/headers";
-import { cookies } from "next/headers";
 
 type TSearcParams = {
   modal?: boolean;
+  name?: string;
 };
 
-export default function PatientsList({
+export default async function PatientsList({
   searchParams,
 }: {
   searchParams: TSearcParams;
 }) {
-  console.log(cookies().get("token"));
   return (
     <>
       <ModalComponent isOpen={searchParams.modal || false}>
@@ -34,7 +32,7 @@ export default function PatientsList({
           <SearcherComponent />
         </Suspense>
         <Suspense fallback={<div>Loading...</div>}>
-          <PatientsContainer />
+          <PatientsContainer name={searchParams.name || null} />
         </Suspense>
 
         <div className='mx-auto my-[48px] h-[60px] flex justify-center w-[240px]'>

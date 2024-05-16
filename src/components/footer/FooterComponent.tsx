@@ -32,7 +32,7 @@ const FooterComponent = (props: FooterProps) => {
     },
     {
       icon: "home",
-      onClick: () => router.push("/home"),
+      onClick: () => router.push("/patients"),
     },
     {
       icon: "shop",
