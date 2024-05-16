@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
-import DoctorHeaderComponent from "@/components/headers/doctorHeaderComponent";
 import CardContainer from "@/containers/card/CardContainer";
 import ButtonComponent from "@/components/button/ButtonComponent";
 import FooterComponent from "@/components/footer/FooterComponent";
@@ -14,7 +13,7 @@ type Inputs = {
   doctorName: string;
 };
 
-const DoctorPage = () => {
+export default function DoctorPage() {
   const {
     register,
     handleSubmit,
@@ -25,8 +24,6 @@ const DoctorPage = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   return (
     <div className='bg-bgDark-090'>
-      <DoctorHeaderComponent {...DOCTOR_MOCK_VALUE} />
-
       <main className='px-3 pt-6 pb-[60px]'>
         <CardContainer styles='flex flex-col items-center'>
           <div>
@@ -90,6 +87,4 @@ const DoctorPage = () => {
       <FooterComponent type='doctor' />
     </div>
   );
-};
-
-export default DoctorPage;
+}

@@ -9,6 +9,8 @@ import {
 import { PatientsContainer } from "@/containers";
 import { DOCTOR_MOCK_VALUE } from "@/constants/contants";
 import { Suspense } from "react";
+import { headers } from "next/headers";
+import { cookies } from "next/headers";
 
 type TSearcParams = {
   modal?: boolean;
@@ -19,13 +21,14 @@ export default function PatientsList({
 }: {
   searchParams: TSearcParams;
 }) {
+  console.log(cookies().get("token"));
   return (
     <>
       <ModalComponent isOpen={searchParams.modal || false}>
         <PatientEditComponent />
       </ModalComponent>
 
-      <DoctorHeaderComponent {...DOCTOR_MOCK_VALUE} />
+      <DoctorHeaderComponent />
       <main className='flex flex-col gap-3 px-3 pt-6 bg-bgDark-090 min-h-screen'>
         <Suspense fallback={<div>Loading...</div>}>
           <SearcherComponent />

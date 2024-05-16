@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { db } from "@/lib/firebase/firebase";
+import { where, getDocs, collection, query } from "firebase/firestore";
 
 interface IDoctorHeaderComponent {
   avatar: string;
@@ -6,8 +8,20 @@ interface IDoctorHeaderComponent {
   credits: number;
 }
 
-const DoctorHeaderComponent = (props: IDoctorHeaderComponent) => {
-  const { avatar, name, credits } = props;
+const getData = async () => {
+  const q = query(collection(db, "doctors"), where("name", "==", "Dr. House"));
+  const querySnapshot = await getDocs(q);
+
+  const data = querySnapshot.docs.map(
+    (doc) => doc.data() as IDoctorHeaderComponent
+  );
+  return (
+    (data[0] as IDoctorHeaderComponent) || { name: "", avatar: "", credits: 0 }
+  );
+};
+
+export default async function DoctorHeaderComponent() {
+  const { name, avatar, credits } = await getData();
 
   return (
     <header className='flex justify-between p-3 min-h-24 bg-bgDark-080 shadow'>
@@ -26,6 +40,4 @@ const DoctorHeaderComponent = (props: IDoctorHeaderComponent) => {
       </div>
     </header>
   );
-};
-
-export default DoctorHeaderComponent;
+}

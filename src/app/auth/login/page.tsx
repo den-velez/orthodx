@@ -3,14 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ButtonComponent } from "@/components";
-import { auth } from "@/lib/firebase/firebase";
+import { login } from "@/lib/actions/actions";
 
 type FormData = {
   email: string;
@@ -36,11 +35,7 @@ const LoginPage = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
+      const user = await login(data.email, data.password);
 
       reset({ email: "", password: "" });
 
@@ -49,6 +44,7 @@ const LoginPage = () => {
       setError("root", {
         message: "El email o la contraseña son incorrectos",
       });
+      reset({ password: "" });
     }
   };
 
