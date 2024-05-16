@@ -11,7 +11,7 @@ import {
 import { PatientsContainer } from "@/containers";
 
 type TSearcParams = {
-  modal?: boolean;
+  newpatient?: boolean;
   name?: string;
 };
 
@@ -22,8 +22,10 @@ export default async function PatientsList({
 }) {
   return (
     <>
-      <ModalComponent isOpen={searchParams.modal || false}>
-        <PatientEditComponent />
+      <ModalComponent isOpen={searchParams.newpatient || false}>
+        <PatientEditComponent
+          newPatient={searchParams.newpatient ? true : false}
+        />
       </ModalComponent>
 
       <DoctorHeaderComponent />
@@ -41,7 +43,7 @@ export default async function PatientsList({
             variant='primary-dark'
             widthfull
             anchor
-            anchorUrl='/patients?modal=true'
+            anchorUrl='/patients?newpatient=true'
           />
         </div>
       </main>

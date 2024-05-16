@@ -10,7 +10,7 @@ type PatientCardComponentProps = {
 
 export default function PatientCardComponent({
   id,
-  avatar,
+  avatar = "/images/avatar.png",
   name,
   type = "regular",
 }: PatientCardComponentProps) {
@@ -34,7 +34,7 @@ export default function PatientCardComponent({
       <Link
         href={`/patients/${id}`}
         className='px-3 py-2 flex items-center justify-between bg-bgDark-070 rounded-[12px] border border-bgDark-090 shadow hover:border-light-090'>
-        <p className='text-txtLight-100 text-h5'>{name}</p>
+        <p className='text-txtLight-100 text-h5 capitalize'>{name}</p>
         <Image
           className='w-[48px] h-[48px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
           width={48}

@@ -20,7 +20,6 @@ export default async function PatientsContainer({
 }: {
   name: string | null;
 }) {
-  console.log("PatientsContainer", name);
   const key = process.env.CRYPTO_SECRET || "";
   const doctorRaw = cookies().get("userID")?.value || "";
   const doctorEmail = CryptoJS.AES.decrypt(doctorRaw, key).toString(

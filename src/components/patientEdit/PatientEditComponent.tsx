@@ -1,35 +1,52 @@
 "use client";
 
 import Image from "next/image";
-
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { addDoc, collection } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 import { ButtonComponent } from "@/components";
-import { PATIENTLIST_MOCK } from "@/constants/contants";
+import { db } from "@/lib/firebase/firebase";
+import { createPatient } from "@/lib/actions/actions";
 
-type Inputs = {
+type FormData = {
   name: string;
-  age: number;
+  age: string;
   doctorOffice: string;
 };
 
-export default function PatientEditComponent() {
+const FormSchema: ZodType<FormData> = z.object({
+  name: z.string().min(1),
+  age: z.string().min(1),
+  doctorOffice: z.string().min(1),
+});
+
+export default function PatientEditComponent({
+  newPatient = false,
+}: {
+  newPatient?: boolean;
+}) {
+  const router = useRouter();
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<FormData>({
+    resolver: zodResolver(FormSchema), // Apply the zodResolver
+  });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const newPatient = {
-      id: PATIENTLIST_MOCK.length + 1,
-      avatar: "/images/avatar.png",
-      name: data.name,
-      age: data.age,
-      doctorOffice: data.doctorOffice,
-      fav: false,
-    };
-    PATIENTLIST_MOCK.push(newPatient);
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      await createPatient(data);
+      reset({ name: "", age: "", doctorOffice: "" });
+      router.back();
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
+
   return (
     <section className='p-6 rounded-[12px] bg-bgDark-080'>
       <div className='flex justify-center items-center'>
@@ -47,13 +64,13 @@ export default function PatientEditComponent() {
             Nombre del paciente
           </label>
           <input
+            id='name'
             className='p-3 bg-bgDark-070 text-txtDark-090 capitalize rounded-[12px] focus:text-txtLight-100 focus:outline-none'
             placeholder='Nombre del paciente'
-            required
             {...register("name")}
           />
           {errors.name && (
-            <span className='text-error h-10'>Campo Requerido</span>
+            <span className='text-msg-error h-10'>Campo Requerido</span>
           )}
         </div>
         <div className='flex flex-col mt-6'>
@@ -61,12 +78,16 @@ export default function PatientEditComponent() {
             Edad
           </label>
           <input
+            id='age'
             className='p-3 bg-bgDark-070 text-txtDark-090 capitalize rounded-[12px] focus:text-txtLight-100 focus:outline-none'
             placeholder='Edad (años)'
-            required
             {...register("age")}
           />
-          {errors.age && <span>Campo Requerido</span>}
+          {errors.age && (
+            <span className='text-msg-error h-10'>
+              Campo Requerido, debe ser numero
+            </span>
+          )}
         </div>
         <div className='flex flex-col mt-6'>
           <label
@@ -77,26 +98,25 @@ export default function PatientEditComponent() {
           <input
             className='p-3 bg-bgDark-070 text-txtDark-090 capitalize rounded-[12px] focus:text-txtLight-100 focus:outline-none'
             placeholder='Consultorio'
-            required
             {...register("doctorOffice")}
           />
-          {errors.doctorOffice && <span>Campo Requerido</span>}
-        </div>
-        <div className='mt-[60px] h-[60px] w-full'>
-          <ButtonComponent
-            type='button'
-            variant='secondary'
-            label='Cancelar'
-            widthfull
-            anchor
-            anchorUrl='/patients'
-          />
+          {errors.doctorOffice && (
+            <span className='text-msg-error h-10'>Campo Requerido</span>
+          )}
         </div>
         <div className='mt-[60px] h-[60px] w-full'>
           <ButtonComponent
             type='submit'
             variant='primary'
             label='Guardar'
+            widthfull
+          />
+        </div>
+        <div className='mt-[60px] h-[60px] w-full'>
+          <ButtonComponent
+            type='button'
+            variant='secondary'
+            label='Cancelar'
             widthfull
             anchor
             anchorUrl='/patients'
