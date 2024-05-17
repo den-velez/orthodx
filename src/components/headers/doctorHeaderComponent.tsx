@@ -53,6 +53,7 @@ export default async function DoctorHeaderComponent() {
     );
   }
 
+  const avatar = doctorData.avatar || "/images/avatar.png";
   return (
     <header className='flex justify-between p-3 min-h-24 bg-bgDark-080 shadow'>
       <div className='flex flex-col justify-between text-txtBrand-secondary'>
@@ -68,7 +69,7 @@ export default async function DoctorHeaderComponent() {
             className='w-[72px] h-[72px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
             width={40}
             height={40}
-            src={doctorData.avatar}
+            src={avatar}
             alt={doctorData.name}
           />
         </Link>

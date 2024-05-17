@@ -10,7 +10,12 @@ import { IPatientCard } from "@/interfaces";
 async function getPatientsData(doctor: string) {
   const q = query(collection(db, "patients"), where("doctor", "==", doctor));
   const querySnapshot = await getDocs(q);
-  const data = querySnapshot.docs.map((doc) => doc.data());
+  const data = querySnapshot.docs.map((doc) => {
+    return {
+      ...doc.data(),
+      id: doc.id,
+    };
+  });
 
   return data || [];
 }
