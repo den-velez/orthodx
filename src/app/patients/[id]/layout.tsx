@@ -1,5 +1,5 @@
+import React from "react";
 import { getDoc, doc } from "firebase/firestore";
-
 import { db } from "@/lib/firebase/firebase";
 import { PatientHeaderComponent, FooterComponent } from "@/components";
 import { IPatient } from "@/interfaces";
@@ -33,13 +33,11 @@ export default async function Layout({ children, params }: PatientLayoutProps) {
   const patientId = params.id || undefined;
 
   if (!patientId) return <NotFound>{children}</NotFound>;
-
   const patient = await patientData(patientId);
 
   if (!patient) return <NotFound>{children}</NotFound>;
 
   const { avatar, name, age, doctorOffice } = patient as IPatient;
-
   const patientHeader = { avatar, name, age, doctorOffice };
 
   return (

@@ -31,15 +31,15 @@ export interface IDiagnostic {
   distancia6_6: number;
   distanciaLongAnt: number;
   discrepancia: string;
-  expansion: IExpansion;
+  expansion: IExpansion[];
 }
+
 interface IExpansion {
-  korkhause: ExpansionItem;
-  korkhauseMod: ExpansionItem;
-  mordidaCruzada: ExpansionItem;
-  apinAnterior: ExpansionItem;
-}
-interface ExpansionItem {
+  label:
+    | "korkhause"
+    | "korkhause modificado"
+    | "mordida cruzada"
+    | "apiñamiento inferior";
   turns: number;
   selected: boolean;
 }

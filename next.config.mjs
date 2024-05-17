@@ -5,7 +5,20 @@ import withPWAInit from "@ducanh2912/next-pwa";
 
 const nextConfig = {
   images: {
-    domains: ["i.pravatar.cc", "gravatar.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.pravatar.cc",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "gravatar.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

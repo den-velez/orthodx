@@ -62,7 +62,10 @@ export default async function Patient({
             Seguimiento
           </h3>
           <div className='w-full grid gap-[60px]'>
-            <TreatmentPendingComponent treatments={treatmentsListPending} />
+            <TreatmentPendingComponent
+              treatments={treatmentsListPending}
+              unmutated
+            />
             <TreatmentDoneComponent treatments={treatmentsListDone} />
           </div>
         </section>

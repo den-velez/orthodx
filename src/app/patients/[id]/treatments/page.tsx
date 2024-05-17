@@ -3,7 +3,22 @@ import {
   TreatmentPendingComponent,
 } from "@/components";
 
-import { TREATMENT_DONE_MOCK, TREATMENT_MOCK } from "@/constants/contants";
+import { IPatient } from "@/interfaces";
+import { db } from "@/lib/firebase/firebase";
+import exp from "constants";
+import { doc, getDoc } from "firebase/firestore";
+
+const patientData = async (id: string) => {
+  const docRef = doc(db, "patients", id);
+  const docSnap = await getDoc(docRef);
+  let patientData = undefined;
+  if (docSnap.exists()) {
+    patientData = docSnap.data();
+  } else {
+    console.log("No such document!");
+  }
+  return patientData;
+};
 
 function TreatmentsSection({
   title,
@@ -24,60 +39,56 @@ function TreatmentsSection({
   );
 }
 
-export default function TreatmentPlan() {
-  const expansionOptions = [
-    {
-      label: "Korkhause",
-      turns: "10",
-      selected: true,
-    },
-    {
-      label: "korkhause modificado",
-      turns: "3",
-      selected: false,
-    },
-    {
-      label: "mordida cruzada",
-      turns: "12",
-      selected: false,
-    },
-    {
-      label: "apiñamiento inferior",
-      turns: "20",
-      selected: false,
-    },
-  ];
+export default async function TreatmentPlan({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const patientId = params.id || "";
+  const patient = (await patientData(patientId)) as IPatient;
+
+  const treatmentsListDone =
+    patient.treatmentList?.filter((treatment) => treatment.done === true) || [];
+
+  const treatmentsListPending =
+    patient.treatmentList?.filter((treatment) => !treatment.done) || [];
+
+  const expansion = patient.resultDiagnostic?.expansion || [];
 
   return (
     <div className='grid grid-cols-1 gap-6'>
-      <TreatmentsSection title='Expansion (giros)'>
-        <div className='flex flex-col gap-6'>
-          {expansionOptions.map((option, index) => (
-            <div key={index} className='flex items-center gap-3 text-h5'>
-              <input
-                type='checkbox'
-                checked={option.selected}
-                className='h-8 w-8 min-w-6'
-              />
-              <div className='flex items-center justify-between gap-3 sm:gap-6 flex-grow h-full '>
-                <span className=' text-txtLight-100 capitalize'>
-                  {option.label}:
-                </span>
-                <div className='flex justify-center items-center min-w-[80px] sm:min-w-[100px] h-full px-3 sm:px-6 py-1 text-txtLight-100 text-center border rounded-[6px]'>
-                  <span>{option.turns}</span>
+      {expansion.length > 0 && (
+        <TreatmentsSection title='Expansion (giros)'>
+          <div className='flex flex-col gap-6'>
+            {expansion.map((option, index) => (
+              <div key={index} className='flex items-center gap-3 text-h5'>
+                <input
+                  type='checkbox'
+                  checked={option.selected}
+                  className='h-8 w-8 min-w-6'
+                />
+                <div className='flex items-center justify-between gap-3 sm:gap-6 flex-grow h-full '>
+                  <span className=' text-txtLight-100 capitalize'>
+                    {option.label}:
+                  </span>
+                  <div className='flex justify-center items-center min-w-[80px] sm:min-w-[100px] h-full px-3 sm:px-6 py-1 text-txtLight-100 text-center border rounded-[6px]'>
+                    <span>{option.turns}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </TreatmentsSection>
+            ))}
+          </div>
+        </TreatmentsSection>
+      )}
       <TreatmentsSection title='Plan de Tratamiento'>
-        <TreatmentPendingComponent treatments={TREATMENT_MOCK} />
+        <TreatmentPendingComponent
+          treatments={treatmentsListPending}
+          unmutated
+        />
       </TreatmentsSection>
-      <TreatmentsSection title='Realizado'>
-        <TreatmentDoneComponent treatments={TREATMENT_DONE_MOCK} />
+      <TreatmentsSection title='Historial de Tratamientos'>
+        <TreatmentDoneComponent treatments={treatmentsListDone} />
       </TreatmentsSection>
-      uno
     </div>
   );
 }

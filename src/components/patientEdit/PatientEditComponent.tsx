@@ -4,7 +4,7 @@ import Image from "next/image";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { ButtonComponent } from "@/components";
 import { createPatient, updatePatient } from "@/lib/actions/actions";
 
@@ -30,6 +30,7 @@ export default function PatientEditComponent({
   patient?: FormData;
 }) {
   const router = useRouter();
+  const params = useParams();
   const {
     register,
     reset,
@@ -40,7 +41,13 @@ export default function PatientEditComponent({
     defaultValues: patient,
   });
 
-  console.log("patient", patient);
+  const cancelButtonAction = () => {
+    if (newPatient) {
+      return "/patients";
+    } else {
+      return `/patients/${params.id}`;
+    }
+  };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
@@ -122,18 +129,16 @@ export default function PatientEditComponent({
             widthfull
           />
         </div>
-        {newPatient && (
-          <div className='mt-[60px] h-[60px] w-full'>
-            <ButtonComponent
-              type='button'
-              variant='secondary'
-              label='Cancelar'
-              widthfull
-              anchor
-              anchorUrl='/patients'
-            />
-          </div>
-        )}
+        <div className='mt-[60px] h-[60px] w-full'>
+          <ButtonComponent
+            type='button'
+            variant='secondary'
+            label='Cancelar'
+            widthfull
+            anchor
+            anchorUrl={cancelButtonAction()}
+          />
+        </div>
       </form>
     </section>
   );
