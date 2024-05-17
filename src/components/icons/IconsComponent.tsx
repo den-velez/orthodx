@@ -12,7 +12,7 @@ import {
 
 type IconProps = {
   icon:
-    | "back "
+    | "back"
     | "edit"
     | "home"
     | "doctor"
@@ -59,6 +59,8 @@ const IconsComponent = (props: IconProps) => {
       return <IconContainer>{trash()}</IconContainer>;
     case "list":
       return <IconContainer>{list()}</IconContainer>;
+    case "back":
+      return <IconContainer>{back()}</IconContainer>;
     default:
       return <IconContainer>{back()}</IconContainer>;
   }

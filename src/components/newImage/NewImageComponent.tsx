@@ -2,7 +2,12 @@ import Image from "next/image";
 
 import { ButtonComponent } from "@/components";
 
-export default function NewImageComponent() {
+export default function NewImageComponent({
+  patientId,
+}: {
+  patientId: string;
+}) {
+  const linkToBack = `/patients/${patientId}`;
   return (
     <section className='p-6 rounded-[12px] bg-bgDark-080'>
       <h3 className='text-h3 text-txtLight-100 text-center'>
@@ -24,7 +29,7 @@ export default function NewImageComponent() {
           label='Cancelar'
           widthfull
           anchor
-          anchorUrl='/patients/2'
+          anchorUrl={linkToBack}
         />
       </div>
       <div className='mx-auto mt-[60px]  h-[60px] w-[250px]'>
@@ -34,7 +39,7 @@ export default function NewImageComponent() {
           label='Enviar'
           widthfull
           anchor
-          anchorUrl='/patients/2'
+          anchorUrl={linkToBack}
         />
       </div>
     </section>

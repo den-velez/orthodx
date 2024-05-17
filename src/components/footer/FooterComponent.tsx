@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 import { IconsComponent } from "@/components";
 
 interface FooterProps {
-  type: "doctor" | "home" | "patient" | "patient-edit";
+  type: "doctor" | "home" | "patient";
 }
 
 type FooterItem = {
-  icon: "signOut" | "home" | "shop" | "edit" | "doctor";
+  icon: "back" | "signOut" | "home" | "shop" | "edit" | "doctor";
   onClick?: () => void;
 };
 
@@ -55,10 +55,10 @@ const FooterComponent = (props: FooterProps) => {
     },
   ];
 
-  const patientEditFooter: FooterItem[] = [
+  const patientFooter: FooterItem[] = [
     {
-      icon: "signOut",
-      onClick: () => signOutUser,
+      icon: "back",
+      onClick: () => router.back(),
     },
     {
       icon: "home",
@@ -66,22 +66,7 @@ const FooterComponent = (props: FooterProps) => {
     },
     {
       icon: "edit",
-      onClick: () => router.push("/patients"),
-    },
-  ];
-
-  const patientFooter: FooterItem[] = [
-    {
-      icon: "signOut",
-      onClick: () => signOutUser,
-    },
-    {
-      icon: "home",
-      onClick: () => router.push("/patients"),
-    },
-    {
-      icon: "shop",
-      onClick: () => router.push("/store"),
+      onClick: () => console.log("WTF"),
     },
   ];
 
@@ -93,8 +78,6 @@ const FooterComponent = (props: FooterProps) => {
         return homeFooter;
       case "patient":
         return patientFooter;
-      case "patient-edit":
-        return patientEditFooter;
       default:
         return homeFooter;
     }

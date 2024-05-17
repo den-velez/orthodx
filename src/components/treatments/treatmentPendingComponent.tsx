@@ -1,5 +1,6 @@
 import { ITreatment } from "@/interfaces/treatment.interface";
 import { IconsComponent } from "@/components";
+import { HmacSHA3 } from "crypto-js";
 
 function TreatmentItem({ treatment }: ITreatment) {
   return (
@@ -29,6 +30,11 @@ export default function TreatmentPendingComponent({
   return (
     <div className='w-full'>
       <h4 className='text-h4 text-ctaLight-090 text-center'>{title}</h4>
+      {treatments.length === 0 && (
+        <h3 className='mt-6 text-body text-txtLight-100 text-center'>
+          No hay tratamientos pendientes
+        </h3>
+      )}
       <div className='mt-3 grid gap-3'>
         {treatments.map((treatment) => {
           if (treatment.done) return null;

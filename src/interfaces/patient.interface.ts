@@ -28,7 +28,7 @@ export interface IPatient extends IPatientCard {
   valorationOdotontogram?: IOdontogram;
   resultDiagnostic?: IDiagnostic;
   toothSizeTreatment?: IToothSize;
-  treatment?: ITreatment;
+  treatmentList?: ITreatment[];
   assets?: IPatientAssets[];
 }
 
