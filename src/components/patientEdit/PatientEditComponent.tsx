@@ -6,15 +6,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { ButtonComponent } from "@/components";
-import { createPatient } from "@/lib/actions/actions";
+import { createPatient, updatePatient } from "@/lib/actions/actions";
 
 type FormData = {
+  id?: string;
   name: string;
   age: string;
   doctorOffice: string;
 };
 
 const FormSchema: ZodType<FormData> = z.object({
+  id: z.string().optional(),
   name: z.string().min(1),
   age: z.string().min(1),
   doctorOffice: z.string().min(1),
@@ -22,8 +24,10 @@ const FormSchema: ZodType<FormData> = z.object({
 
 export default function PatientEditComponent({
   newPatient = false,
+  patient,
 }: {
   newPatient?: boolean;
+  patient?: FormData;
 }) {
   const router = useRouter();
   const {
@@ -32,12 +36,20 @@ export default function PatientEditComponent({
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(FormSchema), // Apply the zodResolver
+    resolver: zodResolver(FormSchema),
+    defaultValues: patient,
   });
+
+  console.log("patient", patient);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      await createPatient(data);
+      if (!newPatient) {
+        const patientId = patient?.id || "";
+        await updatePatient(data, patientId);
+      } else {
+        await createPatient(data);
+      }
       reset({ name: "", age: "", doctorOffice: "" });
       router.back();
     } catch (e) {
@@ -110,16 +122,18 @@ export default function PatientEditComponent({
             widthfull
           />
         </div>
-        <div className='mt-[60px] h-[60px] w-full'>
-          <ButtonComponent
-            type='button'
-            variant='secondary'
-            label='Cancelar'
-            widthfull
-            anchor
-            anchorUrl='/patients'
-          />
-        </div>
+        {newPatient && (
+          <div className='mt-[60px] h-[60px] w-full'>
+            <ButtonComponent
+              type='button'
+              variant='secondary'
+              label='Cancelar'
+              widthfull
+              anchor
+              anchorUrl='/patients'
+            />
+          </div>
+        )}
       </form>
     </section>
   );

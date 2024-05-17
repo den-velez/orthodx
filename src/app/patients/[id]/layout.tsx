@@ -48,7 +48,7 @@ export default async function Layout({ children, params }: PatientLayoutProps) {
       <main className='min-h-[calc(100vh-218px)] px-3 py-6 pb-[60px] bg-bgDark-090'>
         {children}
       </main>
-      <FooterComponent type='patient' />
+      <FooterComponent type='patient' patientId={patientId} />
     </>
   );
 }

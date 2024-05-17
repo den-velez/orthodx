@@ -59,6 +59,19 @@ export async function createPatient(newPatientData: {
   }
 }
 
+export async function updatePatient(payload: any, patientId: string) {
+  try {
+    const docRef = doc(db, "patients", patientId);
+    await updateDoc(docRef, payload);
+
+    revalidatePath("/patients");
+    return true;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    return false;
+  }
+}
+
 export async function createDoctor(newDoctorData: {
   name: string;
   saludo: string;

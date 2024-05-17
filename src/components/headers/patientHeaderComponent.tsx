@@ -13,6 +13,7 @@ const PatientHeaderComponent = ({
   age,
   doctorOffice,
 }: IPatientHeaderComponent) => {
+  const avatarFallback = avatar || "/images/avatar.png";
   return (
     <header className='flex gap-6 p-3 min-h-[120px] bg-bgDark-080 shadow'>
       <div>
@@ -20,7 +21,7 @@ const PatientHeaderComponent = ({
           className='w-[100px] h-[100px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
           width={40}
           height={40}
-          src={avatar}
+          src={avatarFallback}
           alt={name}
         />
       </div>

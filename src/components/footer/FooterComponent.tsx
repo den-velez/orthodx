@@ -7,6 +7,7 @@ import { IconsComponent } from "@/components";
 
 interface FooterProps {
   type: "doctor" | "home" | "patient";
+  patientId?: string;
 }
 
 type FooterItem = {
@@ -58,7 +59,7 @@ const FooterComponent = (props: FooterProps) => {
   const patientFooter: FooterItem[] = [
     {
       icon: "back",
-      onClick: () => router.back(),
+      onClick: () => router.push(`/patients/${props.patientId}`),
     },
     {
       icon: "home",
@@ -66,7 +67,7 @@ const FooterComponent = (props: FooterProps) => {
     },
     {
       icon: "edit",
-      onClick: () => console.log("WTF"),
+      onClick: () => router.push(`/patients/${props.patientId}/edit`),
     },
   ];
 
