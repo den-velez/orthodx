@@ -31,7 +31,7 @@ export default async function PatientsContainer({
     CryptoJS.enc.Utf8
   );
 
-  const patientList = await getPatientsData(doctorEmail);
+  const patientList = (await getPatientsData(doctorEmail)) as IPatientCard[];
 
   const noPatientsFound =
     patientList.length === 0

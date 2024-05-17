@@ -9,13 +9,13 @@ import {
 } from "./index";
 
 export interface IPatientCard {
-  id: string | number;
+  id: string;
   avatar: string;
   name: string;
+  favorite: boolean;
 }
 
 export interface IPatient extends IPatientCard {
-  fav?: boolean;
   createdAt?: string;
   updatedAt?: string;
   age?: number;
