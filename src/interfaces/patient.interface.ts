@@ -18,9 +18,9 @@ export interface IPatientCard {
 export interface IPatient extends IPatientCard {
   createdAt?: string;
   updatedAt?: string;
-  age?: number;
-  doctorOffice?: string;
-  doctorId?: string;
+  age: number;
+  doctorOffice: string;
+  doctor: string;
   drawRequest?: IDrawRequest;
   valorationRx?: ICephalometry;
   valorationDental?: IDental;

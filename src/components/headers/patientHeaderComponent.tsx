@@ -2,14 +2,17 @@ import Image from "next/image";
 
 interface IPatientHeaderComponent {
   avatar: string;
-  patientName: string;
-  patientAge: number;
+  name: string;
+  age: number;
   doctorOffice: string;
 }
 
-const PatientHeaderComponent = (props: IPatientHeaderComponent) => {
-  const { avatar, patientName, patientAge, doctorOffice } = props;
-
+const PatientHeaderComponent = ({
+  avatar,
+  name,
+  age,
+  doctorOffice,
+}: IPatientHeaderComponent) => {
   return (
     <header className='flex gap-6 p-3 min-h-[120px] bg-bgDark-080 shadow'>
       <div>
@@ -18,13 +21,13 @@ const PatientHeaderComponent = (props: IPatientHeaderComponent) => {
           width={40}
           height={40}
           src={avatar}
-          alt={patientName}
+          alt={name}
         />
       </div>
       <div className='p-3 flex flex-col flex-grow justify-between text-txtBrand-secondary border border-bgDark-070 rounded-[12px]'>
-        <h5 className='text-h5'>{patientName}</h5>
-        <h5 className='text-h5'>{patientAge + " años"}</h5>
-        <h5 className='text-h5'>{doctorOffice}</h5>
+        <h5 className='text-h5 capitalize'>{name}</h5>
+        <h5 className='text-h5'>{age + " años"}</h5>
+        <h5 className='text-h5 capitalize'>{doctorOffice}</h5>
       </div>
     </header>
   );
