@@ -8,6 +8,7 @@ import { IconsComponent } from "@/components";
 interface FooterProps {
   type: "doctor" | "home" | "patient";
   patientId?: string;
+  doctorId: string | undefined;
 }
 
 type FooterItem = {
@@ -48,7 +49,7 @@ const FooterComponent = (props: FooterProps) => {
     },
     {
       icon: "doctor",
-      onClick: () => router.push("/doctors/2"),
+      onClick: () => router.push(`/doctors/${props.doctorId}`),
     },
     {
       icon: "shop",

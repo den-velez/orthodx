@@ -148,7 +148,7 @@ export default async function DoctorPage() {
           />
         </div>
       </main>
-      <FooterComponent type='doctor' />
+      <FooterComponent type='doctor' doctorId='' />
     </div>
   );
 }

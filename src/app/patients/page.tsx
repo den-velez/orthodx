@@ -1,4 +1,8 @@
 import { Suspense } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { cookies } from "next/headers";
+import CryptoJS from "crypto-js";
+import { db } from "@/lib/firebase/firebase";
 
 import {
   DoctorHeaderComponent,
@@ -15,11 +19,28 @@ type TSearcParams = {
   name?: string;
 };
 
+const getData = async () => {
+  const key = process.env.CRYPTO_SECRET || "";
+  const doctorRaw = cookies().get("userID")?.value || "";
+  const doctor = CryptoJS.AES.decrypt(doctorRaw, key).toString(
+    CryptoJS.enc.Utf8
+  );
+  const q = query(collection(db, "doctors"), where("email", "==", doctor));
+  const querySnapshot = await getDocs(q);
+  const data = querySnapshot.docs.map((doc) => {
+    return {
+      id: doc.id,
+    };
+  });
+  return data[0].id;
+};
+
 export default async function PatientsList({
   searchParams,
 }: {
   searchParams: TSearcParams;
 }) {
+  const doctorId = await getData();
   return (
     <>
       <ModalComponent isOpen={searchParams.newpatient || false}>
@@ -48,7 +69,7 @@ export default async function PatientsList({
         </div>
       </main>
 
-      <FooterComponent type='home' />
+      <FooterComponent type='home' doctorId={doctorId} />
     </>
   );
 }

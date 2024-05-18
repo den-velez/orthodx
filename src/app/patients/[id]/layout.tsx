@@ -15,8 +15,6 @@ const patientData = async (id: string) => {
   let patientData = undefined;
   if (docSnap.exists()) {
     patientData = docSnap.data();
-  } else {
-    console.log("No such document!");
   }
   return patientData;
 };
@@ -46,7 +44,7 @@ export default async function Layout({ children, params }: PatientLayoutProps) {
       <main className='min-h-[calc(100vh-218px)] px-3 py-6 pb-[60px] bg-bgDark-090'>
         {children}
       </main>
-      <FooterComponent type='patient' patientId={patientId} />
+      <FooterComponent type='patient' doctorId='' />
     </>
   );
 }
