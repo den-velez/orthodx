@@ -22,7 +22,7 @@ export interface IPatient extends IPatientCard {
   doctorOffice: string;
   doctor: string;
   drawRequest?: IDrawRequest;
-  valorationRx?: ICephalometry;
+  valorationCephalometry?: ICephalometry;
   valorationDental?: IDental;
   valorationArches?: IArches;
   valorationOdotontogram?: IOdontogram;

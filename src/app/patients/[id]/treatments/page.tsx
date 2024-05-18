@@ -5,7 +5,6 @@ import {
 
 import { IPatient } from "@/interfaces";
 import { db } from "@/lib/firebase/firebase";
-import exp from "constants";
 import { doc, getDoc } from "firebase/firestore";
 
 const patientData = async (id: string) => {

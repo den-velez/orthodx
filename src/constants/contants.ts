@@ -12,56 +12,69 @@ export const CEPHALOMETRY_ITEMS: TCephalometryItem[] = [
   {
     label: "NA",
     rangeLabel: "+/- 2mm",
+    inputName: "na",
   },
   {
     label: "Long. Maxilar",
     rangeLabel: "+/- 2mm",
+    inputName: "longMaxilar",
   },
   {
     label: "Long. Mandibular",
     rangeMin: 123,
     rangeMax: 123,
+    inputName: "longMandibular",
   },
   {
     label: "Altura Facial Inf",
     rangeMin: 123,
     rangeMax: 123,
+    inputName: "alturaFacialInf",
   },
   {
     label: "Plano Mandibular",
     rangeLabel: "26°",
+    inputName: "planoMandibular",
   },
   {
     label: "Witts",
     rangeLabel: "+/- 2mm",
+    inputName: "witts",
   },
   {
     label: "Eje Facial",
     rangeLabel: "90°",
+    inputName: "ejeFacial",
   },
   {
     label: "Loc. de porion",
     rangeLabel: "40 mm",
+    inputName: "locPorion",
   },
   {
     label: "MM",
     rangeLabel: "28°",
+    inputName: "mm",
   },
   {
     label: "Bimler",
     rangeLabel: "+/- 2mm",
+    inputName: "bimler",
   },
   {
     label: "Eje Incisivo Superior",
     rangeLabel: "+/-2°",
+    inputName: "ejeIncisivoSuperior",
   },
   {
     label: "Eje Incisivo Inferior",
     rangeLabel: "+/-2°",
+    inputName: "ejeIncisivoInferior",
   },
   {
     label: "2° Molar Inferior",
     rangeLabel: "0 mm",
+    inputName: "molarInferior",
   },
 ];
 
@@ -82,142 +95,3 @@ export const PATIENT_MOCK_VALUE = {
   patientAge: 100,
   doctorOffice: "Ortho & lab",
 };
-
-export const PATIENTLIST_MOCK: IPatient[] = [
-  {
-    id: 1,
-    fav: true,
-    name: "Carlos Medina",
-    age: 25,
-    doctorOffice: "Ortho & lab",
-    avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-    createdAt: "2024-05-06T22:44:03.000Z",
-    updatedAt: "2024-05-06T22:44:03.000Z",
-  },
-  {
-    id: 2,
-    fav: true,
-    name: "Veron y Cacastro",
-    age: 25,
-    doctorOffice: "Ortho & lab",
-    avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-    createdAt: "2024-05-06T22:44:03.000Z",
-    updatedAt: "2024-05-06T22:44:03.000Z",
-  },
-  {
-    id: 3,
-    fav: true,
-    name: "Erika Galindo",
-    age: 25,
-    doctorOffice: "Ortho & lab",
-    avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-    createdAt: "2024-05-06T22:44:03.000Z",
-    updatedAt: "2024-05-06T22:44:03.000Z",
-  },
-  {
-    id: 4,
-    fav: true,
-    name: "Claudia Martinez",
-    age: 25,
-    doctorOffice: "Ortho & lab",
-    avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-    createdAt: "2024-05-06T23:14:20.000Z",
-    updatedAt: "2024-05-06T23:14:20.000Z",
-  },
-  {
-    id: 5,
-    fav: false,
-    name: "Claudio Valentino",
-    age: 25,
-    doctorOffice: "Ortho & lab",
-    avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-    createdAt: "2024-05-06T22:44:03.000Z",
-    updatedAt: "2024-05-06T22:44:03.000Z",
-  },
-  {
-    id: 6,
-    fav: false,
-    name: "Je Zuz De Nazaret",
-    age: 25,
-    doctorOffice: "Ortho & lab",
-    avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-    createdAt: "2024-05-06T22:44:03.000Z",
-    updatedAt: "2024-05-06T22:44:03.000Z",
-  },
-  {
-    id: 7,
-    fav: false,
-    name: "Edgar Pilin",
-    age: 25,
-    doctorOffice: "Ortho & lab",
-    avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-    createdAt: "2024-05-06T22:44:03.000Z",
-    updatedAt: "2024-05-06T22:44:03.000Z",
-  },
-  {
-    id: 8,
-    fav: false,
-    name: "Chavo del Eight",
-    age: 25,
-    doctorOffice: "Ortho & lab",
-    avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-    createdAt: "2024-05-06T23:14:20.000Z",
-    updatedAt: "2024-05-06T23:14:20.000Z",
-  },
-];
-
-export const TREATMENT_MOCK: ITreatment[] = [
-  {
-    treatment: "Trazado",
-    done: false,
-    finishedAt: "12 Dic 2024",
-  },
-  {
-    treatment: "Diagnostico",
-    done: false,
-    finishedAt: "12 Dic 2024",
-  },
-  {
-    treatment: "Tamaño Dental",
-    done: false,
-    finishedAt: "12 Dic 2024",
-  },
-  {
-    treatment: "Diagnostico",
-    done: false,
-    finishedAt: "12 Dic 2024",
-  },
-  {
-    treatment: "Trazado",
-    done: false,
-    finishedAt: "12 Dic 2024",
-  },
-  {
-    treatment: "Diagnostico",
-    done: false,
-    finishedAt: "12 Dic 2024",
-  },
-];
-
-export const TREATMENT_DONE_MOCK: ITreatment[] = [
-  {
-    treatment: "Trazado",
-    done: true,
-    finishedAt: "12 Dic 2024",
-  },
-  {
-    treatment: "Diagnostico",
-    done: true,
-    finishedAt: "12 Dic 2024",
-  },
-  {
-    treatment: "Tamaño Dental",
-    done: true,
-    finishedAt: "12 Dic 2024",
-  },
-  {
-    treatment: "Diagnostico",
-    done: true,
-    finishedAt: "12 Dic 2024",
-  },
-];

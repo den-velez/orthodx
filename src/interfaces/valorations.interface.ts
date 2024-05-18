@@ -1,27 +1,30 @@
 export type TCephalometryItem = {
   label: string;
+  inputName: string;
   rangeLabel?: string;
   rangeMin?: number;
   rangeMax?: number;
+  register?: any;
+  errors?: any;
 };
 
 export interface ICephalometry {
   createdAt: string;
   updatedAt: string;
-  NA: number;
-  longitudMaxilar: number;
-  longitudMandibular: number;
-  alturaFacialInf: number;
-  planoMandibular: number;
-  witts: number;
-  ejeFacial: number;
-  locdePorion: number;
-  mm: number;
-  bimler: number;
-  ejeIncisivoSup: number;
-  ejeIncisivoInf: number;
-  segMolarInf: number;
-  observacionPanoramica: number;
+  na: string;
+  longMaxilar: string;
+  longMandibular: string;
+  alturaFacialInf: string;
+  planoMandibular: string;
+  witts: string;
+  ejeFacial: string;
+  locPorion: string;
+  mm: string;
+  bimler: string;
+  ejeIncisivoSuperior: string;
+  ejeIncisivoInferior: string;
+  molarInferior: string;
+  observaciones?: string;
 }
 
 export interface IDental {
