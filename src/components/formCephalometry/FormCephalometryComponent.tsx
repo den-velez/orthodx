@@ -24,7 +24,7 @@ type FormData = {
   ejeIncisivoSuperior: string;
   ejeIncisivoInferior: string;
   molarInferior: string;
-  observaciones?: string;
+  comments?: string;
 };
 
 const FormSchema: ZodType<FormData> = z.object({
@@ -41,7 +41,7 @@ const FormSchema: ZodType<FormData> = z.object({
   ejeIncisivoSuperior: z.string().min(1),
   ejeIncisivoInferior: z.string().min(1),
   molarInferior: z.string().min(1),
-  observaciones: z.string().optional(),
+  comments: z.string().optional(),
 });
 
 function CephalometryItem({
@@ -84,7 +84,7 @@ function CephalometryItem({
   );
 }
 
-export default function CephalometryFormComponent({
+export default function FormCephalometryComponent({
   currentValoration,
   patientId,
 }: {
@@ -95,7 +95,6 @@ export default function CephalometryFormComponent({
 
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
     setError,
@@ -145,7 +144,7 @@ export default function CephalometryFormComponent({
           </label>
           <textarea
             className='p-3 w-full rounded-[12px] focus:outline-none focus:ring-2 focus:ring-cta-100 focus:ring-opacity-50 text-h5'
-            {...register("observaciones")}
+            {...register("comments")}
             rows={6}></textarea>
         </div>
         {!isSubmitted && (

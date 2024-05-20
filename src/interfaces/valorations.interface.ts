@@ -24,7 +24,7 @@ export interface ICephalometry {
   ejeIncisivoSuperior: string;
   ejeIncisivoInferior: string;
   molarInferior: string;
-  observaciones?: string;
+  comments?: string;
 }
 
 export interface IDental {
@@ -44,7 +44,8 @@ export interface IDental {
   apinamientoSup: string;
   apinamientoInf: string;
   mordidaAnterior: string;
-  obsevacionesOclusion: string;
+  mordidaAnteriorMM: string;
+  comments?: string;
 }
 
 export interface IArches {

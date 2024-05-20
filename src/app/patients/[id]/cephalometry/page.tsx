@@ -1,7 +1,7 @@
 import { IPatient, ICephalometry } from "@/interfaces";
 import { db } from "@/lib/firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { CephalometryFormComponent } from "@/components";
+import { FormCephalometryComponent } from "@/components";
 
 const patientData = async (id: string) => {
   const docRef = doc(db, "patients", id);
@@ -22,7 +22,7 @@ export default async function Cephalometry({
   params: { id: string };
 }) {
   const { id } = params;
-  const patient = (await patientData(params.id)) as IPatient;
+  const patient = (await patientData(id)) as IPatient;
   const valorationCephalometry: ICephalometry =
     patient.valorationCephalometry ?? {
       createdAt: "",
@@ -40,7 +40,7 @@ export default async function Cephalometry({
       ejeIncisivoSuperior: " ",
       ejeIncisivoInferior: " ",
       molarInferior: " ",
-      observaciones: " ",
+      comments: " ",
     };
   return (
     <>
@@ -51,7 +51,7 @@ export default async function Cephalometry({
         <h4 className='my-3 text-h4 text-txtBrand-secondary text-center'>
           Cefalometría
         </h4>
-        <CephalometryFormComponent
+        <FormCephalometryComponent
           patientId={id}
           currentValoration={valorationCephalometry}
         />

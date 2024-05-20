@@ -13,13 +13,15 @@ import TreatmentPendingComponent from "./treatments/treatmentPendingComponent";
 import NewImageComponent from "./newImage/NewImageComponent";
 import GalleryComponent from "./gallery/GalleryComponent";
 import ModalMessageComponent from "./modalMessage/ModalMessageComponent";
-import CephalometryFormComponent from "./cephalometryForm/CephalometryFormComponent";
+import FormCephalometryComponent from "./formCephalometry/FormCephalometryComponent";
+import FormDentalComponent from "./formDental/FormDentalComponent";
 
 export {
   ButtonComponent,
-  CephalometryFormComponent,
   DoctorHeaderComponent,
   FooterComponent,
+  FormCephalometryComponent,
+  FormDentalComponent,
   GalleryComponent,
   IconsComponent,
   ModalComponent,

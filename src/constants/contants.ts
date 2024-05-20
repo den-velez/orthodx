@@ -1,5 +1,3 @@
-import { IPatient } from "@/interfaces/patient.interface";
-import { ITreatment } from "@/interfaces/treatment.interface";
 import { TCephalometryItem } from "@/interfaces/valorations.interface";
 
 export const BTN_STORE_TITLE = "store";
@@ -78,20 +76,120 @@ export const CEPHALOMETRY_ITEMS: TCephalometryItem[] = [
   },
 ];
 
-export const PRODUCT_MOCK = [
-  { id: 1, title: "3 creditos", price: 200 },
-  { id: 2, title: "9 creditos", price: 400 },
+type TDentalItems = {
+  label: string;
+  name:
+    | "relacionMolarDer"
+    | "relacionMolarIzq"
+    | "relacionCaninaDer"
+    | "relacionCaninaIzq"
+    | "mordidaPosteriorDer"
+    | "mordidaPosteriorIzq"
+    | "denticion"
+    | "tamanoArcadaSup"
+    | "tamanoArcadaInf"
+    | "formaArcadaInf"
+    | "formaArcadaSup"
+    | "apinamientoSup"
+    | "apinamientoInf"
+    | "mordidaAnterior"
+    | "mordidaAnteriorMM";
+  options: string[];
+};
+
+export const DENTAL_ITEMS: TDentalItems[] = [
+  {
+    label: "relación molar izquierda",
+    name: "relacionMolarIzq",
+    options: ["Clase I", "Clase II", "Clase III", "Ausente", "mesiorotación"],
+  },
+  {
+    label: "relación molar derecha",
+    name: "relacionMolarDer",
+    options: ["Clase I", "Clase II", "Clase III", "Ausente", "mesiorotación"],
+  },
+  {
+    label: "relación canina izquierda",
+    name: "relacionCaninaIzq",
+    options: [
+      "Clase I",
+      "Clase II",
+      "Clase III",
+      "Ausente",
+      "extópico",
+      "retenido",
+    ],
+  },
+  {
+    label: "relación canina derecha",
+    name: "relacionCaninaDer",
+    options: [
+      "Clase I",
+      "Clase II",
+      "Clase III",
+      "Ausente",
+      "extópico",
+      "retenido",
+    ],
+  },
+  {
+    label: "mordida posterior izquierda",
+    name: "mordidaPosteriorIzq",
+    options: ["normal", "cruzada", "telescópica"],
+  },
+  {
+    label: "mordida posterior derecha",
+    name: "mordidaPosteriorDer",
+    options: ["Clase I", "Clase II", "Clase III"],
+  },
+  {
+    label: "mordida anterior",
+    name: "mordidaAnterior",
+    options: [
+      "normal",
+      "cruzada",
+      "borde a borde",
+      "overjet",
+      "overbite",
+      "abierta",
+    ],
+  },
 ];
 
-export const DOCTOR_MOCK_VALUE = {
-  avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-  name: "Dr. John Doe",
-  credits: 100,
-};
-
-export const PATIENT_MOCK_VALUE = {
-  avatar: "https://i.pravatar.cc/150?u=fake@pravatar.com",
-  patientName: "Dr. John Doe",
-  patientAge: 100,
-  doctorOffice: "Ortho & lab",
-};
+export const ARCADAS_ITEMS: TDentalItems[] = [
+  {
+    label: "dentición",
+    name: "denticion",
+    options: ["infantil", "mixta", "permanente"],
+  },
+  {
+    label: "tamaño arcada superior",
+    name: "tamanoArcadaSup",
+    options: ["amplio", "normal", "estrecho"],
+  },
+  {
+    label: "tamaño arcada inferior",
+    name: "tamanoArcadaInf",
+    options: ["amplio", "normal", "estrecho"],
+  },
+  {
+    label: "forma arcada superior",
+    name: "formaArcadaSup",
+    options: ["redonda", "ovoide", "triangular", "cuadrada", "retroinclinado"],
+  },
+  {
+    label: "forma arcada inferior",
+    name: "formaArcadaInf",
+    options: ["redonda", "ovoide", "triangular", "cuadrada", "retroinclinado"],
+  },
+  {
+    label: "apiñamiento superior",
+    name: "apinamientoSup",
+    options: ["no tiene", "ligero", "moderado", "severo", "espacios"],
+  },
+  {
+    label: "apiñamiento inferior",
+    name: "apinamientoInf",
+    options: ["no tiene", "ligero", "moderado", "severo", "espacios"],
+  },
+];
