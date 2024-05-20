@@ -130,8 +130,6 @@ export default function FormDentalComponent({
     const dataUpdated = { ...data, createdAt, updatedAt };
 
     const payload = { valorationDental: dataUpdated };
-    console.log("payload: ", payload);
-    return;
     try {
       const user = await updatePatient(payload, patientId);
       setSubmitted(true);
