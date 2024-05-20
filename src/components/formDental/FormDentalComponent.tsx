@@ -139,7 +139,6 @@ export default function FormDentalComponent({
       });
     }
   };
-  watch("denticion");
 
   return (
     <>

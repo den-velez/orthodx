@@ -51,24 +51,24 @@ export interface IDental {
 export interface IArches {
   createdAt: string;
   updatedAt: string;
-  d11: number;
-  d12: number;
-  d13: number;
-  d21: number;
-  d22: number;
-  d23: number;
-  d31: number;
-  d32: number;
-  d33: number;
-  d41: number;
-  d42: number;
-  d43: number;
-  d4a4: number;
-  loAnt: number;
-  dist3a3Inf: number;
-  dist6a6Inf: number;
-  dist6a6Inf2: number;
-  dist6a6Sup: number;
+  d11: string;
+  d12: string;
+  d13: string;
+  d21: string;
+  d22: string;
+  d23: string;
+  d31: string;
+  d32: string;
+  d33: string;
+  d41: string;
+  d42: string;
+  d43: string;
+  d4a4: string;
+  loAnt: string;
+  dist3a3Inf: string;
+  dist6a6Inf: string;
+  dist6a6Inf2?: string;
+  dist6a6Sup: string;
 }
 
 export interface IOdontogram {

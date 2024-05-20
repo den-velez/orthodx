@@ -15,11 +15,13 @@ import GalleryComponent from "./gallery/GalleryComponent";
 import ModalMessageComponent from "./modalMessage/ModalMessageComponent";
 import FormCephalometryComponent from "./formCephalometry/FormCephalometryComponent";
 import FormDentalComponent from "./formDental/FormDentalComponent";
+import FormArcadasComponent from "./formArcadas/FormArcadasComponent";
 
 export {
   ButtonComponent,
   DoctorHeaderComponent,
   FooterComponent,
+  FormArcadasComponent,
   FormCephalometryComponent,
   FormDentalComponent,
   GalleryComponent,

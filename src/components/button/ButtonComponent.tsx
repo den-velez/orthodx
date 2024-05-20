@@ -7,6 +7,7 @@ interface ButtonProps {
   anchor?: boolean;
   anchorUrl?: string;
   widthfull?: boolean;
+  onClick?: () => void;
 }
 
 const ButtonComponent = (props: ButtonProps) => {
@@ -41,6 +42,7 @@ const ButtonComponent = (props: ButtonProps) => {
     return (
       <button
         type={typeButton}
+        onClick={props.onClick}
         className={`px-4 py-2 rounded-[12px] ${getButtonStyle()}`}>
         <span className='text-h5'>{props.label}</span>
       </button>
