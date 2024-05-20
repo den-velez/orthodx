@@ -193,3 +193,14 @@ export const ARCADAS_ITEMS: TDentalItems[] = [
     options: ["no tiene", "ligero", "moderado", "severo", "espacios"],
   },
 ];
+
+export const PRODUCT_MOCK = [
+  {
+    id: 3,
+    title: "Trazado Cefalometrico",
+    name: "Trazado Cefalometrico",
+    price: 3,
+    description: "Trazado Cefalometrico + Diagnostico",
+    image: "/images/cephalometry.png",
+  },
+];

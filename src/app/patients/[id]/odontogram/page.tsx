@@ -7,7 +7,6 @@ import {
   ModalComponent,
   TreatmentPendingComponent,
 } from "@/components";
-import { TREATMENT_MOCK } from "@/constants/contants";
 
 const STATUS_STYLES = {
   ausente: "absolute w-full h-full top-0 rounded-full bg-dark-100",
@@ -452,10 +451,10 @@ export default function Odontogram() {
       </section>
       <section className='mt-6 p-6 bg-bgDark-080 rounded-[12px]'>
         <div className='w-full grid gap-[60px]'>
-          <TreatmentPendingComponent
+          {/* <TreatmentPendingComponent
             treatments={TREATMENT_MOCK}
             title='Padecimientos'
-          />
+          /> */}
         </div>
       </section>
       <div className='mt-[60px] h-[60px]'>

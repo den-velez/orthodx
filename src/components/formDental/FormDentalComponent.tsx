@@ -93,7 +93,7 @@ function DentalFormItem({
       </select>
       {errors[name] && (
         <span className='text-msg-error text-small'>
-          {errors[name].message}
+          {errors[name]?.message}
         </span>
       )}
     </div>
