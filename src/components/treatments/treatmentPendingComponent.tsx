@@ -43,7 +43,6 @@ export default function TreatmentPendingComponent({
   title?: string;
   unmutated: boolean;
 }) {
-  console.log(unmutated);
   return (
     <div className='w-full'>
       <h4 className='text-h4 text-ctaLight-090 text-center'>{title}</h4>

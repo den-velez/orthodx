@@ -16,7 +16,7 @@ import ModalMessageComponent from "./modalMessage/ModalMessageComponent";
 import FormCephalometryComponent from "./formCephalometry/FormCephalometryComponent";
 import FormDentalComponent from "./formDental/FormDentalComponent";
 import FormArcadasComponent from "./formArcadas/FormArcadasComponent";
-
+import FormOdontogramComponent from "./formOdontogram/FormOdontogramComponent";
 export {
   ButtonComponent,
   DoctorHeaderComponent,
@@ -24,6 +24,7 @@ export {
   FormArcadasComponent,
   FormCephalometryComponent,
   FormDentalComponent,
+  FormOdontogramComponent,
   GalleryComponent,
   IconsComponent,
   ModalComponent,

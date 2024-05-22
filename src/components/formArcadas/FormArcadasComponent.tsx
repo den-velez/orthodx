@@ -8,8 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ButtonComponent, ModalComponent } from "@/components";
 import { IArches } from "@/interfaces";
 import { updatePatient } from "@/lib/actions/actions";
-import { set } from "firebase/database";
-import { get } from "http";
 
 type FormData = {
   d11?: string;
@@ -91,8 +89,6 @@ export default function FormArcadasComponent({
 
     const payload = { valorationArches: dataUpdated };
 
-    console.log(payload);
-    return;
     try {
       const user = await updatePatient(payload, patientId);
       setSubmitted(true);

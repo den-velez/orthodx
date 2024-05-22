@@ -74,13 +74,106 @@ export interface IArches {
 export interface IOdontogram {
   createdAt: string;
   updatedAt: string;
-  teeth: ITooth[];
-  generalPathology: string[];
-  observations: string;
+  d11?: ITooth;
+  d12?: ITooth;
+  d13?: ITooth;
+  d14?: ITooth;
+  d15?: ITooth;
+  d16?: ITooth;
+  d17?: ITooth;
+  d18?: ITooth;
+  d21?: ITooth;
+  d22?: ITooth;
+  d23?: ITooth;
+  d24?: ITooth;
+  d25?: ITooth;
+  d26?: ITooth;
+  d27?: ITooth;
+  d28?: ITooth;
+  d31?: ITooth;
+  d32?: ITooth;
+  d33?: ITooth;
+  d34?: ITooth;
+  d35?: ITooth;
+  d36?: ITooth;
+  d37?: ITooth;
+  d38?: ITooth;
+  d41?: ITooth;
+  d42?: ITooth;
+  d43?: ITooth;
+  d44?: ITooth;
+  d45?: ITooth;
+  d46?: ITooth;
+  d47?: ITooth;
+  d48?: ITooth;
+  generalPathology: {
+    pathology?: string;
+  }[];
+  comments?: string;
 }
 
+export type ToothState =
+  | "ausente"
+  | "corona"
+  | "obturación"
+  | "cariesMesial"
+  | "cariesDistal"
+  | "cariesVestibular"
+  | "cariesLingual"
+  | "cariesOclusal"
+  | "";
+
+export type ToothPathology =
+  | "incluido"
+  | "erupción"
+  | "no erupcionado"
+  | "extruido"
+  | "ectópico"
+  | "mesiorotado"
+  | "mesioangulado"
+  | "distalrotado"
+  | "telescópico"
+  | "cruzado"
+  | "movilidad"
+  | "";
+
+export type ToothName =
+  | "d11"
+  | "d12"
+  | "d13"
+  | "d14"
+  | "d15"
+  | "d16"
+  | "d17"
+  | "d18"
+  | "d21"
+  | "d22"
+  | "d23"
+  | "d24"
+  | "d25"
+  | "d26"
+  | "d27"
+  | "d28"
+  | "d31"
+  | "d32"
+  | "d33"
+  | "d34"
+  | "d35"
+  | "d36"
+  | "d37"
+  | "d38"
+  | "d41"
+  | "d42"
+  | "d43"
+  | "d44"
+  | "d45"
+  | "d46"
+  | "d47"
+  | "d48"
+  | "";
+
 export interface ITooth {
-  tooth: string;
-  toothState: string;
-  toothPathology: string;
+  name?: ToothName;
+  state?: ToothState;
+  pathology?: ToothPathology;
 }
