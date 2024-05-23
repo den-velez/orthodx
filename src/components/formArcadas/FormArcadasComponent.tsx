@@ -8,6 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ButtonComponent, ModalComponent } from "@/components";
 import { IArches } from "@/interfaces";
 import { updatePatient } from "@/lib/actions/actions";
+import {
+  getDiscrepancyDiagnostic,
+  getExpansionDiagnostic,
+} from "@/lib/diagnostic/arches";
 
 type FormData = {
   d11?: string;
@@ -87,7 +91,34 @@ export default function FormArcadasComponent({
       setValue("dist6a6Inf2", dist6a6Inf);
     }
 
-    const payload = { valorationArches: dataUpdated };
+    const dataFixed = {
+      d11: Number(data.d11) || 0,
+      d12: Number(data.d12) || 0,
+      d13: Number(data.d13) || 0,
+      d21: Number(data.d21) || 0,
+      d22: Number(data.d22) || 0,
+      d23: Number(data.d23) || 0,
+      d31: Number(data.d31) || 0,
+      d32: Number(data.d32) || 0,
+      d33: Number(data.d33) || 0,
+      d41: Number(data.d41) || 0,
+      d42: Number(data.d42) || 0,
+      d43: Number(data.d43) || 0,
+      loAnt: Number(data.loAnt) || 0,
+      d4a4: Number(data.d4a4) || 0,
+      dist6a6Sup: Number(data.dist6a6Sup) || 0,
+      dist3a3Inf: Number(data.dist3a3Inf) || 0,
+      dist6a6Inf: Number(data.dist6a6Inf) || 0,
+      dist6a6Inf2: Number(data.dist6a6Inf2) || 0,
+    };
+    const discrepancy = await getDiscrepancyDiagnostic(dataFixed);
+    const expansion = await getExpansionDiagnostic(dataFixed);
+
+    const payload = {
+      valorationArches: dataUpdated,
+      discrepancyDiagnostic: discrepancy,
+      expansionDiagnostic: expansion,
+    };
 
     try {
       const user = await updatePatient(payload, patientId);
@@ -120,7 +151,7 @@ export default function FormArcadasComponent({
 
   return (
     <>
-      <ModalComponent isOpen={false}>
+      <ModalComponent isOpen={isOpen}>
         <div className=' py-10 px-6 flex flex-col gap-10 items-center shadow-inner'>
           <h3 className='text-h5 text-txtLight-100'>
             ¿Tiene retroinclinación Postero inferior?
@@ -158,36 +189,48 @@ export default function FormArcadasComponent({
               placeholder='1.3'
               className='h-8 mt-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d13")}
             />
             <input
               placeholder='1.2'
               className='h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d12")}
             />
             <input
               placeholder='1.1'
               className='h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d11")}
             />
             <input
               placeholder='2.1'
               className='h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d21")}
             />
             <input
               placeholder='2.2'
               className='h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d22")}
             />
             <input
               placeholder='2.3'
               className='h-8 mt-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d23")}
             />
           </div>
@@ -196,18 +239,24 @@ export default function FormArcadasComponent({
               placeholder='dist 1 a 1'
               className='h-8 w-20 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("loAnt")}
             />
             <input
               placeholder='dist 4 a 4'
               className='h-8 w-20 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d4a4")}
             />
             <input
               placeholder='dist 6 a 6'
               className='h-8 w-20 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("dist6a6Sup")}
             />
           </div>
@@ -218,6 +267,8 @@ export default function FormArcadasComponent({
                 placeholder='dist 6 a 6'
                 className='h-8 w-20 text-center'
                 type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
                 disabled
                 {...register("dist6a6Inf2")}
               />
@@ -226,6 +277,8 @@ export default function FormArcadasComponent({
               placeholder='dist 6 a 6'
               className='h-8 w-20 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("dist6a6Inf")}
               onBlur={() => {
                 openModal();
@@ -235,6 +288,8 @@ export default function FormArcadasComponent({
               placeholder='dist 3 a 3'
               className='h-8 w-20 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("dist3a3Inf")}
             />
           </div>
@@ -243,36 +298,48 @@ export default function FormArcadasComponent({
               placeholder='4.3'
               className='h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d43")}
             />
             <input
               placeholder='4.2'
               className='mt-8 h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d42")}
             />
             <input
               placeholder='4.1'
               className='mt-8 h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d41")}
             />
             <input
               placeholder='3.1'
               className='mt-8 h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d31")}
             />
             <input
               placeholder='3.2'
               className='mt-8 h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d32")}
             />
             <input
               placeholder='3.3'
               className='h-8 text-center'
               type='number'
+              step='0.1'
+              pattern='^\d+(\.\d{1})?$'
               {...register("d33")}
             />
           </div>
@@ -294,7 +361,7 @@ export default function FormArcadasComponent({
               variant='primary'
               widthfull
               anchor
-              anchorUrl={`/patients/${patientId}/odontogram`}
+              anchorUrl={`/patients/${patientId}/dental-size`}
             />
           </div>
         )}
