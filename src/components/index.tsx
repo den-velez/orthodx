@@ -17,6 +17,8 @@ import FormCephalometryComponent from "./formCephalometry/FormCephalometryCompon
 import FormDentalComponent from "./formDental/FormDentalComponent";
 import FormArcadasComponent from "./formArcadas/FormArcadasComponent";
 import FormOdontogramComponent from "./formOdontogram/FormOdontogramComponent";
+import FormDentalSizeComponent from "./formDentalSize/FormDentalSizeComponent";
+
 export {
   ButtonComponent,
   DoctorHeaderComponent,
@@ -24,6 +26,7 @@ export {
   FormArcadasComponent,
   FormCephalometryComponent,
   FormDentalComponent,
+  FormDentalSizeComponent,
   FormOdontogramComponent,
   GalleryComponent,
   IconsComponent,

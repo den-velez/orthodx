@@ -97,15 +97,15 @@ function getMordidaCruzadaTurns(
 }
 
 function getDiscrepancia(sumBelow: number, sumAboveRounded: number) {
-  let discrepancyLabel = "";
+  let discrepancy = false;
   if (sumBelow && sumAboveRounded) {
     if (sumBelow === sumAboveRounded) {
-      discrepancyLabel = "proporcional";
+      discrepancy = false;
     } else {
-      discrepancyLabel = "discrepancia";
+      discrepancy = true;
     }
     return {
-      discrepancyLabel,
+      discrepancy,
       sumAboveRounded,
       sumBelow,
     };

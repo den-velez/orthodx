@@ -27,9 +27,18 @@ export interface IPatient extends IPatientCard {
   valorationArches?: IArches;
   valorationOdotontogram?: IOdontogram;
   resultDiagnostic?: IDiagnostic;
+  toothSizeModifed?: IToothSize;
   toothSizeTreatment?: IToothSize;
   treatmentList?: ITreatment[];
+  discrepancyDiagnostic?: IDiscrepancyDiagnostic;
   assets?: IPatientAssets[];
+}
+
+export interface IDiscrepancyDiagnostic {
+  discrepancy: boolean;
+  suggestions?: string[];
+  sumAboveRounded: number;
+  sumBelow: number;
 }
 
 interface IDrawRequest {

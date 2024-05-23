@@ -1,19 +1,21 @@
 export interface IToothSize {
-  d11: number;
-  d12: number;
-  d13: number;
-  d21: number;
-  d22: number;
-  d23: number;
-  d31: number;
-  d32: number;
-  d33: number;
-  d41: number;
-  d42: number;
-  d43: number;
+  createdAt?: string;
+  updatedAt?: string;
+  d11: string;
+  d12: string;
+  d13: string;
+  d21: string;
+  d22: string;
+  d23: string;
+  d31: string;
+  d32: string;
+  d33: string;
+  d41: string;
+  d42: string;
+  d43: string;
   aboveSum: number;
   belowSum: number;
-  discrepancy: string;
+  discrepancy: boolean;
 }
 
 export interface ITreatment {

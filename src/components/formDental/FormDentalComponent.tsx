@@ -144,9 +144,6 @@ export default function FormDentalComponent({
     <>
       <h3 className='text-h2 text-txtBrand-primary text-center'>
         Valoración Dental
-        <button onClick={() => console.log(errors)} className='text-h5'>
-          errors
-        </button>
       </h3>
       <form onSubmit={handleSubmit(onSubmit)} className='grid gap-6'>
         <section className='px-3 py-6 bg-bgDark-080 rounded-[12px] shadow'>
