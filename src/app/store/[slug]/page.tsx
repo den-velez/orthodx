@@ -5,7 +5,7 @@ import {
   PRODUCT_MOCK,
   DRAW_DESCRIPTION,
   DX_DESCRIPTION,
-} from "@/constants/contants";
+} from "@/constants/constants";
 
 const Product = ({ params }: { params: { slug: string } }) => {
   const slug = parseInt(params.slug, 10);

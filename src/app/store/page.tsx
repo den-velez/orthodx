@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CardContainer from "@/containers/card/CardContainer";
 import ProductCardComponent from "@/components/productCard/productCardComponent";
-import { PRODUCT_MOCK } from "@/constants/contants";
+import { PRODUCT_MOCK } from "@/constants/constants";
 
 const StorePage = () => {
   return (

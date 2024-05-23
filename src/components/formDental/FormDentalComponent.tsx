@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ButtonComponent } from "@/components";
 import { IDental } from "@/interfaces";
 import { updatePatient } from "@/lib/actions/actions";
-import { DENTAL_ITEMS, ARCADAS_ITEMS } from "@/constants/contants";
+import { DENTAL_ITEMS, ARCADAS_ITEMS } from "@/constants/constants";
 
 type FormData = {
   relacionMolarDer: string;

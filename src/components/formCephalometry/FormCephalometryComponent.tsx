@@ -6,9 +6,10 @@ import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ButtonComponent } from "@/components";
-import { CEPHALOMETRY_ITEMS } from "@/constants/contants";
+import { CEPHALOMETRY_ITEMS } from "@/constants/constants";
 import { TCephalometryItem, ICephalometry } from "@/interfaces";
 import { updatePatient } from "@/lib/actions/actions";
+import { cephalometryDiagnostic } from "@/lib/diagnostic/cephalometry";
 
 type FormData = {
   na: string;
@@ -112,7 +113,24 @@ export default function FormCephalometryComponent({
     const updatedAt = new Date().toISOString().split("T")[0];
     const dataUpdated = { ...data, createdAt, updatedAt };
 
-    const payload = { valorationCephalometry: dataUpdated };
+    const cephalometry = await cephalometryDiagnostic({
+      na: Number(data.na),
+      longitudMaxilar: Number(data.longMaxilar),
+      longitudMandibular: Number(data.longMandibular),
+      alturaFacialInf: Number(data.alturaFacialInf),
+      planoMandibular: Number(data.planoMandibular),
+      witts: Number(data.witts),
+      ejeFacial: Number(data.ejeFacial),
+      locDePorion: Number(data.locPorion),
+      mm: Number(data.mm),
+      bimler: Number(data.bimler),
+      ejeIncisivoSuperior: Number(data.ejeIncisivoSuperior),
+      ejeIncisivoInferior: Number(data.ejeIncisivoInferior),
+      segundoMolarInferior: Number(data.molarInferior),
+      comments: data.comments,
+    });
+
+    const payload = { valorationCephalometry: dataUpdated, cephalometry };
 
     try {
       const user = await updatePatient(payload, patientId);
