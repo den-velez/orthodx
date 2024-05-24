@@ -20,15 +20,20 @@ export default function TreatmentDoneComponent({
 }) {
   return (
     <div className='w-full'>
-      <h4 className='text-h4 text-ctaLight-090 text-center'>
-        Tratamientos Realizados
-      </h4>
       {treatments.length === 0 && (
         <h3 className='mt-6 text-body text-txtLight-100 text-center'>
           No hay tratamientos realizados
         </h3>
       )}
       <div className='mt-3 grid gap-3'>
+        {treatments.length !== 0 && (
+          <div className='flex justify-between gap-3 text-txtDark-090'>
+            <span className='px-3 flex-grow text-center'>
+              Tratamientos realizados
+            </span>
+            <span className='px-8 text-center'>Fecha </span>
+          </div>
+        )}
         {treatments.map((treatment) => {
           if (!treatment.done) return null;
           return <TreatmentItem key={treatment.treatment} {...treatment} />;

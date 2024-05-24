@@ -33,6 +33,7 @@ export interface IPatient extends IPatientCard {
   discrepancyDiagnostic?: IDiscrepancyDiagnostic;
   assets?: IPatientAssets[];
   expansionDiagnostic?: IExpansion;
+  expansionTreatment?: TExpansionTreatment;
 }
 
 export interface IPatientRequired extends Required<IPatient> {}
@@ -43,6 +44,13 @@ export interface IExpansion {
   korkhauseTurnsMod: number;
   mordidaCruzadaTurns: number;
 }
+
+export type TExpansionTreatment =
+  | ""
+  | "apinamiento"
+  | "korkhause"
+  | "korkhause mod"
+  | "mordida cruzada";
 
 export interface IDiscrepancyDiagnostic {
   discrepancy: boolean;

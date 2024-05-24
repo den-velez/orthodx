@@ -1,11 +1,4 @@
-import {
-  IPatient,
-  IArches,
-  IToothSize,
-  IDiscrepancyDiagnostic,
-  ICephalometryResult,
-  IPatientRequired,
-} from "@/interfaces";
+import { IArches, IToothSize, IPatientRequired } from "@/interfaces";
 import { db } from "@/lib/firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import DxSection from "./DxSection";
