@@ -19,7 +19,7 @@ export default function DxSection({
   iconShowen = true,
 }: {
   title?: string;
-  items: string[];
+  items: string | string[];
   iconShowen?: boolean;
 }) {
   return (
@@ -27,10 +27,13 @@ export default function DxSection({
       {title && (
         <h5 className='text-h5 text-txtBrand-secondary text-center'>{title}</h5>
       )}
-
-      {items.map((item, index) => (
-        <DxItem key={index} label={item} iconShowen={iconShowen} />
-      ))}
+      {items === typeof "string" && (
+        <DxItem label={items} iconShowen={iconShowen} />
+      )}
+      {Array.isArray(items) &&
+        items.map((item: string, index: number) => (
+          <DxItem key={index} label={item} iconShowen={iconShowen} />
+        ))}
     </section>
   );
 }

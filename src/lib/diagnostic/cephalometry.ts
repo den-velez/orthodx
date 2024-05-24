@@ -329,6 +329,7 @@ export async function cephalometryDiagnostic(
   );
 
   return {
+    ...cephalometryCalculatedValues,
     ...cephalometryResults,
     dxIIoIII,
   };

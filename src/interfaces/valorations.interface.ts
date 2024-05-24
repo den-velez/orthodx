@@ -2,8 +2,10 @@ export type TCephalometryItem = {
   label: string;
   inputName: string;
   rangeLabel?: string;
-  rangeMin?: number;
-  rangeMax?: number;
+  longR1?: number | string;
+  longR4?: number | string;
+  alturaR1?: number | string;
+  alturaR5?: number | string;
   register?: any;
   errors?: any;
 };

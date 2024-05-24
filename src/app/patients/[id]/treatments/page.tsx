@@ -52,11 +52,11 @@ export default async function TreatmentPlan({
   const treatmentsListPending =
     patient.treatmentList?.filter((treatment) => !treatment.done) || [];
 
-  const expansion = patient.resultDiagnostic?.expansion || [];
+  const expansion = patient?.expansionDiagnostic || [];
 
   return (
     <div className='grid grid-cols-1 gap-6'>
-      {expansion.length > 0 && (
+      {/* {expansion.length > 0 && (
         <TreatmentsSection title='Expansion (giros)'>
           <div className='flex flex-col gap-6'>
             {expansion.map((option, index) => (
@@ -87,7 +87,7 @@ export default async function TreatmentPlan({
       </TreatmentsSection>
       <TreatmentsSection title='Historial de Tratamientos'>
         <TreatmentDoneComponent treatments={treatmentsListDone} />
-      </TreatmentsSection>
+      </TreatmentsSection> */}
     </div>
   );
 }

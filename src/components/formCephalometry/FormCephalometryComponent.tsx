@@ -7,7 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ButtonComponent } from "@/components";
 import { CEPHALOMETRY_ITEMS } from "@/constants/constants";
-import { TCephalometryItem, ICephalometry } from "@/interfaces";
+import {
+  TCephalometryItem,
+  ICephalometry,
+  ICephalometryResult,
+} from "@/interfaces";
 import { updatePatient } from "@/lib/actions/actions";
 import { cephalometryDiagnostic } from "@/lib/diagnostic/cephalometry";
 
@@ -49,8 +53,10 @@ function CephalometryItem({
   label,
   inputName,
   rangeLabel,
-  rangeMin,
-  rangeMax,
+  longR1,
+  longR4,
+  alturaR1,
+  alturaR5,
   register,
   errors,
 }: TCephalometryItem) {
@@ -65,10 +71,10 @@ function CephalometryItem({
         {!rangeLabel && (
           <div className='flex gap-2'>
             <span className='px-1 sm:px-3 border border-bgDark-080'>
-              {rangeMin}
+              {inputName === "longMandibular" ? longR1 : alturaR1}
             </span>
             <span className='px-1 sm:px-3 border border-bgDark-080'>
-              {rangeMax}
+              {inputName === "longMandibular" ? longR4 : alturaR5}
             </span>
           </div>
         )}
@@ -88,11 +94,16 @@ function CephalometryItem({
 export default function FormCephalometryComponent({
   currentValoration,
   patientId,
+  cephalometry,
 }: {
   currentValoration: ICephalometry;
   patientId: string;
+  cephalometry: ICephalometryResult;
 }) {
   const [isSubmitted, setSubmitted] = useState(false);
+
+  const { alturaFacialInfR1, alturaFacialInfR5, longMandR1, longMandR4 } =
+    cephalometry;
 
   const {
     register,
@@ -150,6 +161,10 @@ export default function FormCephalometryComponent({
             key={index}
             register={register}
             errors={errors}
+            longR1={longMandR1}
+            longR4={longMandR4}
+            alturaR1={alturaFacialInfR1}
+            alturaR5={alturaFacialInfR5}
             {...item}
           />
         ))}

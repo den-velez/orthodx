@@ -19,14 +19,10 @@ export const CEPHALOMETRY_ITEMS: TCephalometryItem[] = [
   },
   {
     label: "Long. Mandibular",
-    rangeMin: 123,
-    rangeMax: 123,
     inputName: "longMandibular",
   },
   {
     label: "Altura Facial Inf",
-    rangeMin: 123,
-    rangeMax: 123,
     inputName: "alturaFacialInf",
   },
   {

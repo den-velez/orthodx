@@ -1,8 +1,8 @@
 import {
   IArches,
   ICephalometry,
+  ICephalometryResult,
   IDental,
-  IDiagnostic,
   IOdontogram,
   IToothSize,
   ITreatment,
@@ -22,11 +22,11 @@ export interface IPatient extends IPatientCard {
   doctorOffice: string;
   doctor: string;
   drawRequest?: IDrawRequest;
+  cephalometry?: ICephalometryResult;
   valorationCephalometry?: ICephalometry;
   valorationDental?: IDental;
   valorationArches?: IArches;
   valorationOdotontogram?: IOdontogram;
-  resultDiagnostic?: IDiagnostic;
   toothSizeModifed?: IToothSize;
   toothSizeTreatment?: IToothSize;
   treatmentList?: ITreatment[];
@@ -34,6 +34,8 @@ export interface IPatient extends IPatientCard {
   assets?: IPatientAssets[];
   expansionDiagnostic?: IExpansion;
 }
+
+export interface IPatientRequired extends Required<IPatient> {}
 
 export interface IExpansion {
   apinamientoTurns: number;
