@@ -1,4 +1,25 @@
-import { IconsComponent } from "@/components";
+import {
+  IPatient,
+  IArches,
+  IToothSize,
+  IDiscrepancyDiagnostic,
+} from "@/interfaces";
+import { db } from "@/lib/firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import DxSection from "./DxSection";
+
+const patientData = async (id: string) => {
+  const docRef = doc(db, "patients", id);
+  const docSnap = await getDoc(docRef);
+  let patientData = undefined;
+  if (docSnap.exists()) {
+    patientData = {
+      id: docSnap.id,
+      ...docSnap.data(),
+    };
+  }
+  return patientData;
+};
 
 const dxLabels = {
   cephalometry: {
@@ -42,42 +63,13 @@ const dxResults = {
   ],
 };
 
-function DxItem({ label, iconShowen }: { label: string; iconShowen: boolean }) {
-  return (
-    <div className='flex items-center gap-3 '>
-      {iconShowen && (
-        <div className='h-6 w-5 flex items-center'>
-          <IconsComponent icon='list' />
-        </div>
-      )}
-      <p className='flex-grow text-txtLight-100'>{label}</p>
-    </div>
-  );
-}
-
-function DxSection({
-  title,
-  items,
-  iconShowen = true,
+export default async function Diagnostic({
+  params,
 }: {
-  title?: string;
-  items: string[];
-  iconShowen?: boolean;
+  params: { id: string };
 }) {
-  return (
-    <section className='p-6 flex flex-col gap-3  bg-bgDark-080 rounded-[12px] shadow'>
-      {title && (
-        <h5 className='text-h5 text-txtBrand-secondary text-center'>{title}</h5>
-      )}
-
-      {items.map((item, index) => (
-        <DxItem key={index} label={item} iconShowen={iconShowen} />
-      ))}
-    </section>
-  );
-}
-
-export default function Diagnostic() {
+  const { id } = params;
+  const patient = (await patientData(id)) as IPatient;
   return (
     <>
       <div className='py-6 grid gap-6 '>

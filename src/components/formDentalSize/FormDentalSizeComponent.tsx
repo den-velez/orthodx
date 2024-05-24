@@ -5,12 +5,10 @@ import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { updatePatient } from "@/lib/actions/actions";
-import { IDiscrepancyDiagnostic, IToothSize } from "@/interfaces";
+import { getKorkhauseTurnsModified } from "@/lib/diagnostic/arches";
+import { IDiscrepancyDiagnostic, IToothSize, IExpansion } from "@/interfaces";
 import { ButtonComponent, ModalComponent } from "@/components";
 import DentalSizeComponent from "./DentalSizeComponent";
-import { set } from "firebase/database";
-import { getValue } from "firebase/remote-config";
-
 export type FormDataDentalSize = {
   d11: string;
   d12: string;
@@ -52,11 +50,13 @@ export default function FormDentalSizeComponent({
   currentArcadas,
   discrepancyDx,
   dentalSizeModified,
+  expansionDiagnostic,
 }: {
   patientId: string;
   currentArcadas: any;
   discrepancyDx: IDiscrepancyDiagnostic;
   dentalSizeModified: IToothSize;
+  expansionDiagnostic: IExpansion;
 }) {
   const [dataShow, setDataShow] = useState<"paciente" | "modificado">(
     "paciente"
@@ -90,9 +90,7 @@ export default function FormDentalSizeComponent({
     handleSubmit,
     formState: { errors },
     setError,
-    setValue,
     control,
-    getValues,
   } = useForm<FormDataDentalSize>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -129,7 +127,6 @@ export default function FormDentalSizeComponent({
     name: ["d33", "d32", "d31", "d41", "d42", "d43"],
   });
 
-  // Calculate the sum of the inputs
   const sumAboveFactor = 0.75;
   const sumAboveCalculated = Math.round(
     sumAboveFactor * upperValues.reduce((acc, value) => acc + Number(value), 0)
@@ -149,7 +146,22 @@ export default function FormDentalSizeComponent({
     const updatedAt = new Date().toISOString().split("T")[0];
     const dataUpdated = { ...data, createdAt, updatedAt };
 
+    const korkhauseTurnsModPayload = {
+      d11: Number(dataUpdated.d11),
+      d12: Number(dataUpdated.d12),
+      d21: Number(dataUpdated.d21),
+      d22: Number(dataUpdated.d22),
+      dist6a6Sup: Number(currentArcadas.dist6a6Sup),
+    };
+    const korkhauseTurnsMod = await getKorkhauseTurnsModified(
+      korkhauseTurnsModPayload
+    );
+
     const payload = {
+      expansionDiagnostic: {
+        ...expansionDiagnostic,
+        korkhauseTurnsMod: korkhauseTurnsMod.korkhauseModTurns,
+      },
       toothSizeModifed: {
         ...dataUpdated,
         discrepancy: discrepancyCalculated,

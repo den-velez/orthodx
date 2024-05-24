@@ -1,13 +1,13 @@
+import { doc, getDoc } from "firebase/firestore";
 import {
   IPatient,
   IArches,
   IToothSize,
   IDiscrepancyDiagnostic,
 } from "@/interfaces";
-import { db } from "@/lib/firebase/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import { CardContainer } from "@/containers";
-import { ButtonComponent, FormDentalSizeComponent } from "@/components";
+import { FormDentalSizeComponent } from "@/components";
+import { db } from "@/lib/firebase/firebase";
 
 const patientData = async (id: string) => {
   const docRef = doc(db, "patients", id);
@@ -79,6 +79,13 @@ export default async function DentalSize({
     discrepancy: false,
   };
 
+  const expansionDiagnostic = patient.expansionDiagnostic ?? {
+    apinamientoTurns: 0,
+    korkhauseTurns: 0,
+    korkhauseTurnsMod: 0,
+    mordidaCruzadaTurns: 0,
+  };
+
   return (
     <CardContainer>
       <h3 className='mb-[60px] text-h3 text-center text-txtLight-100'>
@@ -89,6 +96,7 @@ export default async function DentalSize({
         currentArcadas={arcadas}
         discrepancyDx={discrepancyDx}
         dentalSizeModified={toothSizeModified}
+        expansionDiagnostic={expansionDiagnostic}
       />
     </CardContainer>
   );

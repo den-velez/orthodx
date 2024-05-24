@@ -32,6 +32,14 @@ export interface IPatient extends IPatientCard {
   treatmentList?: ITreatment[];
   discrepancyDiagnostic?: IDiscrepancyDiagnostic;
   assets?: IPatientAssets[];
+  expansionDiagnostic?: IExpansion;
+}
+
+export interface IExpansion {
+  apinamientoTurns: number;
+  korkhauseTurns: number;
+  korkhauseTurnsMod: number;
+  mordidaCruzadaTurns: number;
 }
 
 export interface IDiscrepancyDiagnostic {

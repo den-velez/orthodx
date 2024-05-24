@@ -31,15 +31,9 @@ export interface IDiagnostic {
   distancia6_6: number;
   distanciaLongAnt: number;
   discrepancia: string;
-  expansion: IExpansion[];
-}
-
-interface IExpansion {
-  label:
-    | "korkhause"
-    | "korkhause modificado"
-    | "mordida cruzada"
-    | "apiñamiento inferior";
-  turns: number;
-  selected: boolean;
+  expansionSelected:
+    | "apinamientoTurns"
+    | "korkhauseTurns"
+    | "korkhauseTurnsMod"
+    | "mordidaCruzadaTurns";
 }
