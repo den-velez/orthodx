@@ -19,6 +19,7 @@ import FormArcadasComponent from "./formArcadas/FormArcadasComponent";
 import FormOdontogramComponent from "./formOdontogram/FormOdontogramComponent";
 import FormDentalSizeComponent from "./formDentalSize/FormDentalSizeComponent";
 import FormTreatmentsComponent from "./formTreatments/FormTreatmentsComponent";
+import FormDoctorComponent from "./formDoctor/FormDoctorComponent";
 
 export {
   ButtonComponent,
@@ -28,6 +29,7 @@ export {
   FormCephalometryComponent,
   FormDentalComponent,
   FormDentalSizeComponent,
+  FormDoctorComponent,
   FormOdontogramComponent,
   FormTreatmentsComponent,
   GalleryComponent,

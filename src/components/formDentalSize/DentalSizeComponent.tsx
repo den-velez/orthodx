@@ -2,7 +2,6 @@
 
 import { UseFormRegister } from "react-hook-form";
 import { FormDataDentalSize } from "./FormDentalSizeComponent";
-import { get } from "http";
 
 export default function DentalSizeComponent({
   discrepancy = true,

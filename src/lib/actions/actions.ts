@@ -74,7 +74,7 @@ export async function updatePatient(payload: any, patientId: string) {
 
 export async function createDoctor(newDoctorData: {
   name: string;
-  saludo: string;
+  greetings: string;
 }) {
   const key = process.env.CRYPTO_SECRET || "";
   const doctorRaw = cookies().get("userID")?.value || "";
