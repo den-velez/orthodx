@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection, updateDoc, doc } from "firebase/firestore";
 import { cookies } from "next/headers";
 import CryptoJS from "crypto-js";
-import { auth, db } from "@/lib/firebase/firebase";
+import { auth, db, storage } from "@/lib/firebase/firebase";
 import { revalidatePath } from "next/cache";
 
 export async function login(email: string, password: string) {

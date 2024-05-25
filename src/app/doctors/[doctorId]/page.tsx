@@ -1,6 +1,7 @@
 "use client";
+
 import Image from "next/image";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,8 +9,9 @@ import { useRouter, useParams } from "next/navigation";
 import { getDoc, doc } from "firebase/firestore";
 
 import CardContainer from "@/containers/card/CardContainer";
-import { ButtonComponent, FooterComponent } from "@/components";
+import { ButtonComponent, FooterComponent, IconsComponent } from "@/components";
 import { createDoctor, updateDoctor } from "@/lib/actions/actions";
+import { uploadImage } from "@/lib/firebase/storage";
 import { db } from "@/lib/firebase/firebase";
 
 type FormData = {
@@ -22,14 +24,27 @@ const FormSchema: ZodType<FormData> = z.object({
   name: z.string().min(1),
 });
 
-export default async function DoctorPage() {
+export default function DoctorPage() {
   const router = useRouter();
   const params = useParams<{ doctorId: string }>();
+  const [imageURL, setImageURL] = useState<string>("");
 
   const doctorId = (params.doctorId as string) || undefined;
   let doctorFormDefaultValues = {
     name: "",
     saludo: "",
+  };
+
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const url = await uploadImage(file);
+      if (url) {
+        setImageURL(url);
+        // Here, you can save the image URL to the form data or handle it as needed
+        console.log("Image uploaded: ", url);
+      }
+    }
   };
 
   const {
@@ -86,14 +101,27 @@ export default async function DoctorPage() {
     <div className='bg-bgDark-090'>
       <main className='px-3 pt-6 pb-[60px]'>
         <CardContainer styles='flex flex-col items-center'>
-          <div>
+          <div className='relative flex flex-col items-center justify-center'>
             <div>
               <Image
                 className='w-[200px] h-[200px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
                 width={40}
                 height={40}
-                src='/images/avatar.png'
+                src={imageURL == "" ? "/images/avatar.png" : imageURL}
                 alt='doctor avatar'
+              />
+            </div>
+            <div className='absolute px-3 py-2 bottom-[-16px] bg-cta-090 text-h5 rounded-lg text-txtDark-090 '>
+              <label htmlFor='image' className='flex items-center gap-3'>
+                <IconsComponent icon='camera' />
+                <span className='h-full border-l px-2'>Cambiar</span>
+              </label>
+              <input
+                className='hidden'
+                type='file'
+                id='image'
+                accept='image/*'
+                onChange={handleImageChange}
               />
             </div>
           </div>
