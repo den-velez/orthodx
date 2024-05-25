@@ -68,7 +68,7 @@ export default async function DoctorPage({
           />
         </div>
       </main>
-      <FooterComponent type='doctor' doctorId='' />
+      <FooterComponent type='doctor' doctorId='id' />
     </div>
   );
 }

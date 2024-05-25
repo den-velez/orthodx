@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +25,9 @@ const FormSchema: ZodType<FormData> = z.object({
 });
 
 export default function FormDoctorComponent(doctorData: IDoctor) {
+  const router = useRouter();
+  const params = useParams();
+  const doctorId = params.id as string;
   const [isSubmitted, setSubmitted] = useState(false);
   const {
     register,
@@ -53,14 +57,11 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
           avatar: url,
         };
 
-        if (
-          doctorData.id === "" ||
-          doctorData.id === "new" ||
-          doctorData.id === undefined
-        ) {
-          await createDoctor(payload);
+        if (doctorId === "" || doctorId === "new" || doctorId === undefined) {
+          const doctorId = await createDoctor(payload);
+          if (doctorId) router.push(`/doctors/${doctorId}`);
         } else {
-          await updateDoctor(payload, doctorData.id);
+          await updateDoctor(payload, doctorId);
         }
         setValue("avatar", url);
       }
@@ -76,18 +77,14 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
     const dataUpdated = { ...data, createdAt, updatedAt };
 
     try {
-      if (
-        doctorData.id === "" ||
-        doctorData.id === "new" ||
-        doctorData.id === undefined
-      ) {
-        await createDoctor(dataUpdated);
+      if (doctorId === "" || doctorId === "new" || doctorId === undefined) {
+        const doctorId = await createDoctor(dataUpdated);
+        if (doctorId) router.push(`/doctors/${doctorId}`);
       } else {
         const payload = { ...doctorData, ...dataUpdated };
-        await updateDoctor(payload, doctorData.id);
+        await updateDoctor(payload, doctorId);
         setSubmitted(true);
       }
-      // router.push("/patients");
     } catch (e) {
       console.error("Error adding document: ", e);
     }

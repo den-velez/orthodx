@@ -3,6 +3,7 @@
 import { auth } from "@/lib/firebase/firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import { IconsComponent } from "@/components";
 
 interface FooterProps {
@@ -21,6 +22,7 @@ const FooterComponent = (props: FooterProps) => {
   const signOutUser = async () => {
     try {
       await signOut(auth);
+      Cookies.remove("userID");
       router.push("/");
     } catch (error) {
       console.error(error);
@@ -30,7 +32,7 @@ const FooterComponent = (props: FooterProps) => {
   const doctorFooter: FooterItem[] = [
     {
       icon: "signOut",
-      onClick: () => signOutUser,
+      onClick: async () => await signOutUser(),
     },
     {
       icon: "home",

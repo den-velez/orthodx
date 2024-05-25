@@ -13,6 +13,7 @@ import {
   ModalComponent,
 } from "@/components";
 import { PatientsContainer } from "@/containers";
+import { redirect } from "next/navigation";
 
 type TSearcParams = {
   newpatient?: boolean;
@@ -32,6 +33,9 @@ const getData = async () => {
       id: doc.id,
     };
   });
+
+  if (data.length === 0) return null;
+
   return data[0].id;
 };
 
@@ -41,6 +45,10 @@ export default async function PatientsList({
   searchParams: TSearcParams;
 }) {
   const doctorId = await getData();
+  if (!doctorId) {
+    redirect("/doctors/new");
+  }
+
   return (
     <>
       <ModalComponent isOpen={searchParams.newpatient || false}>
