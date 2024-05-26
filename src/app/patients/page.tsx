@@ -9,7 +9,7 @@ import {
   FooterComponent,
   SearcherComponent,
   ButtonComponent,
-  PatientEditComponent,
+  FormPatientComponent,
   ModalComponent,
 } from "@/components";
 import { PatientsContainer } from "@/containers";
@@ -52,7 +52,7 @@ export default async function PatientsList({
   return (
     <>
       <ModalComponent isOpen={searchParams.newpatient || false}>
-        <PatientEditComponent
+        <FormPatientComponent
           newPatient={searchParams.newpatient ? true : false}
         />
       </ModalComponent>
