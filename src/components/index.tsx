@@ -6,7 +6,7 @@ import PatientCardComponent from "./patientCard/PatientCardComponent";
 import PatientHeaderComponent from "./headers/patientHeaderComponent";
 import ProductCardComponent from "./productCard/productCardComponent";
 import SearcherComponent from "./searcher/SearcherComponent";
-import PatientEditComponent from "./patientEdit/PatientEditComponent";
+import FormPatientComponent from "./formPatient/FormPatientComponent";
 import ModalComponent from "./modal/ModalComponent";
 import TreatmentDoneComponent from "./treatments/treatmentDoneComponent";
 import TreatmentPendingComponent from "./treatments/treatmentPendingComponent";
@@ -38,7 +38,7 @@ export {
   ModalMessageComponent,
   PatientCardComponent,
   NewImageComponent,
-  PatientEditComponent,
+  FormPatientComponent,
   PatientHeaderComponent,
   ProductCardComponent,
   TreatmentDoneComponent,

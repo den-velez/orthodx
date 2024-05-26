@@ -22,7 +22,7 @@ const FormSchema: ZodType<FormData> = z.object({
   doctorOffice: z.string().min(1),
 });
 
-export default function PatientEditComponent({
+export default function FormPatientComponent({
   newPatient = false,
   patient,
 }: {

@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
-import { PatientEditComponent } from "@/components";
+import { FormPatientComponent } from "@/components";
 import { IPatient } from "@/interfaces";
 
 const patientData = async (id: string) => {
@@ -36,7 +36,7 @@ export default async function Patient({
   return (
     <>
       <main className='grid gap-6 bg-bgDark-090 px-3 pt-6 pb-[60px]'>
-        <PatientEditComponent newPatient={false} patient={patientFormData} />
+        <FormPatientComponent newPatient={false} patient={patientFormData} />
       </main>
     </>
   );
