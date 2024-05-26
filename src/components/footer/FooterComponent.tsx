@@ -2,7 +2,7 @@
 
 import { auth } from "@/lib/firebase/firebase";
 import { signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import Cookies from "js-cookie";
 import { IconsComponent } from "@/components";
 
@@ -19,6 +19,7 @@ type FooterItem = {
 
 const FooterComponent = (props: FooterProps) => {
   const router = useRouter();
+  const params = useParams();
   const signOutUser = async () => {
     try {
       await signOut(auth);
@@ -62,7 +63,7 @@ const FooterComponent = (props: FooterProps) => {
   const patientFooter: FooterItem[] = [
     {
       icon: "back",
-      onClick: () => router.push(`/patients/${props.patientId}`),
+      onClick: () => router.push(`/patients/${params.id}`),
     },
     {
       icon: "home",
@@ -70,7 +71,7 @@ const FooterComponent = (props: FooterProps) => {
     },
     {
       icon: "edit",
-      onClick: () => router.push(`/patients/${props.patientId}/edit`),
+      onClick: () => router.push(`/patients/${params.id}/edit`),
     },
   ];
 

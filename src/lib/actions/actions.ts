@@ -50,9 +50,9 @@ export async function createPatient(newPatientData: {
   };
 
   try {
-    await addDoc(collection(db, "patients"), payload);
+    const patient = await addDoc(collection(db, "patients"), payload);
     revalidatePath("/patients");
-    return true;
+    return patient.id;
   } catch (e) {
     console.error("Error adding document: ", e);
     return false;

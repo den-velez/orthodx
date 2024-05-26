@@ -1,15 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { ChangeEvent } from "react";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter, useParams } from "next/navigation";
-import { ButtonComponent } from "@/components";
+import { ButtonComponent, IconsComponent } from "@/components";
 import { createPatient, updatePatient } from "@/lib/actions/actions";
+import { uploadImage } from "@/lib/firebase/storage";
 
 type FormData = {
   id?: string;
+  avatar?: string;
   name: string;
   age: string;
   doctorOffice: string;
@@ -17,6 +20,7 @@ type FormData = {
 
 const FormSchema: ZodType<FormData> = z.object({
   id: z.string().optional(),
+  avatar: z.string().optional(),
   name: z.string().min(1),
   age: z.string().min(1),
   doctorOffice: z.string().min(1),
@@ -31,15 +35,44 @@ export default function FormPatientComponent({
 }) {
   const router = useRouter();
   const params = useParams();
+
   const {
     register,
     reset,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
     defaultValues: patient,
   });
+
+  const imageURL = patient?.avatar || "/images/avatar.png";
+
+  console.log("patient", patient);
+
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const url = await uploadImage(file, "avatar", file.name);
+      if (url) {
+        const payload = {
+          ...patient,
+          ...getValues(),
+          avatar: url,
+        };
+
+        if (newPatient) {
+          await createPatient(payload);
+        } else {
+          const id = patient?.id || "";
+          await updatePatient(payload, id);
+        }
+        setValue("avatar", url);
+      }
+    }
+  };
 
   const cancelButtonAction = () => {
     if (newPatient) {
@@ -57,7 +90,7 @@ export default function FormPatientComponent({
       } else {
         await createPatient(data);
       }
-      reset({ name: "", age: "", doctorOffice: "" });
+      reset({ name: "", age: "", doctorOffice: "", avatar: "" });
       router.back();
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -66,14 +99,29 @@ export default function FormPatientComponent({
 
   return (
     <section className='p-6 rounded-[12px] bg-bgDark-080'>
-      <div className='flex justify-center items-center'>
-        <Image
-          className='w-[200px] h-[200px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
-          src='/images/noResults.png'
-          alt='No se encontraron resultados'
-          width={200}
-          height={200}
-        />
+      <div className='relative flex justify-center items-center'>
+        <div>
+          <Image
+            className='w-[200px] h-[200px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
+            width={200}
+            height={200}
+            src={imageURL == "" ? "/images/avatar.png" : imageURL}
+            alt='doctor avatar'
+          />
+        </div>
+        <div className='absolute px-3 py-2 bottom-[-16px] bg-cta-090 text-h5 rounded-lg text-txtDark-090 '>
+          <label htmlFor='image' className='flex items-center gap-3'>
+            <IconsComponent icon='camera' />
+            <span className='h-full border-l px-2'>Cambiar</span>
+          </label>
+          <input
+            className='hidden'
+            type='file'
+            id='image'
+            accept='image/*'
+            onChange={handleImageChange}
+          />
+        </div>
       </div>
       <form className='w-full px-3' onSubmit={handleSubmit(onSubmit)}>
         <div className='flex flex-col mt-6'>

@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createDoctor, updateDoctor } from "@/lib/actions/actions";
-import { uploadImage, updateImage, getImage } from "@/lib/firebase/storage";
+import { uploadImage } from "@/lib/firebase/storage";
 import CardContainer from "@/containers/card/CardContainer";
 import { ButtonComponent, IconsComponent } from "@/components";
 import { IDoctor } from "@/interfaces";
@@ -96,8 +96,8 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
         <div>
           <Image
             className='w-[200px] h-[200px] p-1 rounded-full ring-2 dark:ring-bgDark-070 shadow'
-            width={40}
-            height={40}
+            width={200}
+            height={200}
             src={imageURL == "" ? "/images/avatar.png" : imageURL}
             alt='doctor avatar'
           />

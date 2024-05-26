@@ -28,6 +28,7 @@ export default async function Patient({
 
   const patientFormData = {
     id: patientId || "",
+    avatar: patient.avatar || "",
     name: patient.name || "",
     age: (patient.age || "") as string,
     doctorOffice: patient.doctorOffice || "",
