@@ -7,14 +7,39 @@ import {
 } from "firebase/storage";
 import { storage } from "./firebase";
 
+interface UploadOptions {
+  doctorId?: string;
+  patientId?: string;
+}
+
 export async function uploadImage(
   file: File | null,
-  folder: string,
-  doctor: string
+  type: "avatar" | "draw" | "assets",
+  options: UploadOptions
 ): Promise<string | null> {
   if (!file) return null;
+  const { doctorId, patientId } = options;
 
-  const storageRef = ref(storage, `images/${doctor}/${folder}/${file.name}`);
+  const getPath = (type: string, patientId?: string) => {
+    const today = new Date().toISOString().split("T")[0];
+    let path: string;
+    let fileName: string;
+
+    if (type === "avatar" && doctorId) {
+      path = `images-doctors/${doctorId}`;
+      fileName = `${type}-${today}`;
+      return { path, fileName };
+    }
+
+    path = `images-patients/${patientId}/${type}`;
+    fileName = `${type}-${today}`;
+    return { path, fileName };
+  };
+
+  const ext = file.name.split(".").pop();
+  const { path, fileName } = getPath(type, patientId || undefined);
+
+  const storageRef = ref(storage, `${path}/${fileName}.${ext}`);
   const snapshot = await uploadBytes(storageRef, file);
   const downloadURL = await getDownloadURL(snapshot.ref);
 
@@ -40,14 +65,14 @@ export async function deleteImage(imageURL: string) {
 
 export async function updateImage(
   file: File | null,
-  folder: string,
-  doctor: string,
+  type: "avatar" | "draw" | "assets",
+  options: UploadOptions,
   imageURL: string
 ): Promise<string | null> {
   if (!file) return null;
 
   await deleteImage(imageURL);
-  const newImageURL = await uploadImage(file, folder, doctor);
+  const newImageURL = await uploadImage(file, type, options);
 
   return newImageURL;
 }

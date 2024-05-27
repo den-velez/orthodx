@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createDoctor, updateDoctor } from "@/lib/actions/actions";
-import { uploadImage } from "@/lib/firebase/storage";
+import { updateImage, uploadImage } from "@/lib/firebase/storage";
 import CardContainer from "@/containers/card/CardContainer";
 import { ButtonComponent, IconsComponent } from "@/components";
 import { IDoctor } from "@/interfaces";
@@ -48,8 +48,28 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
-      const url = await uploadImage(file, "avatar", file.name);
+
+    if (!file) return;
+
+    if (imageURL.includes("firebasestorage")) {
+      const url = await updateImage(file, "avatar", { doctorId }, imageURL);
+      if (url) {
+        const payload = {
+          ...doctorData,
+          ...getValues(),
+          avatar: url,
+        };
+
+        if (doctorId === "" || doctorId === "new" || doctorId === undefined) {
+          const doctorId = await createDoctor(payload);
+          if (doctorId) router.push(`/doctors/${doctorId}`);
+        } else {
+          await updateDoctor(payload, doctorId);
+        }
+        setValue("avatar", url);
+      }
+    } else {
+      const url = await uploadImage(file, "avatar", { doctorId });
       if (url) {
         const payload = {
           ...doctorData,

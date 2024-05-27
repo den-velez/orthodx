@@ -53,7 +53,11 @@ export default async function Patient({
     <>
       {drawRequested && (
         <ModalComponent isOpen={searchParams.draw || false}>
-          <NewImageComponent patientId={patientId} />
+          <NewImageComponent
+            patientId={patientId}
+            title='Solicitar Trazado'
+            imageURL={patient.avatar}
+          />
         </ModalComponent>
       )}
       <main className='grid gap-6 bg-bgDark-090 px-3 pt-6 pb-[60px]'>

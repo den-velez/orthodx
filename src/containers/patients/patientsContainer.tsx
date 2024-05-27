@@ -90,7 +90,7 @@ export default async function PatientsContainer({
 
   return (
     <section className='p-6 rounded-[12px] bg-bgDark-080 '>
-      <div className='grid grid-cols-2 grid-rows-2 gap-3'>
+      <div className='grid grid-cols-2 gap-3'>
         {patientListFavs.map((fav) => (
           <PatientCardComponent
             key={fav.id}

@@ -1,42 +1,115 @@
-import Image from "next/image";
+"use client";
 
-import { ButtonComponent } from "@/components";
+import { ChangeEvent, useState } from "react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { uploadImage } from "@/lib/firebase/storage";
+import { ButtonComponent, IconsComponent } from "@/components";
+import { updatePatient } from "@/lib/actions/actions";
+
+type FormData = {
+  imageRx: string;
+};
+
+const FormSchema: ZodType<FormData> = z.object({
+  imageRx: z.string(),
+});
 
 export default function NewImageComponent({
+  title,
   patientId,
+  imageURL,
 }: {
   patientId: string;
+  title: string;
+  imageURL?: string;
 }) {
   const linkToBack = `/patients/${patientId}`;
+
+  const [isSubmitted, setSubmitted] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      imageRx: imageURL ?? "/images/noResults.png",
+    },
+  });
+
+  const imageURLUpdated = getValues("imageRx") || "/images/avatar.png";
+  const imageLabel =
+    imageURLUpdated === "/images/noResults.png" ? "Seleccionar" : "Cambiar";
+
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const url = await uploadImage(file, "draw", { patientId });
+      if (url) {
+        const payload = {
+          avatar: url,
+        };
+        await updatePatient(payload, patientId);
+
+        setValue("imageRx", url);
+      }
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
+    const createdAt = new Date().toISOString().split("T")[0];
+
+    const payload = {
+      ...getValues(),
+      createdAt,
+    };
+
+    try {
+      await updatePatient(payload, patientId);
+      setSubmitted(true);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   return (
     <section className='p-6 rounded-[12px] bg-bgDark-080'>
-      <h3 className='text-h3 text-txtLight-100 text-center'>
-        Solicitar Trazado
-      </h3>
-      <div className='my-[60px] flex justify-center items-center'>
+      <h3 className='text-h3 text-txtLight-100 text-center'>{title}</h3>
+      <div className='relative mt-[60px] flex flex-col justify-center items-center'>
         <Image
           className='w-[250px] h-[250px] p-1 rounded-[12px] ring-2 dark:ring-bgDark-070 shadow'
-          src='/images/noResults.png'
+          src={imageURLUpdated}
           alt='Radiografia lateral del paciente'
           width={200}
           height={200}
         />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className='absolute w-[200px] px-3 py-2 bottom-[-16px] bg-cta-090 text-h5 rounded-lg text-txtDark-090 '>
+          <label htmlFor='image' className='flex items-center gap-3'>
+            <IconsComponent icon='camera' />
+            <span className='h-full border-l px-2'>{imageLabel}</span>
+          </label>
+          <input
+            className='hidden'
+            type='file'
+            id='image'
+            accept='image/*'
+            onChange={handleImageChange}
+          />
+        </form>
       </div>
-      <div className='mx-auto h-[60px] w-[250px]'>
+      <div className='mx-auto mt-[60px] h-[60px] w-[250px]'>
         <ButtonComponent
           type='button'
           variant='secondary'
-          label='Cancelar'
-          widthfull
-          anchor
-          anchorUrl={linkToBack}
-        />
-      </div>
-      <div className='mx-auto mt-[60px]  h-[60px] w-[250px]'>
-        <ButtonComponent
-          type='submit'
-          variant='primary'
-          label='Enviar'
+          label='Cerrar'
           widthfull
           anchor
           anchorUrl={linkToBack}

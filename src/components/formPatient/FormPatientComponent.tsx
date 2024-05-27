@@ -8,7 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter, useParams } from "next/navigation";
 import { ButtonComponent, IconsComponent } from "@/components";
 import { createPatient, updatePatient } from "@/lib/actions/actions";
-import { uploadImage } from "@/lib/firebase/storage";
+import { uploadImage, updateImage } from "@/lib/firebase/storage";
 
 type FormData = {
   id?: string;
@@ -54,8 +54,33 @@ export default function FormPatientComponent({
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
-      const url = await uploadImage(file, "avatar", file.name);
+
+    if (!file) return;
+
+    if (imageURL.includes("firebasestorage")) {
+      const url = await updateImage(
+        file,
+        "avatar",
+        { patientId: patient?.id },
+        imageURL
+      );
+      if (url) {
+        const payload = {
+          ...patient,
+          ...getValues(),
+          avatar: url,
+        };
+
+        if (newPatient) {
+          await createPatient(payload);
+        } else {
+          const id = patient?.id || "";
+          await updatePatient(payload, id);
+        }
+        setValue("avatar", url);
+      }
+    } else {
+      const url = await uploadImage(file, "avatar", { patientId: patient?.id });
       if (url) {
         const payload = {
           ...patient,
