@@ -2,13 +2,25 @@ import Image from "next/image";
 
 import { ButtonComponent } from "@/components";
 
-export default function GalleryComponent() {
+export default function GalleryComponent({
+  imageSelected,
+  closeModal,
+  deleteImage,
+}: {
+  imageSelected: string;
+  deleteImage: () => void;
+  closeModal: () => void;
+}) {
+  const handleDelete = () => {
+    deleteImage();
+    closeModal();
+  };
   return (
     <section className='py-6 px-3 rounded-[12px] bg-bgDark-080'>
       <div className='flex justify-center items-center'>
         <Image
           className='w-full h-auto p-1 rounded-[12px] ring-2 dark:ring-bgDark-070 shadow'
-          src='/images/noResults.png'
+          src={imageSelected}
           alt='Radiografia lateral del paciente'
           width={300}
           height={400}
@@ -21,8 +33,7 @@ export default function GalleryComponent() {
             variant='secondary'
             label='Borrar'
             widthfull
-            anchor
-            anchorUrl='/patients/2/gallery'
+            onClick={handleDelete}
           />
         </div>
         <div className='h-[60px]'>
@@ -31,8 +42,7 @@ export default function GalleryComponent() {
             variant='primary'
             label='Salir'
             widthfull
-            anchor
-            anchorUrl='/patients/2/gallery'
+            onClick={closeModal}
           />
         </div>
       </div>

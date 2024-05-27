@@ -1,5 +1,6 @@
 import {
   getStorage,
+  list,
   ref,
   uploadBytes,
   getDownloadURL,
@@ -50,6 +51,16 @@ export async function getImage(imagePath: string): Promise<string> {
   const storageRef = ref(storage, imagePath);
   const downloadURL = await getDownloadURL(storageRef);
   return downloadURL;
+}
+
+export async function getImagesFromFolder(
+  folderPath: string
+): Promise<string[]> {
+  const storageRef = ref(storage, folderPath);
+  const listResult = await list(storageRef);
+  const imagesURL = listResult.items.map((itemRef) => getDownloadURL(itemRef));
+  const imagesURLs = await Promise.all(imagesURL);
+  return imagesURLs;
 }
 
 export async function deleteImage(imageURL: string) {

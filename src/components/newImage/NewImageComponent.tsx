@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
@@ -20,21 +20,24 @@ const FormSchema: ZodType<FormData> = z.object({
 
 export default function NewImageComponent({
   title,
+  type,
   patientId,
   imageURL,
 }: {
   patientId: string;
+  type: "assets" | "draw";
   title: string;
   imageURL?: string;
 }) {
-  const linkToBack = `/patients/${patientId}`;
+  const linkToBack =
+    type === "assets"
+      ? `/patients/${patientId}/gallery`
+      : `/patients/${patientId}`;
 
-  const [isSubmitted, setSubmitted] = useState(false);
   const {
-    register,
-    handleSubmit,
     setValue,
     getValues,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -47,16 +50,14 @@ export default function NewImageComponent({
   const imageLabel =
     imageURLUpdated === "/images/noResults.png" ? "Seleccionar" : "Cambiar";
 
+  const imageRx = watch("imageRx");
+  console.log("imageRx", imageRx);
+
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      const url = await uploadImage(file, "draw", { patientId });
+      const url = await uploadImage(file, type, { patientId });
       if (url) {
-        const payload = {
-          avatar: url,
-        };
-        await updatePatient(payload, patientId);
-
         setValue("imageRx", url);
       }
     }
@@ -72,7 +73,6 @@ export default function NewImageComponent({
 
     try {
       await updatePatient(payload, patientId);
-      setSubmitted(true);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -84,14 +84,12 @@ export default function NewImageComponent({
       <div className='relative mt-[60px] flex flex-col justify-center items-center'>
         <Image
           className='w-[250px] h-[250px] p-1 rounded-[12px] ring-2 dark:ring-bgDark-070 shadow'
-          src={imageURLUpdated}
+          src={watch("imageRx")}
           alt='Radiografia lateral del paciente'
           width={200}
           height={200}
         />
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='absolute w-[200px] px-3 py-2 bottom-[-16px] bg-cta-090 text-h5 rounded-lg text-txtDark-090 '>
+        <div className='absolute w-[200px] px-3 py-2 bottom-[-16px] bg-cta-090 text-h5 rounded-lg text-txtDark-090 '>
           <label htmlFor='image' className='flex items-center gap-3'>
             <IconsComponent icon='camera' />
             <span className='h-full border-l px-2'>{imageLabel}</span>
@@ -103,7 +101,7 @@ export default function NewImageComponent({
             accept='image/*'
             onChange={handleImageChange}
           />
-        </form>
+        </div>
       </div>
       <div className='mx-auto mt-[60px] h-[60px] w-[250px]'>
         <ButtonComponent

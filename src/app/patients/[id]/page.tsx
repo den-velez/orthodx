@@ -54,6 +54,7 @@ export default async function Patient({
       {drawRequested && (
         <ModalComponent isOpen={searchParams.draw || false}>
           <NewImageComponent
+            type='draw'
             patientId={patientId}
             title='Solicitar Trazado'
             imageURL={patient.avatar}
