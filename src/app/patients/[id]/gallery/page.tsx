@@ -33,7 +33,7 @@ export default function GalleryPatient({
   return (
     <div>
       <ModalComponent isOpen={searchParams.newimage || false}>
-        <NewImageComponent patientId='s' />
+        <NewImageComponent patientId='s' title='Agregar Imagen' imageURL='ds' />
       </ModalComponent>
       <ModalComponent isOpen={searchParams.image || false}>
         <GalleryComponent />
