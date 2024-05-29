@@ -69,6 +69,16 @@ export default function GalleryPatient({
         Galeria del paciente
       </h3>
       <div className='max-h-[400px]  mx-auto grid grid-cols-2 gap-x-3 gap-y-6 overflow-auto'>
+        <div>
+          <Image
+            className='w-full h-full object-cover rounded-[12px]'
+            src='https://firebasestorage.googleapis.com/v0/b/orthodx-v2.appspot.com/o/images-patients%2FLSMy4Lpm6u3kNCbd2L6n%2Fassets%2Fassets-2024-05-29.png?alt=media&token=112aeb02-4e99-48db-9441-c2b6cc60e329'
+            alt='test'
+            width={192}
+            height={96}
+          />
+        </div>
+
         {gallery.map((asset, index) => (
           <button
             onClick={() => toggleModal(asset)}

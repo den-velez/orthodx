@@ -13,3 +13,8 @@
     Access-Control-Allow-Methods = "GET, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
     Referrer-Policy = "no-referrer-when-downgrade"
+
+[[redirects]]
+  from = "/_next/image*"
+  to = "/_next/static/images/:splat"
+  status = 200

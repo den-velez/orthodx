@@ -5,6 +5,7 @@ import withPWAInit from "@ducanh2912/next-pwa";
 
 const nextConfig = {
   images: {
+    loader: "default",
     remotePatterns: [
       {
         protocol: "https",
