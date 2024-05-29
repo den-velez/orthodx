@@ -27,9 +27,13 @@ type FormData = {
 };
 
 const FormSchema: ZodType<FormData> = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-  confirmPassword: z.string().min(6),
+  email: z.string().email({ message: "El correo no es válido" }),
+  password: z
+    .string()
+    .min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
+  confirmPassword: z
+    .string()
+    .min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
   terms: z.boolean().refine((value) => value === true, {
     message: "Debes aceptar los términos y condiciones",
   }),
@@ -50,7 +54,7 @@ const SignUpPage = () => {
     formState: { errors },
     setError,
   } = useForm<FormData>({
-    resolver: zodResolver(FormSchema), // Apply the zodResolver
+    resolver: zodResolver(FormSchema),
   });
 
   const onSubmit = async (data: FormData) => {

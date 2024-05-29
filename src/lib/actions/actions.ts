@@ -15,22 +15,30 @@ export async function login(email: string, password: string) {
   try {
     user = await signInWithEmailAndPassword(auth, email, password);
     emailCrypted = CryptoJS.AES.encrypt(email, key).toString();
+
+    const userVerified = user.user?.emailVerified;
+    console.log("User Verified: ", userVerified);
+
+    if (!user) {
+      throw new Error("El email o la contraseña son incorrectos");
+    }
+
+    if (!userVerified) {
+      throw new Error("La cuenta no ha sido verificada");
+    }
+
+    cookies().set({
+      name: "userID",
+      secure: true,
+      value: emailCrypted,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    });
+
+    return true;
   } catch (error) {
-    console.error("Error Login: ", error);
+    throw new Error("Email o password no es correcto");
   }
-
-  if (!user) {
-    throw new Error("Error en la autenticación");
-  }
-
-  cookies().set({
-    name: "userID",
-    secure: true,
-    value: emailCrypted,
-    path: "/",
-    maxAge: 60 * 60 * 24 * 30, // 30 days
-  });
-  return true;
 }
 
 export async function createPatient(newPatientData: {

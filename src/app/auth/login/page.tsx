@@ -17,8 +17,10 @@ type FormData = {
 };
 
 const FormSchema: ZodType<FormData> = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z.string().email({ message: "El correo no es válido" }),
+  password: z
+    .string()
+    .min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
 });
 
 const LoginPage = () => {
@@ -30,21 +32,20 @@ const LoginPage = () => {
     formState: { errors },
     setError,
   } = useForm<FormData>({
-    resolver: zodResolver(FormSchema), // Apply the zodResolver
+    resolver: zodResolver(FormSchema),
   });
 
   const onSubmit = async (data: FormData) => {
     try {
       const user = await login(data.email, data.password);
-
       reset({ email: "", password: "" });
-
       router.push("/patients");
     } catch (error) {
-      setError("root", {
-        message: "El email o la contraseña son incorrectos",
-      });
+      const { message } = (error as Error) ?? "Error al ingresar";
       reset({ password: "" });
+      setError("root", {
+        message: message,
+      });
     }
   };
 
@@ -105,22 +106,7 @@ const LoginPage = () => {
                 )}
               </div>
               <div className='flex items-center justify-between'>
-                <div className='flex items-start'>
-                  {/* <div className='flex items-center h-5'>
-                    <input
-                      id='remember'
-                      aria-describedby='remember'
-                      type='checkbox'
-                      className='w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800'
-                      required
-                    />
-                  </div>
-                  <div className='ml-3 text-sm'>
-                    <label className='text-gray-500 dark:text-gray-300'>
-                      Recuerdame
-                    </label>
-                  </div> */}
-                </div>
+                <div className='flex items-start'></div>
                 <Link
                   href='/auth/forgot-password'
                   className='text-txtBrand-primary hover:text-txtBrand-primary-hover hover:underline'>
