@@ -1,8 +1,0 @@
-/*
-  Referrer-Policy: strict-origin-when-cross-origin
-
-/_next/*
-  Referrer-Policy: strict-origin-when-cross-origin
-
-https://firebasestorage.googleapis.com/*
-  Referrer-Policy: no-referrer-when-downgrade

@@ -1,0 +1,15 @@
+[build]
+  publish = "out"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "https://firebasestorage.googleapis.com/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+    Referrer-Policy = "no-referrer-when-downgrade"
