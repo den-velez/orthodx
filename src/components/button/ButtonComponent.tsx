@@ -8,6 +8,7 @@ interface ButtonProps {
   anchor?: boolean;
   anchorUrl?: string;
   widthfull?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
@@ -43,10 +44,11 @@ const ButtonComponent = React.forwardRef<HTMLButtonElement, ButtonProps>(
     } else {
       return (
         <button
+          disabled={props.disabled}
           ref={ref}
           type={typeButton}
           onClick={props.onClick}
-          className={`px-4 py-2 rounded-[12px] ${getButtonStyle()}`}>
+          className={`px-4 py-2 rounded-[12px] disabled:bg-opacity-40 disabled:text-opacity-20 ${getButtonStyle()}`}>
           <span className='text-h5'>{props.label}</span>
         </button>
       );

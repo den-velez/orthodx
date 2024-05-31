@@ -20,6 +20,13 @@ type FooterItem = {
 const FooterComponent = (props: FooterProps) => {
   const router = useRouter();
   const params = useParams();
+
+  const url = window.location.pathname;
+  const urlArray = url.split("/");
+  const lastItemRoute = urlArray.pop();
+
+  const patientPage = params.id == lastItemRoute;
+
   const signOutUser = async () => {
     try {
       await signOut(auth);
@@ -63,7 +70,10 @@ const FooterComponent = (props: FooterProps) => {
   const patientFooter: FooterItem[] = [
     {
       icon: "back",
-      onClick: () => router.push(`/patients/${params.id}`),
+      onClick: () =>
+        patientPage
+          ? router.push("/patients")
+          : router.push(`/patients/${params.id}`),
     },
     {
       icon: "home",

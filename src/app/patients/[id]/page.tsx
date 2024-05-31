@@ -43,7 +43,7 @@ export default async function Patient({
     treatment: `/patients/${patientId}/treatments`,
     gallery: `/patients/${patientId}/gallery`,
     cephalometry: `/patients/${patientId}/cephalometry`,
-    dental_size: `/patients/${patientId}/dental_size`,
+    dental_size: `/patients/${patientId}/dental-size`,
     diagnostic: `/patients/${patientId}/diagnostic`,
     drawRequest: `/patients/${patientId}?draw=true`,
   };

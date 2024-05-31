@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -35,6 +35,8 @@ export default function FormPatientComponent({
 }) {
   const router = useRouter();
   const params = useParams();
+  const [isChanged, setIsChanged] = useState(false);
+  console.log("isChanged", isChanged);
 
   const {
     register,
@@ -42,6 +44,7 @@ export default function FormPatientComponent({
     handleSubmit,
     getValues,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -49,6 +52,21 @@ export default function FormPatientComponent({
   });
 
   const imageURL = patient?.avatar || "/images/avatar.png";
+  const watchedFields: FormData = watch();
+
+  watchedFields;
+  useEffect(() => {
+    const fieldsChanged = () => {
+      const { name, age, doctorOffice } = watchedFields;
+      const isChanged =
+        name !== patient?.name ||
+        age !== patient?.age ||
+        doctorOffice !== patient?.doctorOffice;
+
+      return isChanged;
+    };
+    setIsChanged(fieldsChanged());
+  }, [watchedFields]);
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -194,6 +212,7 @@ export default function FormPatientComponent({
         </div>
         <div className='mt-[60px] h-[60px] w-full'>
           <ButtonComponent
+            disabled={!isChanged}
             type='submit'
             variant='primary'
             label='Guardar'
