@@ -51,7 +51,6 @@ export default function NewImageComponent({
     imageURLUpdated === "/images/noResults.png" ? "Seleccionar" : "Cambiar";
 
   const imageRx = watch("imageRx");
-  console.log("imageRx", imageRx);
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;

@@ -458,8 +458,6 @@ export default function FormOdontogramComponent({
 
     try {
       const user = await updatePatient(payload, patientId);
-
-      console.log(user);
       setSubmitted(true);
     } catch (error) {
       setError("root", {

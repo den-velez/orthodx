@@ -36,7 +36,6 @@ export default function FormPatientComponent({
   const router = useRouter();
   const params = useParams();
   const [isChanged, setIsChanged] = useState(false);
-  console.log("isChanged", isChanged);
 
   const {
     register,

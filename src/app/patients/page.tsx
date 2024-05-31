@@ -55,7 +55,6 @@ export default async function PatientsList({
     redirect("/doctors/new");
   }
 
-  console.log(doctorId, credits);
   return (
     <>
       <ModalComponent isOpen={searchParams.newpatient || false}>
