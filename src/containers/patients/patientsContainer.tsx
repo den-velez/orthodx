@@ -57,9 +57,16 @@ export default async function PatientsContainer({
   const patientListFavs: IPatientCard[] = [];
   let patientListRegular: IPatientCard[] = [];
 
+  const calculateFavs = (totalPatients: number) => {
+    if (totalPatients >= 10) return 9;
+    if (totalPatients % 2 == 0) return totalPatients;
+    return totalPatients - 1;
+  };
+
+  const totalFavs = calculateFavs(patientList.length);
   if (!name) {
-    patientList.forEach((patient) => {
-      if (patient.favorite) {
+    patientList.forEach((patient, index) => {
+      if (index < totalFavs) {
         patientListFavs.push(patient as IPatientCard);
       } else {
         patientListRegular.push(patient as IPatientCard);

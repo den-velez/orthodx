@@ -30,13 +30,16 @@ const getData = async () => {
   const querySnapshot = await getDocs(q);
   const data = querySnapshot.docs.map((doc) => {
     return {
-      id: doc.id,
+      doctorId: doc.id,
+      credits: doc.data().credits,
     };
   });
 
   if (data.length === 0) return null;
 
-  return data[0].id;
+  const { doctorId, credits } = data[0];
+
+  return { doctorId, credits };
 };
 
 export default async function PatientsList({
@@ -44,11 +47,15 @@ export default async function PatientsList({
 }: {
   searchParams: TSearcParams;
 }) {
-  const doctorId = await getData();
+  const doctor = await getData();
+
+  const { doctorId, credits } = doctor || {};
+
   if (!doctorId) {
     redirect("/doctors/new");
   }
 
+  console.log(doctorId, credits);
   return (
     <>
       <ModalComponent isOpen={searchParams.newpatient || false}>
@@ -65,16 +72,27 @@ export default async function PatientsList({
         <Suspense fallback={<div>Loading...</div>}>
           <PatientsContainer name={searchParams.name || null} />
         </Suspense>
-
-        <div className='mx-auto my-[48px] h-[60px] flex justify-center w-[240px]'>
-          <ButtonComponent
-            label='Agregar Paciente'
-            variant='primary-dark'
-            widthfull
-            anchor
-            anchorUrl='/patients?newpatient=true'
-          />
-        </div>
+        {credits > 1 ? (
+          <div className='mx-auto my-[48px] h-[60px] flex justify-center w-[240px]'>
+            <ButtonComponent
+              label='Agregar Paciente'
+              variant='primary-dark'
+              widthfull
+              anchor
+              anchorUrl='/patients?newpatient=true'
+            />
+          </div>
+        ) : (
+          <div className='mx-auto my-[48px] h-[60px] flex justify-center w-[240px]'>
+            <ButtonComponent
+              label='OrthoDx shop'
+              variant='primary-dark'
+              widthfull
+              anchor
+              anchorUrl='/store'
+            />
+          </div>
+        )}
       </main>
 
       <FooterComponent type='home' doctorId={doctorId} />

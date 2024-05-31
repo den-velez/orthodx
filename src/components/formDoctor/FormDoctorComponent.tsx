@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
@@ -29,11 +29,13 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
   const params = useParams();
   const doctorId = params.id as string;
   const [isSubmitted, setSubmitted] = useState(false);
+  const [isChanged, setIsChanged] = useState(false);
   const {
     register,
     handleSubmit,
     setValue,
     getValues,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -45,6 +47,18 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
   });
 
   const imageURL = doctorData.avatar || "/images/avatar.png";
+  const watchedFields: FormData = watch();
+
+  watchedFields;
+  useEffect(() => {
+    const fieldsChanged = () => {
+      const { greetings, name } = watchedFields;
+      const isChanged =
+        greetings !== doctorData.greetings || name !== doctorData.name;
+      return isChanged;
+    };
+    setIsChanged(fieldsChanged());
+  }, [watchedFields]);
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -165,7 +179,7 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
             <span className='text-msg-error h-10'>Campo Requerido</span>
           )}
         </div>
-        {!isSubmitted && (
+        {!isSubmitted && isChanged && (
           <div className='mt-[60px] h-[60px]'>
             <ButtonComponent
               type='submit'
@@ -175,7 +189,7 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
             />
           </div>
         )}
-        {isSubmitted && (
+        {(isSubmitted || !isChanged) && (
           <div className='mt-[60px] h-[60px]'>
             <ButtonComponent
               label='Salir'
