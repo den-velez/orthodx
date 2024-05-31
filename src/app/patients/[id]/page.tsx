@@ -50,6 +50,8 @@ export default async function Patient({
 
   const drawRequested = patient.drawRequest?.status ? false : true;
 
+  const patientDiagnostic = patient.cephalometry ? true : false;
+
   return (
     <>
       {drawRequested && (
@@ -101,7 +103,7 @@ export default async function Patient({
           <h3 className='mb-[60px] text-h3 text-txtLight-100 text-center'>
             Ortodoncia
           </h3>
-          <div className='w-[250px] h-[312px] flex flex-col gap-6'>
+          <div className='w-[250px] grid grid-cols-1 auto-rows-[60px] gap-6'>
             {drawRequested && (
               <ButtonComponent
                 label='Solicitar Trazado'
@@ -118,20 +120,24 @@ export default async function Patient({
               anchor
               anchorUrl={links.cephalometry}
             />
-            <ButtonComponent
-              label='Tamaño Dental'
-              variant='primary-dark'
-              widthfull
-              anchor
-              anchorUrl={links.dental_size}
-            />
-            <ButtonComponent
-              label='Diagnóstico'
-              variant='primary-dark'
-              widthfull
-              anchor
-              anchorUrl={links.diagnostic}
-            />
+            {patientDiagnostic && (
+              <>
+                <ButtonComponent
+                  label='Tamaño Dental'
+                  variant='primary-dark'
+                  widthfull
+                  anchor
+                  anchorUrl={links.dental_size}
+                />
+                <ButtonComponent
+                  label='Diagnóstico'
+                  variant='primary-dark'
+                  widthfull
+                  anchor
+                  anchorUrl={links.diagnostic}
+                />
+              </>
+            )}
           </div>
         </section>
       </main>
