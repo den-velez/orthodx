@@ -95,6 +95,7 @@ export default async function PatientsContainer({
     );
   }
 
+  console.log("all patients", patientList);
   return (
     <section className='p-6 rounded-[12px] bg-bgDark-080 '>
       <div className='grid grid-cols-2 gap-3'>
