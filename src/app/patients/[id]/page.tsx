@@ -65,7 +65,6 @@ export default async function Patient({
   const chephalometryValorationDone = patient.valorationCephalometry
     ? true
     : false;
-  const dentalValorationDone = patient.valorationDental ? true : false;
   const archesValorationDone = patient.valorationArches ? true : false;
 
   return (
@@ -105,7 +104,7 @@ export default async function Patient({
                       widthfull
                       anchor
                       anchorUrl={links.treatment}
-                      iconSrc='/icons/dx_icon.svg'
+                      iconSrc='/icons/treatments_icon.svg'
                     />
                     <ButtonComponent
                       label='Galeria'
@@ -113,7 +112,7 @@ export default async function Patient({
                       widthfull
                       anchor
                       anchorUrl={links.gallery}
-                      iconSrc='/icons/dental_size_icon.svg'
+                      iconSrc='/icons/gallery_icon.svg'
                     />
                   </div>
                 </>
