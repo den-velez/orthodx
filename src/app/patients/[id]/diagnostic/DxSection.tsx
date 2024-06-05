@@ -27,13 +27,14 @@ export default function DxSection({
       {title && (
         <h5 className='text-h5 text-txtBrand-secondary text-center'>{title}</h5>
       )}
-      {items === typeof "string" && (
+      {typeof items === "string" && (
         <DxItem label={items} iconShowen={iconShowen} />
       )}
       {Array.isArray(items) &&
-        items.map((item: string, index: number) => (
-          <DxItem key={index} label={item} iconShowen={iconShowen} />
-        ))}
+        items.map((item: string, index: number) => {
+          if (item === "" || item == "mm") return;
+          return <DxItem key={index} label={item} iconShowen={iconShowen} />;
+        })}
     </section>
   );
 }

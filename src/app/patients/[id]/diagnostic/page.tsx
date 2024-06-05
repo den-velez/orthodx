@@ -140,38 +140,63 @@ export default async function Diagnostic({
     valorationCephalometry,
   } = patient as IPatientRequired;
 
+  const getCephalometryData = () => {
+    if (!cephalometry) return;
+    return {
+      relEsqueletica: [
+        `${cephalometry.relacionEsqueletica} ${cephalometry.dxIIoIII} ${cephalometry.relacionEsqueleticaMm} mm`,
+        `${cephalometry.alturaInferior} ${cephalometry.alturaInferiorMm} "mm"`,
+      ],
+      biotipo: [`${cephalometry.biotipo}`, `${cephalometry.tendenciaVertical}`],
+      planoOclusion: [
+        `${cephalometry.planoDeOclusion}`,
+        `${(cephalometry.cajaDental, valorationCephalometry.mm, "mm")}`,
+        `${
+          (cephalometry.segundoMolarInferior,
+          valorationCephalometry.molarInferior,
+          "mm")
+        }`,
+      ],
+      inclinacionAnterior: [
+        `${cephalometry.ejeIncisivoSuperior}`,
+        `${cephalometry.ejeIncisivoInferior}`,
+      ],
+      cephalometryComments: valorationCephalometry.comments ?? "",
+    };
+  };
+
+  const getDentalData = () => {
+    if (!cephalometry || !valorationDental) return;
+    return {
+      relMolarRight: valorationDental.relacionMolarDer,
+      relMolarLeft: valorationDental.relacionMolarIzq,
+      archeUpper: `${valorationDental.tamanoArcadaSup} ${valorationDental.formaArcadaSup}`,
+      archeLower: `${valorationDental.tamanoArcadaInf} ${valorationDental.formaArcadaInf}`,
+      posteriorBitRight: valorationDental.mordidaPosteriorDer,
+      posteriorBitLeft: valorationDental.mordidaPosteriorIzq,
+      anteriorBit: `${valorationDental.mordidaAnterior} ${valorationDental.mordidaAnteriorMM} mm`,
+      dentalObservation: valorationDental.comments,
+    };
+  };
+
+  const getExpansionData = () => {
+    if (!expansionDiagnostic) return;
+    return {
+      korkhause: `${expansionDiagnostic.korkhauseTurns} giros`,
+      korkhauseFixed: `${expansionDiagnostic.korkhauseTurnsMod} giros`,
+      apinamiento: `${expansionDiagnostic.apinamientoTurns} giros`,
+      mordidaCruzada: `${expansionDiagnostic.mordidaCruzadaTurns} giros`,
+    };
+  };
+
+  const cephalometryData = getCephalometryData();
+  const dentalData = getDentalData();
+  const expansionData = getExpansionData();
+
   const dxResults = {
-    relEsqueletica: [
-      `${cephalometry.relacionEsqueletica} ${cephalometry.dxIIoIII} ${cephalometry.relacionEsqueleticaMm} mm`,
-      `${cephalometry.alturaInferior} ${cephalometry.alturaInferiorMm} "mm"`,
-    ],
-    biotipo: [`${cephalometry.biotipo}`, `${cephalometry.tendenciaVertical}`],
-    planoOclusion: [
-      `${cephalometry.planoDeOclusion}`,
-      `${(cephalometry.cajaDental, valorationCephalometry.mm, "mm")}`,
-      `${
-        (cephalometry.segundoMolarInferior,
-        valorationCephalometry.molarInferior,
-        "mm")
-      }`,
-    ],
-    inclinacionAnterior: [
-      `${cephalometry.ejeIncisivoSuperior}`,
-      `${cephalometry.ejeIncisivoInferior}`,
-    ],
-    comments: valorationCephalometry.comments,
-    archeUpper: `${valorationDental.tamanoArcadaSup} ${valorationDental.formaArcadaSup}`,
-    archeLower: `${valorationDental.tamanoArcadaInf} ${valorationDental.formaArcadaInf}`,
-    apinamientoSup: valorationDental.apinamientoSup,
-    apinamientoInf: valorationDental.apinamientoInf,
-    posteriorBitRight: valorationDental.mordidaPosteriorDer,
-    posteriorBitLeft: valorationDental.mordidaPosteriorIzq,
-    anteriorBit: `${valorationDental.mordidaAnterior} ${valorationDental.mordidaAnteriorMM} mm`,
-    observationRx: valorationDental.comments,
-    korkhause: `${expansionDiagnostic.korkhauseTurns} giros`,
-    korkhauseFixed: `${expansionDiagnostic.korkhauseTurnsMod} giros`,
-    apinamiento: `${expansionDiagnostic.apinamientoTurns} giros`,
-    mordidaCruzada: `${expansionDiagnostic.mordidaCruzadaTurns} giros`,
+    ...cephalometryData,
+    ...dentalData,
+    ...expansionData,
   };
 
   const toothSizeDentalKeys = [
@@ -212,103 +237,120 @@ export default async function Diagnostic({
     }
   });
 
+  console.log("dxResults", dxResults.cephalometryComments);
+
   return (
     <div>
-      <section className='py-6 grid gap-6'>
-        <h3 className='text-h3 text-txtLight-100 text-center'>
-          {dxLabels.cephalometry.title}
-        </h3>
-        <DxSection
-          title={dxLabels.cephalometry.relEsqueletica}
-          items={dxResults.relEsqueletica}
-        />
-        <DxSection
-          title={dxLabels.cephalometry.bioTipo}
-          items={dxResults.biotipo}
-        />
-        <DxSection
-          title={dxLabels.cephalometry.planoOclusal}
-          items={dxResults.planoOclusion}
-        />
-        <DxSection
-          title={dxLabels.dental.comments}
-          items={dxResults.observationRx ?? ""}
-          iconShowen={false}
-        />
-      </section>
-      <section className='py-6 grid gap-6'>
-        <h3 className='text-h3 text-txtLight-100 text-center'>
-          {dxLabels.dental.title}
-        </h3>
-        <div className='p-6 bg-bgDark-080 rounded-[12px] shadow'>
-          <DxSectionDental
-            label={dxLabels.dental.relMolarRight}
-            value={valorationDental.relacionMolarDer}
+      {cephalometry && (
+        <section className='py-6 grid gap-6'>
+          <h3 className='text-h3 text-txtLight-100 text-center'>
+            {dxLabels.cephalometry.title}
+          </h3>
+          <DxSection
+            title={dxLabels.cephalometry.relEsqueletica}
+            items={dxResults.relEsqueletica ?? ""}
           />
-          <DxSectionDental
-            label={dxLabels.dental.relMolarLeft}
-            value={valorationDental.relacionMolarIzq}
+          <DxSection
+            title={dxLabels.cephalometry.bioTipo}
+            items={dxResults.biotipo ?? ""}
           />
-          <DxSectionDental
-            label={dxLabels.dental.archeUpper}
-            value={dxResults.archeUpper}
+          <DxSection
+            title={dxLabels.cephalometry.planoOclusal}
+            items={dxResults.planoOclusion ?? ""}
           />
-          <DxSectionDental
-            label={dxLabels.dental.archeLower}
-            value={dxResults.archeLower}
-          />
-          <DxSectionDental
-            label={dxLabels.dental.posteriorBitRight}
-            value={dxResults.posteriorBitRight}
-          />
-          <DxSectionDental
-            label={dxLabels.dental.posteriorBitLeft}
-            value={dxResults.posteriorBitLeft}
-          />
-          <DxSectionDental
-            label={dxLabels.dental.anteriorBit}
-            value={dxResults.anteriorBit}
-          />
-        </div>
-        <DxSection
-          title={dxLabels.dental.comments}
-          items={dxResults.observationRx ?? ""}
-          iconShowen={false}
-        />
-      </section>
-      <section className='py-6 px-10 flex flex-col gap-3  bg-bgDark-080 rounded-[12px] shadow'>
-        <h5 className='text-h5 text-txtBrand-secondary text-center'>
-          {dxLabels.expansion.title}
-        </h5>
-        <div className='p-6 bg-bgDark-080 rounded-[12px] shadow'>
-          <DxSectionDental
-            label={dxLabels.expansion.korkhause}
-            value={dxResults.korkhause}
-          />
-          <DxSectionDental
-            label={dxLabels.expansion.korkhauseFixed}
-            value={dxResults.korkhauseFixed}
-          />
-          <DxSectionDental
-            label={dxLabels.expansion.apinamiento}
-            value={dxResults.apinamiento}
-          />
-          <DxSectionDental
-            label={dxLabels.expansion.mordidaCruzada}
-            value={dxResults.mordidaCruzada}
-          />
-        </div>
-      </section>
-      <section className='mt-6 py-6 px-10 flex flex-col gap-3  bg-bgDark-080 rounded-[12px] shadow'>
-        <h5 className='text-h5 text-txtBrand-secondary text-center'>
-          {dxLabels.dentalSize.title}
-        </h5>
-        <div className='p-6 flex flex-col gap- text-txtLight-100 text-h5 bg-bgDark-080 rounded-[12px] shadow'>
-          {tamañoDental.map((item, index) => (
-            <span>{item?.join(" ")}</span>
-          ))}
-        </div>
-      </section>
+          {dxResults.cephalometryComments &&
+            dxResults.cephalometryComments !== "" && (
+              <DxSection
+                title={dxLabels.cephalometry.comments}
+                items={dxResults.cephalometryComments}
+                iconShowen={false}
+              />
+            )}
+        </section>
+      )}
+      {cephalometry && valorationDental && (
+        <section className='py-6 grid gap-6'>
+          <h3 className='text-h3 text-txtLight-100 text-center'>
+            {dxLabels.dental.title}
+          </h3>
+          <div className='p-6 bg-bgDark-080 rounded-[12px] shadow'>
+            <DxSectionDental
+              label={dxLabels.dental.relMolarRight}
+              value={valorationDental.relacionMolarDer}
+            />
+            <DxSectionDental
+              label={dxLabels.dental.relMolarLeft}
+              value={valorationDental.relacionMolarIzq}
+            />
+            <DxSectionDental
+              label={dxLabels.dental.archeUpper}
+              value={dxResults.archeUpper ?? ""}
+            />
+            <DxSectionDental
+              label={dxLabels.dental.archeLower}
+              value={dxResults.archeLower ?? ""}
+            />
+            <DxSectionDental
+              label={dxLabels.dental.posteriorBitRight}
+              value={dxResults.posteriorBitRight ?? ""}
+            />
+            <DxSectionDental
+              label={dxLabels.dental.posteriorBitLeft}
+              value={dxResults.posteriorBitLeft ?? ""}
+            />
+            <DxSectionDental
+              label={dxLabels.dental.anteriorBit}
+              value={dxResults.anteriorBit ?? ""}
+            />
+          </div>
+          {dxResults.dentalObservation != "" && (
+            <DxSection
+              title={dxLabels.dental.comments}
+              items={dxResults.dentalObservation ?? ""}
+              iconShowen={false}
+            />
+          )}
+        </section>
+      )}
+
+      {cephalometry && expansionDiagnostic && (
+        <section className='py-6 px-10 flex flex-col gap-3  bg-bgDark-080 rounded-[12px] shadow'>
+          <h5 className='text-h5 text-txtBrand-secondary text-center'>
+            {dxLabels.expansion.title}
+          </h5>
+          <div className='p-6 bg-bgDark-080 rounded-[12px] shadow'>
+            <DxSectionDental
+              label={dxLabels.expansion.korkhause}
+              value={dxResults.korkhause ?? ""}
+            />
+            <DxSectionDental
+              label={dxLabels.expansion.korkhauseFixed}
+              value={dxResults.korkhauseFixed ?? ""}
+            />
+            <DxSectionDental
+              label={dxLabels.expansion.apinamiento}
+              value={dxResults.apinamiento ?? ""}
+            />
+            <DxSectionDental
+              label={dxLabels.expansion.mordidaCruzada}
+              value={dxResults.mordidaCruzada ?? ""}
+            />
+          </div>
+        </section>
+      )}
+
+      {cephalometry && toothSizeModifed && (
+        <section className='mt-6 py-6 px-10 flex flex-col gap-3  bg-bgDark-080 rounded-[12px] shadow'>
+          <h5 className='text-h5 text-txtBrand-secondary text-center'>
+            {dxLabels.dentalSize.title}
+          </h5>
+          <div className='p-6 flex flex-col gap- text-txtLight-100 text-h5 bg-bgDark-080 rounded-[12px] shadow'>
+            {tamañoDental.map((item, index) => (
+              <span>{item?.join(" ")}</span>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

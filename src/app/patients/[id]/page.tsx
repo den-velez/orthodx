@@ -180,7 +180,7 @@ export default async function Patient({
         )}
         <section className='flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
           <h3 className='mb-6 text-h3 text-txtLight-100 text-center'>
-            Valoration
+            Valoración
           </h3>
           <div className='w-full px-6 grid grid-cols-1 gap-6'>
             {((drawRequested && chephalometryValorationDone) ||
