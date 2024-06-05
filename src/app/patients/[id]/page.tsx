@@ -43,14 +43,30 @@ export default async function Patient({
     treatment: `/patients/${patientId}/treatments`,
     gallery: `/patients/${patientId}/gallery`,
     cephalometry: `/patients/${patientId}/cephalometry`,
+    arches: `/patients/${patientId}/arches`,
+    dental: `/patients/${patientId}/dental`,
     dental_size: `/patients/${patientId}/dental-size`,
     diagnostic: `/patients/${patientId}/diagnostic`,
     drawRequest: `/patients/${patientId}?draw=true`,
+    odontogram: `/patients/${patientId}/odontogram`,
   };
 
-  const drawRequested = patient.drawRequest?.status ? false : true;
+  const patientCephalometry = patient.cephalometry ? true : false;
 
-  const patientDiagnostic = patient.cephalometry ? true : false;
+  const drawRequested = patient.drawRequest?.status
+    ? patient.drawRequest.status
+    : false;
+  const drawButtonText =
+    drawRequested === false ? "Solicitar Trazado" : "Ver Trazado";
+
+  const treatmentsAdded = patient.treatmentList
+    ? patient.treatmentList.length
+    : 0;
+  const chephalometryValorationDone = patient.valorationCephalometry
+    ? true
+    : false;
+  const dentalValorationDone = patient.valorationDental ? true : false;
+  const archesValorationDone = patient.valorationArches ? true : false;
 
   return (
     <>
@@ -65,79 +81,166 @@ export default async function Patient({
         </ModalComponent>
       )}
       <main className='grid gap-6 bg-bgDark-090 px-3 pt-6 pb-[60px]'>
-        <section className=' flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
-          <h3 className='mb-[60px] text-h3 text-txtLight-100 text-center'>
-            Seguimiento
-          </h3>
-          <div className='w-full grid gap-[60px]'>
-            <TreatmentPendingComponent
-              treatments={treatmentsListPending}
-              unmutated
-            />
-            <TreatmentDoneComponent treatments={treatmentsListDone} />
-          </div>
-        </section>
+        {patientCephalometry && (
+          <>
+            <section className=' flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
+              <h3 className='mb-[60px] text-h3 text-txtLight-100 text-center'>
+                Seguimiento
+              </h3>
+              {treatmentsAdded > 0 ? (
+                <>
+                  <div className='w-full grid gap-[60px]'>
+                    <TreatmentPendingComponent
+                      treatments={treatmentsListPending}
+                      unmutated
+                    />
+                    {treatmentsListDone.length > 0 && (
+                      <TreatmentDoneComponent treatments={treatmentsListDone} />
+                    )}
+                  </div>
+                  <div className='px-6 grid grid-cols-1 auto-rows-[90px] gap-6'>
+                    <ButtonComponent
+                      label='Plan de Tratamiento'
+                      variant='primary-dark'
+                      widthfull
+                      anchor
+                      anchorUrl={links.treatment}
+                      iconSrc='/icons/dx_icon.svg'
+                    />
+                    <ButtonComponent
+                      label='Galeria'
+                      variant='primary-dark'
+                      widthfull
+                      anchor
+                      anchorUrl={links.gallery}
+                      iconSrc='/icons/dental_size_icon.svg'
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className='px-6 grid grid-cols-2 auto-rows-[160px] gap-6'>
+                  <ButtonComponent
+                    label='Plan de Tratamiento'
+                    variant='primary-dark'
+                    widthfull
+                    anchor
+                    anchorUrl={links.treatment}
+                    iconSrc='/icons/dx_icon.svg'
+                    square
+                  />
+                  <ButtonComponent
+                    label='Galeria'
+                    variant='primary-dark'
+                    widthfull
+                    anchor
+                    anchorUrl={links.gallery}
+                    iconSrc='/icons/dental_size_icon.svg'
+                    square
+                  />
+                </div>
+              )}
+            </section>
 
+            <section className='flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
+              <h3 className='mb-6 text-h3 text-txtLight-100 text-center'>
+                Diagnostico
+              </h3>
+              {archesValorationDone ? (
+                <div className='px-6 grid grid-cols-2 auto-rows-[160px] gap-6'>
+                  <ButtonComponent
+                    label='Diagnostico'
+                    variant='primary-dark'
+                    widthfull
+                    anchor
+                    anchorUrl={links.diagnostic}
+                    iconSrc='/icons/dx_icon.svg'
+                    square
+                  />
+                  <ButtonComponent
+                    label='Tamaño Dentario'
+                    variant='primary-dark'
+                    widthfull
+                    anchor
+                    anchorUrl={links.dental_size}
+                    iconSrc='/icons/dental_size_icon.svg'
+                    square
+                  />
+                </div>
+              ) : (
+                <div className='px-6 w-full grid grid-cols-1 auto-rows-[90px] gap-6'>
+                  <ButtonComponent
+                    label='Diagnostico'
+                    variant='primary-dark'
+                    widthfull
+                    anchor
+                    anchorUrl={links.diagnostic}
+                    iconSrc='/icons/dx_icon.svg'
+                  />
+                </div>
+              )}
+            </section>
+          </>
+        )}
         <section className='flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
-          <h3 className='mb-[60px] text-h3 text-txtLight-100 text-center'>
-            Odontologia
+          <h3 className='mb-6 text-h3 text-txtLight-100 text-center'>
+            Valoration
           </h3>
-          <div className='w-[250px] h-[144px] flex flex-col gap-6'>
-            <ButtonComponent
-              label='Plan de Tratamiento'
-              variant='primary-dark'
-              widthfull
-              anchor
-              anchorUrl={links.treatment}
-            />
-            <ButtonComponent
-              label='Galeria'
-              variant='primary-dark'
-              widthfull
-              anchor
-              anchorUrl={links.gallery}
-            />
-          </div>
-        </section>
-        <section className='flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
-          <h3 className='mb-[60px] text-h3 text-txtLight-100 text-center'>
-            Ortodoncia
-          </h3>
-          <div className='w-[250px] grid grid-cols-1 auto-rows-[60px] gap-6'>
-            {drawRequested && (
+          <div className='w-full px-6 grid grid-cols-1 gap-6'>
+            {((drawRequested && chephalometryValorationDone) ||
+              (!drawRequested && !chephalometryValorationDone)) && (
+              <div className='h-[90px] '>
+                <ButtonComponent
+                  label={drawButtonText}
+                  variant='primary-dark'
+                  widthfull
+                  anchor
+                  anchorUrl={links.drawRequest}
+                  iconSrc='/icons/draw_icon.svg'
+                />
+              </div>
+            )}
+            <div className='grid grid-cols-2 auto-rows-[160px] gap-6'>
               <ButtonComponent
-                label='Solicitar Trazado'
+                label='Valoración Cefalométrica'
                 variant='primary-dark'
                 widthfull
                 anchor
-                anchorUrl={links.drawRequest}
+                anchorUrl={links.cephalometry}
+                iconSrc='/icons/cephalometry_icon.svg'
+                square
               />
-            )}
-            <ButtonComponent
-              label='Valoración'
-              variant='primary-dark'
-              widthfull
-              anchor
-              anchorUrl={links.cephalometry}
-            />
-            {patientDiagnostic && (
-              <>
-                <ButtonComponent
-                  label='Tamaño Dental'
-                  variant='primary-dark'
-                  widthfull
-                  anchor
-                  anchorUrl={links.dental_size}
-                />
-                <ButtonComponent
-                  label='Diagnóstico'
-                  variant='primary-dark'
-                  widthfull
-                  anchor
-                  anchorUrl={links.diagnostic}
-                />
-              </>
-            )}
+              <ButtonComponent
+                label='Odontograma'
+                variant='primary-dark'
+                widthfull
+                anchor
+                anchorUrl={links.odontogram}
+                iconSrc='/icons/odontogram_icon.svg'
+                square
+              />
+              {chephalometryValorationDone && (
+                <>
+                  <ButtonComponent
+                    label='Valoración Dental'
+                    variant='primary-dark'
+                    widthfull
+                    anchor
+                    anchorUrl={links.dental}
+                    iconSrc='/icons/dental_icon.svg'
+                    square
+                  />
+                  <ButtonComponent
+                    label='Valoración Arcadas'
+                    variant='primary-dark'
+                    widthfull
+                    anchor
+                    anchorUrl={links.arches}
+                    iconSrc='/icons/arches_icon.svg'
+                    square
+                  />
+                </>
+              )}
+            </div>
           </div>
         </section>
       </main>

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { PluginAPI } from "tailwindcss/types/config";
 
 const config: Config = {
   content: [
@@ -69,6 +70,21 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }: PluginAPI) {
+      addUtilities({
+        ".no-spinner": {
+          "-webkit-appearance": "none",
+          "-moz-appearance": "textfield",
+        },
+        'input[type="number"]::-webkit-outer-spin-button': {
+          "-webkit-appearance": "none",
+        },
+        'input[type="number"]::-webkit-inner-spin-button': {
+          "-webkit-appearance": "none",
+        },
+      });
+    },
+  ],
 };
 export default config;

@@ -187,7 +187,7 @@ export default function FormArcadasComponent({
           <div className='px-6 grid grid-cols-6 gap-3'>
             <input
               placeholder='1.3'
-              className='h-8 mt-8 text-center'
+              className='h-8 mt-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -195,7 +195,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='1.2'
-              className='h-8 text-center'
+              className='h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -203,7 +203,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='1.1'
-              className='h-8 text-center'
+              className='h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -211,7 +211,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='2.1'
-              className='h-8 text-center'
+              className='h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -219,7 +219,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='2.2'
-              className='h-8 text-center'
+              className='h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -227,7 +227,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='2.3'
-              className='h-8 mt-8 text-center'
+              className='h-8 mt-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -237,7 +237,7 @@ export default function FormArcadasComponent({
           <div className='flex flex-col items-center gap-3'>
             <input
               placeholder='dist 1 a 1'
-              className='h-8 w-20 text-center'
+              className='h-8 w-20 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -245,7 +245,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='dist 4 a 4'
-              className='h-8 w-20 text-center'
+              className='h-8 w-20 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -253,7 +253,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='dist 6 a 6'
-              className='h-8 w-20 text-center'
+              className='h-8 w-20 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -265,7 +265,7 @@ export default function FormArcadasComponent({
             {getValues("dist6a6Inf") !== getValues("dist6a6Inf2") && (
               <input
                 placeholder='dist 6 a 6'
-                className='h-8 w-20 text-center'
+                className='h-8 w-20 text-center no-spinner'
                 type='number'
                 step='0.1'
                 pattern='^\d+(\.\d{1})?$'
@@ -275,7 +275,7 @@ export default function FormArcadasComponent({
             )}
             <input
               placeholder='dist 6 a 6'
-              className='h-8 w-20 text-center'
+              className='h-8 w-20 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -286,7 +286,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='dist 3 a 3'
-              className='h-8 w-20 text-center'
+              className='h-8 w-20 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -296,7 +296,7 @@ export default function FormArcadasComponent({
           <div className='px-6 grid grid-cols-6 gap-3'>
             <input
               placeholder='4.3'
-              className='h-8 text-center'
+              className='h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -304,7 +304,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='4.2'
-              className='mt-8 h-8 text-center'
+              className='mt-8 h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -312,7 +312,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='4.1'
-              className='mt-8 h-8 text-center'
+              className='mt-8 h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -320,7 +320,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='3.1'
-              className='mt-8 h-8 text-center'
+              className='mt-8 h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -328,7 +328,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='3.2'
-              className='mt-8 h-8 text-center'
+              className='mt-8 h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
@@ -336,7 +336,7 @@ export default function FormArcadasComponent({
             />
             <input
               placeholder='3.3'
-              className='h-8 text-center'
+              className='h-8 text-center no-spinner'
               type='number'
               step='0.1'
               pattern='^\d+(\.\d{1})?$'
