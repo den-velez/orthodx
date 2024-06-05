@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import {
@@ -69,16 +68,15 @@ export default async function Patient({
 
   return (
     <>
-      {drawRequested && (
-        <ModalComponent isOpen={searchParams.draw || false}>
-          <NewImageComponent
-            type='draw'
-            patientId={patientId}
-            title='Solicitar Trazado'
-            imageURL={patient.avatar}
-          />
-        </ModalComponent>
-      )}
+      <ModalComponent isOpen={searchParams.draw || false}>
+        <NewImageComponent
+          type='draw'
+          patientId={patientId}
+          title='Solicitar Trazado'
+          imageURL={patient.avatar}
+        />
+      </ModalComponent>
+
       <main className='grid gap-6 bg-bgDark-090 px-3 pt-6 pb-[60px]'>
         {patientCephalometry && (
           <>
