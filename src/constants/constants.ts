@@ -136,7 +136,7 @@ export const DENTAL_ITEMS: TDentalItems[] = [
   {
     label: "mordida posterior derecha",
     name: "mordidaPosteriorDer",
-    options: ["Clase I", "Clase II", "Clase III"],
+    options: ["normal", "cruzada", "telescópica"],
   },
   {
     label: "mordida anterior",
@@ -161,12 +161,12 @@ export const ARCADAS_ITEMS: TDentalItems[] = [
   {
     label: "tamaño arcada superior",
     name: "tamanoArcadaSup",
-    options: ["amplio", "normal", "estrecho"],
+    options: ["amplia", "normal", "estrecho"],
   },
   {
     label: "tamaño arcada inferior",
     name: "tamanoArcadaInf",
-    options: ["amplio", "normal", "estrecho"],
+    options: ["amplia", "normal", "estrecho"],
   },
   {
     label: "forma arcada superior",
