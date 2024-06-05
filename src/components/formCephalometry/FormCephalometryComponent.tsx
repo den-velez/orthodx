@@ -193,11 +193,11 @@ export default function FormCephalometryComponent({
         {isSubmitted && (
           <div className='mt-[60px] h-[60px]'>
             <ButtonComponent
-              label='Siguiente'
+              label='Salir'
               variant='primary'
               widthfull
               anchor
-              anchorUrl={`/patients/${patientId}/dental`}
+              anchorUrl={`/patients/${patientId}`}
             />
           </div>
         )}

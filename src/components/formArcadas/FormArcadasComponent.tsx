@@ -357,11 +357,11 @@ export default function FormArcadasComponent({
         {isSubmitted && (
           <div className='mt-[60px] h-[60px]'>
             <ButtonComponent
-              label='Siguiente'
+              label='Salir'
               variant='primary'
               widthfull
               anchor
-              anchorUrl={`/patients/${patientId}/dental-size`}
+              anchorUrl={`/patients/${patientId}`}
             />
           </div>
         )}
