@@ -12,12 +12,12 @@ import { ButtonComponent, IconsComponent } from "@/components";
 
 type FormData = {
   expansionTreatment?: string;
-  pendingTreatments: ITreatment[];
+  treatments: ITreatment[];
 };
 
 const FormSchema: ZodType<FormData> = z.object({
   expansionTreatment: z.string().optional(),
-  pendingTreatments: z.array(
+  treatments: z.array(
     z.object({
       createdAt: z.string(),
       updatedAt: z.string(),
@@ -33,12 +33,12 @@ export default function FormTreatmentsComponent({
   patientId,
   expansionTurns,
   expansionTreatment,
-  treatmentsListPending,
+  treatmentsList,
 }: {
   patientId: string;
   expansionTurns: IExpansion;
   expansionTreatment: TExpansionTreatment;
-  treatmentsListPending: ITreatment[];
+  treatmentsList: ITreatment[];
 }) {
   const [isSubmitted, setSubmitted] = useState(true);
   const addTreatmentButtonRef = useRef<HTMLButtonElement>(null);
@@ -82,7 +82,7 @@ export default function FormTreatmentsComponent({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       expansionTreatment: expansionTreatment,
-      pendingTreatments: treatmentsListPending,
+      treatments: treatmentsList,
     },
   });
 
@@ -93,12 +93,12 @@ export default function FormTreatmentsComponent({
   };
 
   const {
-    fields: pendingTreatmentList,
+    fields: treatmentList,
     append: appendPendingTreatment,
     remove: removePendingTreatment,
   } = useFieldArray({
     control,
-    name: "pendingTreatments",
+    name: "treatments",
   });
 
   const handleKeyDown = (event: any) => {
@@ -108,17 +108,26 @@ export default function FormTreatmentsComponent({
         addTreatmentButtonRef.current.focus();
       }
     }
+    setSubmitted(false);
   };
   const getTodayDate = () => {
     const date = new Date();
     const dateString = date.toISOString().split("T")[0];
-    return dateString;
+    const dateArray = dateString.split("-");
+    const dateFix = dateArray.reverse().join("-");
+    return dateFix;
   };
 
   const onSubmit = async (data: FormData) => {
+    const treatmentsSortedbyDone = data.treatments.sort((a, b) => {
+      return a.done ? 1 : -1;
+    });
+
+    //set treatmentlist sorted into the form data
+
     const payload = {
       expansionTreatment: data.expansionTreatment,
-      treatmentList: data.pendingTreatments,
+      treatmentList: treatmentsSortedbyDone,
     };
 
     try {
@@ -136,8 +145,6 @@ export default function FormTreatmentsComponent({
       setSubmitted(false);
     }
   }, [dirtyFields]);
-
-  // when check is checked update the "update date" and check the "done" checkbox
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='grid gap-6'>
@@ -174,35 +181,62 @@ export default function FormTreatmentsComponent({
         })}
       </TreatmentSectionComponent>
       <TreatmentSectionComponent title='Plan de Tratamiento'>
-        {pendingTreatmentList.map((item, index) => {
-          return (
-            <div key={index} className='flex items-center gap-3'>
-              <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
-                <input
-                  className='w-7 h-7 '
-                  type='checkbox'
-                  {...register(`pendingTreatments.${index}.done`)}
-                  onChange={(e) => {
-                    setSubmitted(false);
-                  }}
-                />
+        {treatmentList.map((item, index) => {
+          if (item.done) {
+            return (
+              <div key={index} className='flex items-center gap-3'>
+                <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
+                  <input
+                    className='w-7 h-7 '
+                    type='checkbox'
+                    {...register(`treatments.${index}.done`)}
+                    onChange={(e) => {
+                      const today = getTodayDate();
+                      setValue(`treatments.${index}.updatedAt`, today);
+                      setSubmitted(false);
+                    }}
+                  />
+                </div>
+                <div className='py-2 px-3 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
+                  <span>{item.treatment}</span>
+                </div>
+                <div className='py-2 px-6 flex items-center justify-center bg-bgDark-070 text-ctaLight-090'>
+                  <span>{item.updatedAt}</span>
+                </div>
               </div>
-              <div className='px-3 py-2 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
-                <input
-                  type='text'
-                  className='w-full h-full bg-bgDark-070 text-ctaLight-090'
-                  placeholder='Tratamiento'
-                  onKeyDown={handleKeyDown}
-                  {...register(`pendingTreatments.${index}.treatment`)}
-                />
+            );
+          } else {
+            return (
+              <div key={index} className='flex items-center gap-3'>
+                <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
+                  <input
+                    className='w-7 h-7 '
+                    type='checkbox'
+                    {...register(`treatments.${index}.done`)}
+                    onChange={(e) => {
+                      const today = getTodayDate();
+                      setValue(`treatments.${index}.updatedAt`, today);
+                      setSubmitted(false);
+                    }}
+                  />
+                </div>
+                <div className='px-3 py-2 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
+                  <input
+                    type='text'
+                    className='w-full h-full bg-bgDark-070 text-ctaLight-090'
+                    placeholder='Tratamiento'
+                    onKeyDown={handleKeyDown}
+                    {...register(`treatments.${index}.treatment`)}
+                  />
+                </div>
+                <div className='px-1 h-full flex items-center justify-center bg-bgDark-070 text-ctaLight-090 shadow hover:border hover:border-light-090'>
+                  <button onClick={() => removePendingTreatment(index)}>
+                    <IconsComponent icon='trash' />
+                  </button>
+                </div>
               </div>
-              <div className='px-1 h-full flex items-center justify-center bg-bgDark-070 text-ctaLight-090 shadow hover:border hover:border-light-090'>
-                <button onClick={() => removePendingTreatment(index)}>
-                  <IconsComponent icon='trash' />
-                </button>
-              </div>
-            </div>
-          );
+            );
+          }
         })}
         <div className='mt-6 flex justify-center'>
           <ButtonComponent
@@ -212,7 +246,7 @@ export default function FormTreatmentsComponent({
             onClick={() =>
               appendPendingTreatment({
                 treatment: "",
-                priority: pendingTreatmentList.length + 1,
+                priority: treatmentList.length + 1,
                 done: false,
                 finishedAt: "",
                 createdAt: getTodayDate(),

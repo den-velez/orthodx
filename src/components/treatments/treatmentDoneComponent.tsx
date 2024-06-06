@@ -1,13 +1,13 @@
 import { ITreatment } from "@/interfaces/treatment.interface";
 
-function TreatmentItem({ treatment, finishedAt }: ITreatment) {
+function TreatmentItem({ treatment, updatedAt }: ITreatment) {
   return (
     <div className='flex gap-3'>
       <div className='py-2 px-3 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
         <span>{treatment}</span>
       </div>
       <div className='py-2 px-6 flex items-center justify-center bg-bgDark-070 text-ctaLight-090'>
-        <span>{finishedAt}</span>
+        <span>{updatedAt}</span>
       </div>
     </div>
   );

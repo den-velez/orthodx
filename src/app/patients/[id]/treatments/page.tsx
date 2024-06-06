@@ -1,4 +1,4 @@
-import { TreatmentDoneComponent, FormTreatmentsComponent } from "@/components";
+import { FormTreatmentsComponent } from "@/components";
 
 import { IPatient } from "@/interfaces";
 import { db } from "@/lib/firebase/firebase";
@@ -43,11 +43,10 @@ export default async function TreatmentPlan({
   const patientId = params.id || "";
   const patient = (await patientData(patientId)) as IPatient;
 
-  const treatmentsListDone =
-    patient.treatmentList?.filter((treatment) => treatment.done === true) || [];
-
-  const treatmentsListPending =
-    patient.treatmentList?.filter((treatment) => !treatment.done) || [];
+  const treatmentsList = patient.treatmentList || [];
+  treatmentsList.sort((a, b) => {
+    return a.updatedAt > b.updatedAt ? -1 : 1;
+  });
 
   const expansionTurns = patient?.expansionDiagnostic || {
     apinamientoTurns: 0,
@@ -63,11 +62,8 @@ export default async function TreatmentPlan({
         patientId={patientId}
         expansionTurns={expansionTurns}
         expansionTreatment={expansionTreatment}
-        treatmentsListPending={treatmentsListPending}
+        treatmentsList={treatmentsList}
       />
-      <TreatmentsSection title='Historial de Tratamientos'>
-        <TreatmentDoneComponent treatments={treatmentsListDone} />
-      </TreatmentsSection>
     </div>
   );
 }
