@@ -73,11 +73,11 @@ export default async function Patient({
           type='draw'
           patientId={patientId}
           title='Solicitar Trazado'
-          imageURL={patient.avatar}
+          imageURL={patient.drawRequest?.urlRxImage}
         />
       </ModalComponent>
 
-      <main className='grid gap-6 bg-bgDark-090 px-3 pt-6 pb-[60px]'>
+      <main className='grid gap-6 bg-bgDark-090 px-3 py-6'>
         {patientCephalometry && (
           <>
             <section className=' flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
@@ -86,7 +86,7 @@ export default async function Patient({
               </h3>
               {treatmentsAdded > 0 ? (
                 <>
-                  <div className='w-full grid gap-[60px]'>
+                  <div className='w-full grid gap-[60px] px-6'>
                     <TreatmentPendingComponent
                       treatments={treatmentsListPending}
                       unmutated
@@ -95,7 +95,7 @@ export default async function Patient({
                       <TreatmentDoneComponent treatments={treatmentsListDone} />
                     )}
                   </div>
-                  <div className='px-6 grid grid-cols-1 auto-rows-[90px] gap-6'>
+                  <div className='mt-[60px] px-6 grid grid-cols-2 auto-rows-[120px] gap-6'>
                     <ButtonComponent
                       label='Plan de Tratamiento'
                       variant='primary-dark'
@@ -103,6 +103,7 @@ export default async function Patient({
                       anchor
                       anchorUrl={links.treatment}
                       iconSrc='/icons/treatments_icon.svg'
+                      square
                     />
                     <ButtonComponent
                       label='Galeria'
@@ -111,6 +112,7 @@ export default async function Patient({
                       anchor
                       anchorUrl={links.gallery}
                       iconSrc='/icons/gallery_icon.svg'
+                      square
                     />
                   </div>
                 </>
@@ -122,7 +124,7 @@ export default async function Patient({
                     widthfull
                     anchor
                     anchorUrl={links.treatment}
-                    iconSrc='/icons/dx_icon.svg'
+                    iconSrc='/icons/treatments_icon.svg'
                     square
                   />
                   <ButtonComponent
@@ -131,7 +133,7 @@ export default async function Patient({
                     widthfull
                     anchor
                     anchorUrl={links.gallery}
-                    iconSrc='/icons/dental_size_icon.svg'
+                    iconSrc='/icons/gallery_icon.svg'
                     square
                   />
                 </div>
@@ -183,7 +185,7 @@ export default async function Patient({
             Valoración
           </h3>
           <div className='w-full px-6 grid grid-cols-1 gap-6'>
-            {((drawRequested && chephalometryValorationDone) ||
+            {(drawRequested ||
               (!drawRequested && !chephalometryValorationDone)) && (
               <div className='h-[90px] '>
                 <ButtonComponent

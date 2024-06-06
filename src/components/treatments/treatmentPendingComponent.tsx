@@ -9,7 +9,7 @@ type ITreatmentItem = {
 function TreatmentItem({ treatment, disabled }: ITreatmentItem) {
   if (disabled) {
     return (
-      <div className='flex px-3 items-center gap-3'>
+      <div className='flex items-center gap-3'>
         <div className='px-3 py-2 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
           <span>{treatment.treatment}</span>
         </div>

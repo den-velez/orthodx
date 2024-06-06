@@ -59,9 +59,9 @@ export interface IDiscrepancyDiagnostic {
   sumBelow: number;
 }
 
-interface IDrawRequest {
+export interface IDrawRequest {
   createdAt: string;
-  status: string;
+  status: "pending" | "done";
   urlRxImage: string;
   urlResultImage: string;
 }

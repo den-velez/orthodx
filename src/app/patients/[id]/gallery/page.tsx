@@ -55,13 +55,19 @@ export default function GalleryPatient({
           patientId={id}
           title='Agregar Imagen'
           type='assets'
+          updateGallery={(newImage) => {
+            setGallery([...gallery, newImage]);
+          }}
         />
       </ModalComponent>
       <ModalComponent isOpen={isOpen}>
         <GalleryComponent
           imageSelected={imageSelected}
           closeModal={() => toggleModal("")}
-          deleteImage={() => deleteImage(imageSelected)}
+          deleteImage={() => {
+            deleteImage(imageSelected);
+            setGallery(gallery.filter((img) => img !== imageSelected));
+          }}
         />
       </ModalComponent>
       <h3 className='mb-6 text-h3 text-txtLight-100 text-center'>

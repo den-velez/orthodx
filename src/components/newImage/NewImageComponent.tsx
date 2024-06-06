@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { uploadImage } from "@/lib/firebase/storage";
 import { ButtonComponent, IconsComponent } from "@/components";
+import { IDrawRequest } from "@/interfaces";
 import { updatePatient } from "@/lib/actions/actions";
 
 type FormData = {
@@ -23,11 +24,13 @@ export default function NewImageComponent({
   type,
   patientId,
   imageURL,
+  updateGallery,
 }: {
   patientId: string;
   type: "assets" | "draw";
   title: string;
   imageURL?: string;
+  updateGallery?: (image: string) => void;
 }) {
   const linkToBack =
     type === "assets"
@@ -50,31 +53,37 @@ export default function NewImageComponent({
   const imageLabel =
     imageURLUpdated === "/images/noResults.png" ? "Seleccionar" : "Cambiar";
 
-  const imageRx = watch("imageRx");
-
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       const url = await uploadImage(file, type, { patientId });
       if (url) {
         setValue("imageRx", url);
+        if (updateGallery) {
+          updateGallery(url);
+        } else {
+          handleUpdatePatient(url);
+        }
       }
     }
   };
 
-  const onSubmit = async (data: FormData) => {
-    const createdAt = new Date().toISOString().split("T")[0];
-
+  const handleUpdatePatient = async (imageUrl: string) => {
     const payload = {
-      ...getValues(),
-      createdAt,
+      drawRequest: {
+        createdAt: new Date().toISOString().split("T")[0],
+        status: "pending",
+        urlRxImage: imageUrl,
+      } as IDrawRequest,
     };
 
-    try {
-      await updatePatient(payload, patientId);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
+    await updatePatient(payload, patientId)
+      .then(() => {
+        console.log("Patient updated");
+      })
+      .catch(() => {
+        console.error("Error updating patient");
+      });
   };
 
   return (

@@ -1,5 +1,4 @@
 import {
-  getStorage,
   list,
   ref,
   uploadBytes,
@@ -22,18 +21,19 @@ export async function uploadImage(
   const { doctorId, patientId } = options;
 
   const getPath = (type: string, patientId?: string) => {
-    const today = new Date().toISOString().split("T")[0];
+    const [today, hour] = new Date().toISOString().split("T");
+    const [hourFormatted] = hour.split(".");
     let path: string;
     let fileName: string;
 
     if (type === "avatar" && doctorId) {
       path = `images-doctors/${doctorId}`;
-      fileName = `${type}-${today}`;
+      fileName = `${type}-${today}-${hourFormatted}`;
       return { path, fileName };
     }
 
     path = `images-patients/${patientId}/${type}`;
-    fileName = `${type}-${today}`;
+    fileName = `${type}-${today}-${hourFormatted}`;
     return { path, fileName };
   };
 
