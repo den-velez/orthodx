@@ -230,10 +230,18 @@ export default async function Diagnostic({
 
     if (diff === 0) return;
 
-    if (diff > 0) {
-      return ["Aumentar", diff, "mm", "en", keyFinal];
+    if (diff < 0) {
+      return {
+        solution: "Aumentar",
+        keyFinal,
+        diff,
+      };
     } else {
-      return ["Striping", diff, "mm", "en", keyFinal];
+      return {
+        solution: "Striping",
+        keyFinal,
+        diff,
+      };
     }
   });
 
@@ -342,10 +350,19 @@ export default async function Diagnostic({
           <h5 className='text-h5 text-txtBrand-secondary text-center'>
             {dxLabels.dentalSize.title}
           </h5>
-          <div className='p-6 flex flex-col gap- text-txtLight-100 text-h5 bg-bgDark-080 rounded-[12px] shadow'>
-            {tamañoDental.map((item, index) => (
-              <span>{item?.join(" ")}</span>
-            ))}
+          <div className='p-6 flex flex-col gap-2 text-txtLight-100 text-h5 bg-bgDark-080 rounded-[12px] shadow'>
+            {tamañoDental.map((item, index) => {
+              if (!item) return;
+              return (
+                <p key={index} className='flex gap-2'>
+                  <span>{item.keyFinal}</span>
+                  <span className='min-w-[120px]'>{item.solution}</span>
+                  <span className='font-bold min-w-20 text-right'>
+                    {item.diff} mm
+                  </span>
+                </p>
+              );
+            })}
           </div>
         </section>
       )}
