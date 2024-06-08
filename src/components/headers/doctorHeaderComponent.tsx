@@ -71,6 +71,7 @@ export default async function DoctorHeaderComponent() {
             height={40}
             src={avatar}
             alt={doctorData.name}
+            unoptimized
           />
         </Link>
       </div>
