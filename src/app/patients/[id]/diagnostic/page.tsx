@@ -19,14 +19,14 @@ const patientData = async (id: string) => {
 
 const dxLabels = {
   cephalometry: {
-    title: "Diag. Cefalométrico",
+    title: "Dx Cefalométrico",
     relEsqueletica: "Relación Esquelética",
     bioTipo: "Biotipo",
     planoOclusal: "Plano de Oclusión",
     comments: "Observacion De Radiografia Panoramica",
   },
   dental: {
-    title: "Diag. Dental",
+    title: "Dx Dental",
     relMolarRight: "Relación Molar Derecha",
     relMolarLeft: "Relación Molar Izquierda",
     archeUpper: "Arcada Superior",
