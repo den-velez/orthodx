@@ -1,7 +1,7 @@
 "use server";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection, updateDoc, doc } from "firebase/firestore";
+import { addDoc, collection, updateDoc, doc, getDoc } from "firebase/firestore";
 import { cookies } from "next/headers";
 import CryptoJS from "crypto-js";
 import { auth, db, storage } from "@/lib/firebase/firebase";
@@ -78,6 +78,18 @@ export async function updatePatient(payload: any, patientId: string) {
     console.error("Error adding document: ", e);
     return false;
   }
+}
+
+export async function getPatientById(id: string) {
+  const docRef = doc(db, "patients", id);
+  const docSnap = await getDoc(docRef);
+  let patientData = undefined;
+  if (docSnap.exists()) {
+    patientData = docSnap.data();
+  } else {
+    console.log("No such document!");
+  }
+  return patientData;
 }
 
 export async function createDoctor(newDoctorData: {

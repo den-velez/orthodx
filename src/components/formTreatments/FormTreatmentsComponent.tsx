@@ -21,7 +21,7 @@ const FormSchema: ZodType<FormData> = z.object({
     z.object({
       createdAt: z.string(),
       updatedAt: z.string(),
-      treatment: z.string(),
+      treatment: z.string().min(1),
       priority: z.number(),
       done: z.boolean(),
       finishedAt: z.string(),
@@ -76,6 +76,7 @@ export default function FormTreatmentsComponent({
     formState: { errors, dirtyFields },
     control,
     watch,
+    reset,
     setValue,
     setError,
   } = useForm<FormData>({
@@ -119,25 +120,30 @@ export default function FormTreatmentsComponent({
   };
 
   const onSubmit = async (data: FormData) => {
-    const treatmentsSortedbyDone = data.treatments.sort((a, b) => {
-      return a.done ? 1 : -1;
-    });
-
-    //set treatmentlist sorted into the form data
-
     const payload = {
       expansionTreatment: data.expansionTreatment,
-      treatmentList: treatmentsSortedbyDone,
+      treatmentList: data.treatments,
     };
 
-    try {
-      const user = await updatePatient(payload, patientId);
-      setSubmitted(true);
-    } catch (error) {
-      setError("root", {
-        message: "Ocucrrio un error, voler a intentar",
+    await updatePatient(payload, patientId)
+      .then(() => {
+        const treatmentsSorted = data.treatments.sort((a, b) => {
+          return a.done > b.done ? 1 : -1;
+        });
+
+        setValue("treatments", treatmentsSorted);
+        reset({
+          expansionTreatment: data.expansionTreatment,
+          treatments: treatmentsSorted,
+        });
+
+        setSubmitted(true);
+      })
+      .catch((error) => {
+        setError("root", {
+          message: "Ocucrrio un error, voler a intentar",
+        });
       });
-    }
   };
 
   useEffect(() => {
@@ -182,32 +188,10 @@ export default function FormTreatmentsComponent({
       </TreatmentSectionComponent>
       <TreatmentSectionComponent title='Plan de Tratamiento'>
         {treatmentList.map((item, index) => {
-          if (item.done) {
+          if (!item.done) {
+            // console.log("dede no done", item);
             return (
-              <div key={index} className='flex items-center gap-3'>
-                <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
-                  <input
-                    className='w-7 h-7 '
-                    type='checkbox'
-                    {...register(`treatments.${index}.done`)}
-                    onChange={(e) => {
-                      const today = getTodayDate();
-                      setValue(`treatments.${index}.updatedAt`, today);
-                      setSubmitted(false);
-                    }}
-                  />
-                </div>
-                <div className='py-2 px-3 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
-                  <span>{item.treatment}</span>
-                </div>
-                <div className='py-2 px-6 flex items-center justify-center bg-bgDark-070 text-ctaLight-090'>
-                  <span>{item.updatedAt}</span>
-                </div>
-              </div>
-            );
-          } else {
-            return (
-              <div key={index} className='flex items-center gap-3'>
+              <div key={item.treatment} className='flex items-center gap-3'>
                 <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
                   <input
                     className='w-7 h-7 '
@@ -233,6 +217,33 @@ export default function FormTreatmentsComponent({
                   <button onClick={() => removePendingTreatment(index)}>
                     <IconsComponent icon='trash' />
                   </button>
+                </div>
+              </div>
+            );
+          }
+        })}
+        {treatmentList.map((item, index) => {
+          if (item.done) {
+            console.log("dede no done", item);
+            return (
+              <div key={item.treatment} className='flex items-center gap-3'>
+                <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
+                  <input
+                    className='w-7 h-7 '
+                    type='checkbox'
+                    {...register(`treatments.${index}.done`)}
+                    onChange={(e) => {
+                      const today = getTodayDate();
+                      setValue(`treatments.${index}.updatedAt`, today);
+                      setSubmitted(false);
+                    }}
+                  />
+                </div>
+                <div className='py-2 px-3 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
+                  <span>{item.treatment}</span>
+                </div>
+                <div className='py-2 px-6 flex items-center justify-center bg-bgDark-070 text-ctaLight-090'>
+                  <span>{item.updatedAt}</span>
                 </div>
               </div>
             );
