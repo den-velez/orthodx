@@ -504,7 +504,10 @@ export default function FormOdontogramComponent({
                 const cariesOclusal = piece.state?.includes("cariesOclusal");
 
                 if (cariesIncluded && !cariesOclusal) {
-                  const position = Number(quadrant) >= 2 ? "upper" : "lower";
+                  const position =
+                    Number(quadrant) === 1 || Number(quadrant) === 2
+                      ? "upper"
+                      : "lower";
                   const style = STATUS_STYLES[piece.state as string];
                   if (typeof style === "object") {
                     statusStyle = style[position] || "";
@@ -559,7 +562,10 @@ export default function FormOdontogramComponent({
                 const cariesOclusal = piece.state?.includes("cariesOclusal");
 
                 if (cariesIncluded && !cariesOclusal) {
-                  const position = Number(quadrant) >= 2 ? "upper" : "lower";
+                  const position =
+                    Number(quadrant) === 1 || Number(quadrant) === 2
+                      ? "upper"
+                      : "lower";
                   const style = STATUS_STYLES[piece.state as string];
                   if (typeof style === "object") {
                     statusStyle = style[position] || "";
