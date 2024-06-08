@@ -96,6 +96,7 @@ export default function NewImageComponent({
           alt='Radiografia lateral del paciente'
           width={200}
           height={200}
+          unoptimized
         />
         <div className='absolute w-[200px] px-3 py-2 bottom-[-16px] bg-cta-090 text-h5 rounded-lg text-txtDark-090 '>
           <label htmlFor='image' className='flex items-center gap-3'>

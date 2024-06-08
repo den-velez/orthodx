@@ -134,6 +134,7 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
             height={200}
             src={imageURL == "" ? "/images/avatar.png" : imageURL}
             alt='doctor avatar'
+            unoptimized
           />
         </div>
         <div className='absolute px-3 py-2 bottom-[-16px] bg-cta-090 text-h5 rounded-lg text-txtDark-090 '>

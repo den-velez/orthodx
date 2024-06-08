@@ -85,6 +85,7 @@ export default function GalleryPatient({
               alt={`${asset} image`}
               width={192}
               height={96}
+              unoptimized
             />
           </button>
         ))}

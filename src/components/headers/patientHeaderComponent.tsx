@@ -23,6 +23,7 @@ const PatientHeaderComponent = ({
           height={40}
           src={avatarFallback}
           alt={name}
+          unoptimized
         />
       </div>
       <div className='p-3 flex flex-col flex-grow justify-between text-txtBrand-secondary border border-bgDark-070 rounded-[12px]'>

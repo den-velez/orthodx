@@ -25,6 +25,7 @@ export default function PatientCardComponent({
           height={48}
           src={avatar}
           alt={name}
+          unoptimized
         />
         <p className='text-txtLight-100'>{name}</p>
       </Link>
@@ -41,6 +42,7 @@ export default function PatientCardComponent({
           height={48}
           src={avatar}
           alt={name}
+          unoptimized
         />
       </Link>
     );

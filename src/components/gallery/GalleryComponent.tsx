@@ -24,6 +24,7 @@ export default function GalleryComponent({
           alt='Radiografia lateral del paciente'
           width={300}
           height={400}
+          unoptimized
         />
       </div>
       <div className='mt-[60px] flex flex-col gap-6'>
