@@ -23,6 +23,7 @@ const dxLabels = {
     relEsqueletica: "Relación Esquelética",
     bioTipo: "Biotipo",
     planoOclusal: "Plano de Oclusión",
+    inclinacionAnterior: "Inclinación Anterior",
     comments: "Observacion De Radiografia Panoramica",
   },
   dental: {
@@ -295,6 +296,10 @@ export default async function Diagnostic({
           <DxSection
             title={dxLabels.cephalometry.planoOclusal}
             items={dxResults.planoOclusion ?? ""}
+          />
+          <DxSection
+            title={dxLabels.cephalometry.inclinacionAnterior}
+            items={dxResults.inclinacionAnterior ?? ""}
           />
           {dxResults.cephalometryComments &&
             dxResults.cephalometryComments !== "" && (
