@@ -142,20 +142,29 @@ export default async function Diagnostic({
 
   const getCephalometryData = () => {
     if (!cephalometry) return;
+
+    const relEsqueleticaMM = cephalometry.relacionEsqueleticaMm
+      ? `${cephalometry.relacionEsqueleticaMm} mm`
+      : "";
+
+    const dxIIoIII = cephalometry.dxIIoIII ?? "";
+
+    const valorationMM = valorationCephalometry.mm
+      ? `${valorationCephalometry.mm} mm`
+      : "";
+    const valMolarInf = valorationCephalometry.molarInferior
+      ? `${valorationCephalometry.molarInferior} mm`
+      : "";
     return {
       relEsqueletica: [
-        `${cephalometry.relacionEsqueletica} ${cephalometry.dxIIoIII} ${cephalometry.relacionEsqueleticaMm} mm`,
-        `${cephalometry.alturaInferior} ${cephalometry.alturaInferiorMm} "mm"`,
+        `${cephalometry.relacionEsqueletica} ${dxIIoIII} ${relEsqueleticaMM}`,
+        `${cephalometry.alturaInferior} ${cephalometry.alturaInferiorMm} mm`,
       ],
       biotipo: [`${cephalometry.biotipo}`, `${cephalometry.tendenciaVertical}`],
       planoOclusion: [
         `${cephalometry.planoDeOclusion}`,
-        `${(cephalometry.cajaDental, valorationCephalometry.mm, "mm")}`,
-        `${
-          (cephalometry.segundoMolarInferior,
-          valorationCephalometry.molarInferior,
-          "mm")
-        }`,
+        `${cephalometry.cajaDental} ${valorationMM}`,
+        `${cephalometry.segundoMolarInferior} ${valMolarInf}`,
       ],
       inclinacionAnterior: [
         `${cephalometry.ejeIncisivoSuperior}`,
@@ -167,11 +176,18 @@ export default async function Diagnostic({
 
   const getDentalData = () => {
     if (!cephalometry || !valorationDental) return;
+
+    const apinaminetoSup = valorationDental.apinamientoSup
+      ? `Apiñamiento ${valorationDental.apinamientoSup}`
+      : "";
+    const apinaminetoInf = valorationDental.apinamientoInf
+      ? `Apiñamiento ${valorationDental.apinamientoInf}`
+      : "";
     return {
       relMolarRight: valorationDental.relacionMolarDer,
       relMolarLeft: valorationDental.relacionMolarIzq,
-      archeUpper: `${valorationDental.tamanoArcadaSup} ${valorationDental.formaArcadaSup}`,
-      archeLower: `${valorationDental.tamanoArcadaInf} ${valorationDental.formaArcadaInf}`,
+      archeUpper: `${valorationDental.tamanoArcadaSup} ${valorationDental.formaArcadaSup} ${apinaminetoSup}`,
+      archeLower: `${valorationDental.tamanoArcadaInf} ${valorationDental.formaArcadaInf} ${apinaminetoInf}`,
       posteriorBitRight: valorationDental.mordidaPosteriorDer,
       posteriorBitLeft: valorationDental.mordidaPosteriorIzq,
       anteriorBit: `${valorationDental.mordidaAnterior} ${valorationDental.mordidaAnteriorMM} mm`,
@@ -182,10 +198,26 @@ export default async function Diagnostic({
   const getExpansionData = () => {
     if (!expansionDiagnostic) return;
     return {
-      korkhause: `${expansionDiagnostic.korkhauseTurns} giros`,
-      korkhauseFixed: `${expansionDiagnostic.korkhauseTurnsMod} giros`,
-      apinamiento: `${expansionDiagnostic.apinamientoTurns} giros`,
-      mordidaCruzada: `${expansionDiagnostic.mordidaCruzadaTurns} giros`,
+      korkhause:
+        expansionDiagnostic.korkhauseTurns &&
+        expansionDiagnostic.korkhauseTurns > 0
+          ? `${expansionDiagnostic.korkhauseTurns} giros`
+          : null,
+      korkhauseFixed:
+        expansionDiagnostic.korkhauseTurnsMod &&
+        expansionDiagnostic.korkhauseTurnsMod > 0
+          ? `${expansionDiagnostic.korkhauseTurnsMod} giros`
+          : null,
+      apinamiento:
+        expansionDiagnostic.apinamientoTurns &&
+        expansionDiagnostic.apinamientoTurns > 0
+          ? `${expansionDiagnostic.apinamientoTurns} giros`
+          : null,
+      mordidaCruzada:
+        expansionDiagnostic.mordidaCruzadaTurns &&
+        expansionDiagnostic.mordidaCruzadaTurns > 0
+          ? `${expansionDiagnostic.mordidaCruzadaTurns} giros`
+          : null,
     };
   };
 
@@ -279,7 +311,7 @@ export default async function Diagnostic({
           <h3 className='text-h3 text-txtLight-100 text-center'>
             {dxLabels.dental.title}
           </h3>
-          <div className='p-6 bg-bgDark-080 rounded-[12px] shadow'>
+          <div className='p-6 flex flex-col gap-3 bg-bgDark-080 rounded-[12px] shadow'>
             <DxSectionDental
               label={dxLabels.dental.relMolarRight}
               value={valorationDental.relacionMolarDer}
@@ -325,22 +357,30 @@ export default async function Diagnostic({
             {dxLabels.expansion.title}
           </h5>
           <div className='p-6 bg-bgDark-080 rounded-[12px] shadow'>
-            <DxSectionDental
-              label={dxLabels.expansion.korkhause}
-              value={dxResults.korkhause ?? ""}
-            />
-            <DxSectionDental
-              label={dxLabels.expansion.korkhauseFixed}
-              value={dxResults.korkhauseFixed ?? ""}
-            />
-            <DxSectionDental
-              label={dxLabels.expansion.apinamiento}
-              value={dxResults.apinamiento ?? ""}
-            />
-            <DxSectionDental
-              label={dxLabels.expansion.mordidaCruzada}
-              value={dxResults.mordidaCruzada ?? ""}
-            />
+            {dxResults.korkhause && (
+              <DxSectionDental
+                label={dxLabels.expansion.korkhause}
+                value={dxResults.korkhause ?? ""}
+              />
+            )}
+            {dxResults.korkhauseFixed && (
+              <DxSectionDental
+                label={dxLabels.expansion.korkhauseFixed}
+                value={dxResults.korkhauseFixed ?? ""}
+              />
+            )}
+            {dxResults.apinamiento && (
+              <DxSectionDental
+                label={dxLabels.expansion.apinamiento}
+                value={dxResults.apinamiento ?? ""}
+              />
+            )}
+            {dxResults.mordidaCruzada && (
+              <DxSectionDental
+                label={dxLabels.expansion.mordidaCruzada}
+                value={dxResults.mordidaCruzada ?? ""}
+              />
+            )}
           </div>
         </section>
       )}
