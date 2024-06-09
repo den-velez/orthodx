@@ -1,17 +1,26 @@
 import Image from "next/image";
-import CardContainer from "@/containers/card/CardContainer";
-import ButtonComponent from "@/components/button/ButtonComponent";
-import {
-  PRODUCT_MOCK,
-  DRAW_DESCRIPTION,
-  DX_DESCRIPTION,
-} from "@/constants/constants";
+import { cookies } from "next/headers";
+import { ButtonComponent, PurchaseComponent } from "@/components";
+import { DRAW_DESCRIPTION, DX_DESCRIPTION } from "@/constants/constants";
 
-const Product = ({ params }: { params: { slug: string } }) => {
-  const slug = parseInt(params.slug, 10);
-  const [product] = PRODUCT_MOCK.filter((product) => product.id === slug);
+import { getDocById, getDoctorIdByEmail } from "@/lib/actions/actions";
+import { IProduct } from "@/interfaces";
+
+export default async function Product({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const slug = params.slug;
+  const doctorId = await getDoctorIdByEmail();
+
+  const product = (await getDocById(slug, "products")) as IProduct;
+
+  const creditsLabel = product.credits === 1 ? "credito" : "creditos";
+  const productWithId = { ...product, id: slug };
+
   return (
-    <main className='h-screen px-3 pt-3 pb-[60px] bg-bgDark-090'>
+    <main className='min-h-screen px-3 pt-3 pb-[60px] bg-bgDark-090'>
       <div className='flex justify-center'>
         <Image
           className='w-full h-auto mr-2 sm:max-w-md'
@@ -21,28 +30,25 @@ const Product = ({ params }: { params: { slug: string } }) => {
           alt='logo'
         />
       </div>
-      <CardContainer styles='mt-[60px] flex flex-col gap-[60px] text-txtLight-100 items-center'>
-        <h1 className='text-h1'>{product.title}</h1>
-        <div className='flex flex-col gap-6 items-center text-h5'>
-          <h5>{DX_DESCRIPTION}</h5>
-          <h5>{DRAW_DESCRIPTION}</h5>
-        </div>
-        <h1 className='text-h1'>
-          <span>{`$ `}</span>
-          <span>{product.price}</span>
-        </h1>
-        <div className='w-full h-24'>
-          <ButtonComponent
-            label='comprar'
-            variant='primary'
-            widthfull
-            anchor
-            anchorUrl='/store'
-          />
-        </div>
-      </CardContainer>
+      <PurchaseComponent
+        product={productWithId}
+        creditsLabel={creditsLabel}
+        doctorId={doctorId?.doctorId ?? undefined}
+      />
+      <div className='my-[60px] flex flex-col gap-6 items-center text-h5 text-txtDark-090'>
+        <h2 className='text-h4'>¿Como puedo utilizar mis creditos?</h2>
+        <p>{DX_DESCRIPTION}</p>
+        <p>{DRAW_DESCRIPTION}</p>
+      </div>
+      <div className='w-full h-[60px] flex justify-center'>
+        <ButtonComponent
+          variant='secondary'
+          label='Todos los productos'
+          widthfull
+          anchor
+          anchorUrl='/store'
+        />
+      </div>
     </main>
   );
-};
-
-export default Product;
+}

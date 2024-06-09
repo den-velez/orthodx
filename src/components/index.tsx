@@ -20,6 +20,7 @@ import FormOdontogramComponent from "./formOdontogram/FormOdontogramComponent";
 import FormDentalSizeComponent from "./formDentalSize/FormDentalSizeComponent";
 import FormTreatmentsComponent from "./formTreatments/FormTreatmentsComponent";
 import FormDoctorComponent from "./formDoctor/FormDoctorComponent";
+import PurchaseComponent from "./PurchaseComponent/PurchaseComponent";
 
 export {
   ButtonComponent,
@@ -37,6 +38,7 @@ export {
   ModalComponent,
   ModalMessageComponent,
   PatientCardComponent,
+  PurchaseComponent,
   NewImageComponent,
   FormPatientComponent,
   PatientHeaderComponent,

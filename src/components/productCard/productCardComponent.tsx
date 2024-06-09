@@ -1,9 +1,9 @@
 import CardContainer from "@/containers/card/CardContainer";
-import ButtonComponent from "../button/ButtonComponent";
+import { ButtonComponent } from "@/components";
 
 interface IProductCardComponentProps {
-  id: number;
-  title: string;
+  id: string;
+  name: string;
   price: number;
 }
 
@@ -11,7 +11,9 @@ const ProductCardComponent = (props: IProductCardComponentProps) => {
   return (
     <CardContainer styles='py-6 px-6 min-h-60 flex flex-col justify-between'>
       <div className='mb-6 flex-grow flex flex-col justify-center gap-3'>
-        <h3 className='text-h3 text-txtLight-100 text-center'>{props.title}</h3>
+        <h3 className='text-h3 text-txtLight-100 text-center first-letter:uppercase'>
+          {props.name}
+        </h3>
         <p className='text-h2 text-txtLight-100 text-center'>
           <span>{"$ "}</span>
           <span>{props.price}</span>

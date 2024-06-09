@@ -1,10 +1,10 @@
-const CardContainer = ({
+export default function CardContainer({
   styles = "",
   children,
 }: {
   styles?: string;
   children: React.ReactNode;
-}) => {
+}) {
   if (!styles) {
     styles = "";
   }
@@ -14,6 +14,4 @@ const CardContainer = ({
       {children}
     </div>
   );
-};
-
-export default CardContainer;
+}

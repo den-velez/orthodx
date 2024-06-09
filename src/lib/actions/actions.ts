@@ -1,7 +1,16 @@
 "use server";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection, updateDoc, doc, getDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  updateDoc,
+  doc,
+  getDoc,
+  query,
+  getDocs,
+  where,
+} from "firebase/firestore";
 import { cookies } from "next/headers";
 import CryptoJS from "crypto-js";
 import { auth, db, storage } from "@/lib/firebase/firebase";
@@ -156,4 +165,52 @@ export async function newPurchase(newPurchaseData: INewPurchase) {
     console.error("Error in purchase: ", e);
     return false;
   }
+}
+
+export async function getAllProducts() {
+  const q = query(collection(db, "products"));
+  const querySnapshot = await getDocs(q);
+  const data = querySnapshot.docs.map((doc) => {
+    return {
+      ...doc.data(),
+      id: doc.id,
+    };
+  });
+
+  return data || [];
+}
+
+async function getPatientsByDoctor(doctor: string) {
+  const q = query(collection(db, "patients"), where("doctor", "==", doctor));
+  const querySnapshot = await getDocs(q);
+  const data = querySnapshot.docs.map((doc) => {
+    return {
+      ...doc.data(),
+      id: doc.id,
+    };
+  });
+
+  return data || [];
+}
+
+export async function getDoctorIdByEmail() {
+  const key = process.env.CRYPTO_SECRET || "";
+  const doctorRaw = cookies().get("userID")?.value || "";
+  const doctor = CryptoJS.AES.decrypt(doctorRaw, key).toString(
+    CryptoJS.enc.Utf8
+  );
+  const q = query(collection(db, "doctors"), where("email", "==", doctor));
+  const querySnapshot = await getDocs(q);
+  const data = querySnapshot.docs.map((doc) => {
+    return {
+      doctorId: doc.id,
+      credits: doc.data().credits,
+    };
+  });
+
+  if (data.length === 0) return null;
+
+  const { doctorId, credits } = data[0];
+
+  return { doctorId, credits };
 }
