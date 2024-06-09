@@ -15,7 +15,7 @@ export default function PurchaseComponent({
   creditsLabel: string;
   doctorId?: string;
 }) {
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
   const buyProduct = async (purchase: INewPurchase) => {
     const response = await newPurchase(purchase);
     if (response) {

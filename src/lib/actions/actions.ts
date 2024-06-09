@@ -157,6 +157,8 @@ export async function newPurchase(newPurchaseData: INewPurchase) {
 
     await updateDoctor({ credits: creditsUpdated }, newPurchaseData.doctorId);
 
+    revalidatePath("/patients");
+
     return {
       purchaseTicket: purchase.id,
       message: "Purchase created successfully",
