@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import CryptoJS from "crypto-js";
 import { auth, db, storage } from "@/lib/firebase/firebase";
 import { revalidatePath } from "next/cache";
+import { INewPurchase } from "@/interfaces";
 
 export async function login(email: string, password: string) {
   let emailCrypted = "";
@@ -80,16 +81,16 @@ export async function updatePatient(payload: any, patientId: string) {
   }
 }
 
-export async function getPatientById(id: string) {
-  const docRef = doc(db, "patients", id);
+export async function getDocById(id: string, collection: string) {
+  const docRef = doc(db, collection, id);
   const docSnap = await getDoc(docRef);
-  let patientData = undefined;
+  let resultData = undefined;
   if (docSnap.exists()) {
-    patientData = docSnap.data();
+    resultData = docSnap.data();
   } else {
     console.log("No such document!");
   }
-  return patientData;
+  return resultData;
 }
 
 export async function createDoctor(newDoctorData: {
@@ -120,12 +121,39 @@ export async function createDoctor(newDoctorData: {
 export async function updateDoctor(payload: any, doctorId: string) {
   try {
     const docRef = doc(db, "doctors", doctorId);
-    await updateDoc(docRef, payload);
+    const doctor = await updateDoc(docRef, payload);
 
     revalidatePath("/patients");
-    return true;
+    return doctor;
   } catch (e) {
     console.error("Error adding document: ", e);
+    return false;
+  }
+}
+
+export async function newPurchase(newPurchaseData: INewPurchase) {
+  try {
+    const purchase = await addDoc(collection(db, "purchases"), newPurchaseData);
+
+    const getProduct = await getDocById(newPurchaseData.productId, "products");
+    const doctor = await getDocById(newPurchaseData.doctorId, "doctors");
+
+    if (!getProduct || !doctor) {
+      throw new Error("Product or doctor not found");
+    }
+
+    const credits = getProduct.credits || 0;
+    const doctorCredits = doctor.credits || 0;
+    const creditsUpdated = credits + doctorCredits;
+
+    await updateDoctor({ credits: creditsUpdated }, newPurchaseData.doctorId);
+
+    return {
+      purchaseTicket: purchase.id,
+      message: "Purchase created successfully",
+    };
+  } catch (e) {
+    console.error("Error in purchase: ", e);
     return false;
   }
 }
