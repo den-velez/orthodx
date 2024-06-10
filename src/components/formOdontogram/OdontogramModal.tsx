@@ -47,7 +47,7 @@ export default function OdontogramModal({
   }
 
   return (
-    <div className='p-6 flex flex-col items-center gap-6 bg-bgDark-080 rounded-[12px]'>
+    <div className='w-[90%] max-w-[420px] mx-auto p-6 flex flex-col items-center gap-6 bg-bgDark-080 rounded-[12px]'>
       <div className='w-full flex justify-end'>
         <button
           className='w-12 h-12 text-h3 border rounded-full text-light-090'

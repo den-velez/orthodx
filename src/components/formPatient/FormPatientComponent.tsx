@@ -138,7 +138,7 @@ export default function FormPatientComponent({
   };
 
   return (
-    <section className='p-6 rounded-[12px] bg-bgDark-080'>
+    <section className='w-full p-6 rounded-[12px] bg-bgDark-080'>
       <div className='relative flex justify-center items-center'>
         <div>
           <Image

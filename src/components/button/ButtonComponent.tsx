@@ -22,7 +22,11 @@ const ButtonComponent = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const square = props.square ? "flex-col" : "";
     const imageButtonSquare = props.square ? "h-[60%]" : "h-full";
-    const textButtonSquare = props.square ? "h-[40%] flex items-end" : "ml-4 ";
+    const textButtonSquare = props.square
+      ? "h-[40%] flex items-end"
+      : props.iconSrc
+      ? "ml-4 "
+      : "";
 
     const getButtonStyle = (): string => {
       switch (props.variant) {
@@ -44,7 +48,7 @@ const ButtonComponent = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <Link
           href={props.anchorUrl || "#"}
           type={typeButton}
-          className={`px-4 py-2 rounded-[12px] ${getButtonStyle()}`}>
+          className={`px-auto py-2 rounded-[12px] ${getButtonStyle()}`}>
           {props.iconSrc && (
             <Image
               src={props.iconSrc}
@@ -66,7 +70,7 @@ const ButtonComponent = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ref={ref}
           type={typeButton}
           onClick={props.onClick}
-          className={`px-4 py-2 rounded-[12px] disabled:bg-opacity-40 disabled:text-opacity-20 ${getButtonStyle()}`}>
+          className={`px-auto py-2 rounded-[12px] disabled:bg-opacity-40 disabled:text-opacity-20 ${getButtonStyle()}`}>
           {props.iconSrc && (
             <Image
               src={props.iconSrc}

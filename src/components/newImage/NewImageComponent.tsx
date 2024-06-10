@@ -87,7 +87,7 @@ export default function NewImageComponent({
   };
 
   return (
-    <section className='p-6 rounded-[12px] bg-bgDark-080'>
+    <section className='w-full p-6 rounded-[12px] bg-bgDark-080'>
       <h3 className='text-h3 text-txtLight-100 text-center'>{title}</h3>
       <div className='relative mt-[60px] flex flex-col justify-center items-center'>
         <Image

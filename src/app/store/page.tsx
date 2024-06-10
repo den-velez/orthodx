@@ -4,6 +4,7 @@ import CardContainer from "@/containers/card/CardContainer";
 import ProductCardComponent from "@/components/productCard/productCardComponent";
 import { getAllProducts } from "@/lib/actions/actions";
 import { IProduct } from "@/interfaces";
+import { ButtonComponent } from "@/components";
 
 export default async function StorePage() {
   const products = (await getAllProducts()) as IProduct[];
@@ -32,6 +33,15 @@ export default async function StorePage() {
             price={product.price}
           />
         ))}
+        <div className='w-full mt-20 h-[60px] flex justify-center'>
+          <ButtonComponent
+            variant='secondary'
+            label='Regresar'
+            widthfull
+            anchor
+            anchorUrl='/patients'
+          />
+        </div>
       </section>
     </main>
   );

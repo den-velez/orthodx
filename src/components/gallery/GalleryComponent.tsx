@@ -16,7 +16,7 @@ export default function GalleryComponent({
     closeModal();
   };
   return (
-    <section className='py-6 px-3 rounded-[12px] bg-bgDark-080'>
+    <section className='w-full py-6 px-3 rounded-[12px] bg-bgDark-080'>
       <div className='flex justify-center items-center'>
         <Image
           className='w-full h-auto p-1 rounded-[12px] ring-2 dark:ring-bgDark-070 shadow'
