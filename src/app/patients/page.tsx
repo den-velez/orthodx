@@ -72,9 +72,16 @@ export default async function PatientsList({
           <PatientsContainer name={searchParams.name || null} />
         </Suspense>
         {credits > 1 ? (
-          <div className='mx-auto my-[48px] h-[60px] flex justify-center w-[240px]'>
+          <div className='w-full px-6 my-[48px] h-[90px] flex justify-center gap-6 '>
             <ButtonComponent
-              label='Agregar Paciente'
+              label='Nuevo Paciente'
+              variant='primary-dark'
+              widthfull
+              anchor
+              anchorUrl='/patients?newpatient=true'
+            />
+            <ButtonComponent
+              label='Nuevo Paciente (incluye Trazado)'
               variant='primary-dark'
               widthfull
               anchor

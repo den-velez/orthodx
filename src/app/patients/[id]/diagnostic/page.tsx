@@ -233,19 +233,20 @@ export default async function Diagnostic({
   };
 
   const toothSizeDentalKeys = [
-    "d11",
-    "d12",
     "d13",
+    "d12",
+    "d11",
     "d21",
     "d22",
     "d23",
+    "d43",
+    "d42",
+    "d41",
     "d31",
     "d32",
     "d33",
-    "d41",
-    "d42",
-    "d43",
   ];
+
   const tamañoDental = toothSizeDentalKeys.map((key) => {
     // this need to be enhanced
     if (!valorationArches || !toothSizeModifed) return;
@@ -261,19 +262,25 @@ export default async function Diagnostic({
     const [quadrant, piece] = keyName.split("");
     const keyFinal = `${quadrant}.${piece}`;
 
-    if (diff === 0) return;
-
-    if (diff < 0) {
+    if (diff === 0) {
       return {
-        solution: "Aumentar",
+        styles: "bg-bgDark-070",
         keyFinal,
         diff,
       };
+    }
+
+    if (diff > 0) {
+      return {
+        styles: "bg-red-500 text-white font-bold",
+        keyFinal,
+        diff: Math.abs(diff),
+      };
     } else {
       return {
-        solution: "Striping",
+        styles: "bg-green-500 text-dark-100 font-bold",
         keyFinal,
-        diff,
+        diff: Math.abs(diff),
       };
     }
   });
@@ -396,18 +403,23 @@ export default async function Diagnostic({
             {dxLabels.dentalSize.title}
           </h5>
           <div className='p-6 flex flex-col gap-2 text-txtLight-100 text-h5 bg-bgDark-080 rounded-[12px] shadow'>
-            {tamañoDental.map((item, index) => {
-              if (!item) return;
-              return (
-                <p key={index} className='flex gap-2'>
-                  <span>{item.keyFinal}</span>
-                  <span className='min-w-[120px]'>{item.solution}</span>
-                  <span className='font-bold min-w-20 text-right'>
-                    {item.diff} mm
-                  </span>
-                </p>
-              );
-            })}
+            <div className='grid grid-cols-6 gap-2 '>
+              {tamañoDental.map((tooth, key: number) => (
+                <span
+                  key={key}
+                  className={`p-2  text-center text-h5 ${tooth?.styles}`}>
+                  {tooth?.diff}
+                </span>
+              ))}
+            </div>
+            <div className='py-6 text-small flex justify-center gap-2'>
+              <span className='py-2 px-4 bg-green-500 text-dark-100 rounded-[12px] first-letter:uppercase'>
+                aumentar (mm)
+              </span>
+              <span className='py-2 px-4 bg-red-500 text-dark-100 rounded-[12px] first-letter:uppercase'>
+                stripping (mm)
+              </span>
+            </div>
           </div>
         </section>
       )}
