@@ -58,9 +58,7 @@ export default function FormDentalSizeComponent({
   dentalSizeModified: IToothSize;
   expansionDiagnostic: IExpansion;
 }) {
-  const [dataShow, setDataShow] = useState<"paciente" | "modificado">(
-    "paciente"
-  );
+  const [dataShow, setDataShow] = useState<"paciente" | "calcular">("paciente");
   const [isSubmitted, setSubmitted] = useState(false);
   const [suggestionsShown, setSuggestionsShown] = useState(false);
 
@@ -215,9 +213,9 @@ export default function FormDentalSizeComponent({
             widthfull
           />
           <ButtonComponent
-            label='Modificado'
+            label='Calcular'
             variant={dataShow !== "paciente" ? "primary-dark" : "secondary"}
-            onClick={() => setDataShow("modificado")}
+            onClick={() => setDataShow("calcular")}
             widthfull
           />
         </div>
@@ -237,7 +235,7 @@ export default function FormDentalSizeComponent({
             register={register}
           />
         )}
-        {dataShow === "modificado" && (
+        {dataShow === "calcular" && (
           <DentalSizeComponent
             discrepancy={discrepancyCalculated}
             patient={false}

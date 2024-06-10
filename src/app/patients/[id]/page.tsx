@@ -95,7 +95,7 @@ export default async function Patient({
                       <TreatmentDoneComponent treatments={treatmentsListDone} />
                     )}
                   </div>
-                  <div className='mt-[60px] px-6 grid grid-cols-2 auto-rows-[120px] gap-6'>
+                  <div className='mt-[60px] w-full px-6 grid grid-cols-2 auto-rows-[120px] gap-6'>
                     <ButtonComponent
                       label='Plan de Tratamiento'
                       variant='primary-dark'
@@ -145,7 +145,7 @@ export default async function Patient({
                 Diagnostico
               </h3>
               {archesValorationDone ? (
-                <div className='px-6 grid grid-cols-2 auto-rows-[160px] gap-6'>
+                <div className='w-full px-6 grid grid-cols-2 auto-rows-[160px] gap-6'>
                   <ButtonComponent
                     label='Diagnostico'
                     variant='primary-dark'
@@ -166,7 +166,7 @@ export default async function Patient({
                   />
                 </div>
               ) : (
-                <div className='px-6 w-full grid grid-cols-1 auto-rows-[90px] gap-6'>
+                <div className='w-full grid grid-cols-1 auto-rows-[90px] gap-6'>
                   <ButtonComponent
                     label='Diagnostico'
                     variant='primary-dark'
@@ -209,18 +209,19 @@ export default async function Patient({
                 square
               />
               <ButtonComponent
-                label='Odontograma'
+                label='Analísis Dental'
                 variant='primary-dark'
                 widthfull
                 anchor
-                anchorUrl={links.odontogram}
-                iconSrc='/icons/odontogram_icon.svg'
+                anchorUrl={links.arches}
+                iconSrc='/icons/arches_icon.svg'
                 square
               />
+
               {chephalometryValorationDone && (
                 <>
                   <ButtonComponent
-                    label='Valoración Dental'
+                    label='Valoración Oclusal'
                     variant='primary-dark'
                     widthfull
                     anchor
@@ -229,12 +230,12 @@ export default async function Patient({
                     square
                   />
                   <ButtonComponent
-                    label='Valoración Arcadas'
+                    label='Odontograma'
                     variant='primary-dark'
                     widthfull
                     anchor
-                    anchorUrl={links.arches}
-                    iconSrc='/icons/arches_icon.svg'
+                    anchorUrl={links.odontogram}
+                    iconSrc='/icons/odontogram_icon.svg'
                     square
                   />
                 </>

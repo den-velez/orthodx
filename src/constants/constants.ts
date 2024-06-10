@@ -189,3 +189,12 @@ export const ARCADAS_ITEMS: TDentalItems[] = [
     options: ["no tiene", "ligero", "moderado", "severo", "espacios"],
   },
 ];
+
+export const PAGE_TITLES = {
+  cephalometry: "Cefalometría",
+  dentalSize: "Tamaño Dentario",
+  diagnostic: "Diagnóstico",
+  gallery: "Galería",
+  arches: "Analísis Dental",
+  dental: "Valoración Oclusal",
+};

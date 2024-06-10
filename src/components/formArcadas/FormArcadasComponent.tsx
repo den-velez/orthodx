@@ -13,6 +13,8 @@ import {
   getExpansionDiagnostic,
 } from "@/lib/diagnostic/arches";
 
+import { PAGE_TITLES } from "@/constants/constants";
+
 type FormData = {
   d11?: string;
   d12?: string;
@@ -181,7 +183,7 @@ export default function FormArcadasComponent({
         className='mx-auto grid gap-[60px] w-full max-w-[500px]'>
         <section className='w-full px-3 pt-6 pb-[60px] bg-bgDark-080 rounded-[12px] shadow'>
           <h3 className='mb-6 text-h3 text-light-090 text-center capitalize'>
-            Arcadas
+            {PAGE_TITLES.arches}
           </h3>
 
           <div className='px-6 grid grid-cols-6 gap-3'>
