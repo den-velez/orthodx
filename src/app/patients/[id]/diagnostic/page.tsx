@@ -199,26 +199,16 @@ export default async function Diagnostic({
   const getExpansionData = () => {
     if (!expansionDiagnostic) return;
     return {
-      korkhause:
-        expansionDiagnostic.korkhauseTurns &&
-        expansionDiagnostic.korkhauseTurns > 0
-          ? `${expansionDiagnostic.korkhauseTurns} giros`
-          : null,
-      korkhauseFixed:
-        expansionDiagnostic.korkhauseTurnsMod &&
-        expansionDiagnostic.korkhauseTurnsMod > 0
-          ? `${expansionDiagnostic.korkhauseTurnsMod} giros`
-          : null,
-      apinamiento:
-        expansionDiagnostic.apinamientoTurns &&
-        expansionDiagnostic.apinamientoTurns > 0
-          ? `${expansionDiagnostic.apinamientoTurns} giros`
-          : null,
-      mordidaCruzada:
-        expansionDiagnostic.mordidaCruzadaTurns &&
-        expansionDiagnostic.mordidaCruzadaTurns > 0
-          ? `${expansionDiagnostic.mordidaCruzadaTurns} giros`
-          : null,
+      korkhause: expansionDiagnostic.korkhauseTurns
+        ? `${expansionDiagnostic.korkhauseTurns} giros`
+        : null,
+      korkhauseFixed: expansionDiagnostic.korkhauseTurnsMod
+        ? `${expansionDiagnostic.korkhauseTurnsMod} giros`
+        : null,
+      apinamiento: null,
+      mordidaCruzada: expansionDiagnostic.mordidaCruzadaTurns
+        ? `${expansionDiagnostic.mordidaCruzadaTurns} giros`
+        : null,
     };
   };
 
@@ -368,31 +358,21 @@ export default async function Diagnostic({
           <h5 className='text-h5 text-txtBrand-secondary text-center'>
             {dxLabels.expansion.title}
           </h5>
-          <div className='p-6 bg-bgDark-080 rounded-[12px] shadow'>
-            {dxResults.korkhause && (
-              <DxSectionDental
-                label={dxLabels.expansion.korkhause}
-                value={dxResults.korkhause ?? ""}
-              />
-            )}
-            {dxResults.korkhauseFixed && (
-              <DxSectionDental
-                label={dxLabels.expansion.korkhauseFixed}
-                value={dxResults.korkhauseFixed ?? ""}
-              />
-            )}
-            {dxResults.apinamiento && (
-              <DxSectionDental
-                label={dxLabels.expansion.apinamiento}
-                value={dxResults.apinamiento ?? ""}
-              />
-            )}
-            {dxResults.mordidaCruzada && (
-              <DxSectionDental
-                label={dxLabels.expansion.mordidaCruzada}
-                value={dxResults.mordidaCruzada ?? ""}
-              />
-            )}
+          <div className='p-6 flex flex-col gap-4 bg-bgDark-080 rounded-[12px] shadow'>
+            <DxSectionDental
+              label={dxLabels.expansion.korkhause}
+              value={dxResults.korkhause ?? ""}
+            />
+
+            <DxSectionDental
+              label={dxLabels.expansion.korkhauseFixed}
+              value={dxResults.korkhauseFixed ?? "Pendiente Tamaño dentario"}
+            />
+
+            <DxSectionDental
+              label={dxLabels.expansion.mordidaCruzada}
+              value={dxResults.mordidaCruzada ?? ""}
+            />
           </div>
         </section>
       )}

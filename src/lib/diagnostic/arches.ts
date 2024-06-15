@@ -244,7 +244,7 @@ export async function getExpansionDiagnostic(ArchesValues: UpdateArchesDto) {
   };
 
   const archesCalculatedValues = {
-    apinamientoTurns: getApinamientoTurns([d31, d32, d41, d42], dist3a3Inf),
+    apinamientoTurns: 0,
     korkhauseTurns: getKorkhauseTurns(
       archesDistancesValues.distanceAbove6_6 as number,
       dist6a6Sup

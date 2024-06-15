@@ -45,7 +45,23 @@ export default async function ArcadasValoration({
     dist6a6Inf2: "",
     dist6a6Sup: "",
   };
+
+  const expansionDiagnostic = patient.expansionDiagnostic || {
+    korkhauseTurns: 0,
+    korkhauseTurnsMod: 0,
+    apinamientoTurns: 0,
+    mordidaCruzadaTurns: 0,
+  };
+
+  const discrepancyDiagnostic =
+    patient.discrepancyDiagnostic?.discrepancy || undefined;
+
   return (
-    <FormArcadasComponent patientId={id} currentValoration={valorationArches} />
+    <FormArcadasComponent
+      patientId={id}
+      currentValoration={valorationArches}
+      expansionDx={expansionDiagnostic}
+      discrepancyDx={discrepancyDiagnostic}
+    />
   );
 }

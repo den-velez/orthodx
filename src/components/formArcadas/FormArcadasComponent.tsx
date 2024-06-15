@@ -6,7 +6,7 @@ import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ButtonComponent, ModalComponent } from "@/components";
-import { IArches } from "@/interfaces";
+import { IArches, IDiscrepancyDiagnostic, IExpansion } from "@/interfaces";
 import { updatePatient } from "@/lib/actions/actions";
 import {
   getDiscrepancyDiagnostic,
@@ -14,6 +14,7 @@ import {
 } from "@/lib/diagnostic/arches";
 
 import { PAGE_TITLES } from "@/constants/constants";
+import DxSectionDental from "@/app/patients/[id]/diagnostic/DxSectionDental";
 
 type FormData = {
   d11?: string;
@@ -60,9 +61,13 @@ const FormSchema: ZodType<FormData> = z.object({
 export default function FormArcadasComponent({
   patientId,
   currentValoration,
+  expansionDx,
+  discrepancyDx,
 }: {
   patientId: string;
   currentValoration: IArches;
+  expansionDx: IExpansion;
+  discrepancyDx?: boolean;
 }) {
   const [isSubmitted, setSubmitted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -150,6 +155,10 @@ export default function FormArcadasComponent({
     }
     closeModal();
   };
+
+  const propocionalStyles = discrepancyDx
+    ? "bg-msg-error text-center"
+    : "bg-msg-success text-center";
 
   return (
     <>
@@ -426,8 +435,54 @@ export default function FormArcadasComponent({
             </div>
           </div>
         </section>
+        <section className='p-6 bg-bgDark-080 rounded-[12px] shadow'>
+          <h4 className='text-h4 text-txtLight-100 text-center'>
+            Expansión y Discrepancia
+          </h4>
+          <div className='my-6 flex flex-col gap-4'>
+            <DxSectionDental
+              label='Korkhause (giros)'
+              value={
+                expansionDx.korkhauseTurns == 0
+                  ? "No requiere"
+                  : expansionDx.korkhauseTurns.toString()
+              }
+            />
+            <DxSectionDental
+              label='Mordida Anterior (giros)'
+              value={
+                expansionDx.korkhauseTurns == 0
+                  ? "No requiere"
+                  : expansionDx.mordidaCruzadaTurns.toString()
+              }
+            />
+            {expansionDx.korkhauseTurnsMod != undefined ? (
+              <DxSectionDental
+                label='Korkhause Modificado (giros)'
+                value={
+                  expansionDx.korkhauseTurnsMod == 0
+                    ? "No requiere"
+                    : expansionDx.korkhauseTurnsMod.toString()
+                }
+              />
+            ) : (
+              <DxSectionDental
+                label='Korkhause Modificado (giros)'
+                value='Pendiente
+                  tamaño dentario'
+              />
+            )}
+          </div>
+          <div className={`rounded-[12px] ${propocionalStyles}`}>
+            <h3 className='p-2 text-h5 text-center'>
+              {discrepancyDx
+                ? "Paciente con discrepancia"
+                : "Paciente Proporcional"}
+            </h3>
+          </div>
+        </section>
         {!isSubmitted && (
-          <div className='mt-[60px] h-[60px]'>
+          <div className='h-[60px]'>
             <ButtonComponent
               type='submit'
               label='Guardar'
@@ -437,7 +492,7 @@ export default function FormArcadasComponent({
           </div>
         )}
         {isSubmitted && (
-          <div className='mt-[60px] h-[60px]'>
+          <div className='h-[60px]'>
             <ButtonComponent
               label='Salir'
               variant='primary'

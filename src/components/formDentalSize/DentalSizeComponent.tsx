@@ -77,7 +77,6 @@ export default function DentalSizeComponent({
                 return (
                   <input
                     key={index}
-                    type='number'
                     className={`p-2 text-center text-h5 ${bgStyle}`}
                     {...register(tooth as keyof FormDataDentalSize)}
                   />
@@ -104,7 +103,7 @@ export default function DentalSizeComponent({
                 return (
                   <input
                     key={index}
-                    type='number'
+                    inputMode='numeric'
                     className={`p-2 text-center text-h5 ${bgStyle}`}
                     {...register(tooth as keyof FormDataDentalSize)}
                   />
