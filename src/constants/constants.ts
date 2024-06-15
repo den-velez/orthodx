@@ -8,11 +8,6 @@ export const DX_DESCRIPTION = "1 Credito =  1 Diagnostico";
 
 export const CEPHALOMETRY_ITEMS: TCephalometryItem[] = [
   {
-    label: "NA",
-    rangeLabel: "+/- 2mm",
-    inputName: "na",
-  },
-  {
     label: "Long. Maxilar",
     rangeLabel: "+/- 2mm",
     inputName: "longMaxilar",
@@ -22,11 +17,16 @@ export const CEPHALOMETRY_ITEMS: TCephalometryItem[] = [
     inputName: "longMandibular",
   },
   {
-    label: "Altura Facial Inf",
+    label: "Altura Facial Inferior (ENA-Me)",
     inputName: "alturaFacialInf",
   },
   {
-    label: "Plano Mandibular",
+    label: "Posición Maxilar(Na-A)",
+    rangeLabel: "+/- 2mm",
+    inputName: "na",
+  },
+  {
+    label: "Plano Mandibular (FH / MP)",
     rangeLabel: "26°",
     inputName: "planoMandibular",
   },
