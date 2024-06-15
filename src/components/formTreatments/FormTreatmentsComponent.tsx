@@ -189,7 +189,6 @@ export default function FormTreatmentsComponent({
       <TreatmentSectionComponent title='Plan de Tratamiento'>
         {treatmentList.map((item, index) => {
           if (!item.done) {
-            // console.log("dede no done", item);
             return (
               <div key={item.treatment} className='flex items-center gap-3'>
                 <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
@@ -224,7 +223,6 @@ export default function FormTreatmentsComponent({
         })}
         {treatmentList.map((item, index) => {
           if (item.done) {
-            console.log("dede no done", item);
             return (
               <div key={item.treatment} className='flex items-center gap-3'>
                 <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
