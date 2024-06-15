@@ -115,6 +115,15 @@ const ForgotPasswordPage = () => {
                 </p>
               )}
             </form>
+            <div className='mt-[60px] w-full h-[60px] flex justify-center'>
+              <ButtonComponent
+                variant='secondary'
+                label='Regresar'
+                widthfull
+                anchor
+                anchorUrl='/auth/login'
+              />
+            </div>
           </div>
         </div>
       </div>
