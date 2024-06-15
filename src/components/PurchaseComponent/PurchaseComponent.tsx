@@ -74,7 +74,7 @@ export default function PurchaseComponent({
         </div>
       </ModalComponent>
       <CardContainer styles='mt-[60px] flex flex-col gap-[60px] text-txtLight-100 items-center'>
-        <h1 className='text-h1 capitalize'>{product.name}</h1>
+        <h1 className='text-h1 capitalize text-center'>{product.name}</h1>
         <div>
           <div>
             <p className='text-h1 text-center'>{`$ ${product.price}`}</p>
