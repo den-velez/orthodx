@@ -201,14 +201,14 @@ export default async function Diagnostic({
     return {
       korkhause: expansionDiagnostic.korkhauseTurns
         ? `${expansionDiagnostic.korkhauseTurns} giros`
-        : null,
+        : "no requerido",
       korkhauseFixed: expansionDiagnostic.korkhauseTurnsMod
         ? `${expansionDiagnostic.korkhauseTurnsMod} giros`
-        : null,
+        : "no requerido",
       apinamiento: null,
       mordidaCruzada: expansionDiagnostic.mordidaCruzadaTurns
         ? `${expansionDiagnostic.mordidaCruzadaTurns} giros`
-        : null,
+        : "no requerido",
     };
   };
 
@@ -275,6 +275,7 @@ export default async function Diagnostic({
     }
   });
 
+  console.log(dxResults);
   return (
     <div>
       {cephalometry && (

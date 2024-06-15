@@ -65,17 +65,17 @@ function getDifferences(dentalValue: number, distance: number) {
   return false;
 }
 
-function getApinamientoTurns(
-  teethBelowMeasuresArray: number[],
-  distance3_3: number
-) {
-  const teethSum = teethBelowMeasuresArray.reduce((a, b) => a + b, 0);
-  if (distance3_3 > 0 && teethSum > distance3_3) {
-    return Math.round((teethSum - distance3_3) / 0.7) * 4;
-  } else {
-    return 0;
-  }
-}
+// function getApinamientoTurns(
+//   teethBelowMeasuresArray: number[],
+//   distance3_3: number
+// ) {
+//   const teethSum = teethBelowMeasuresArray.reduce((a, b) => a + b, 0);
+//   if (distance3_3 > 0 && teethSum > distance3_3) {
+//     return Math.round((teethSum - distance3_3) / 0.7) * 4;
+//   } else {
+//     return 0;
+//   }
+// }
 
 function getKorkhauseTurns(distanceAbove6_6: number, dist6a6Sup: number) {
   if (dist6a6Sup > 1 && distanceAbove6_6 > dist6a6Sup) {
@@ -243,13 +243,17 @@ export async function getExpansionDiagnostic(ArchesValues: UpdateArchesDto) {
     ),
   };
 
+  const korkhauseTurnsCalculated = getKorkhauseTurns(
+    archesDistancesValues.distanceAbove6_6 as number,
+    dist6a6Sup
+  );
+
+  const mordidaCruzadaTurns = getMordidaCruzadaTurns(dist6a6Sup, dist6a6Inf2);
+
   const archesCalculatedValues = {
     apinamientoTurns: 0,
-    korkhauseTurns: getKorkhauseTurns(
-      archesDistancesValues.distanceAbove6_6 as number,
-      dist6a6Sup
-    ),
-    mordidaCruzadaTurns: getMordidaCruzadaTurns(dist6a6Sup, dist6a6Inf2),
+    korkhauseTurns: korkhauseTurnsCalculated > 0 ? korkhauseTurnsCalculated : 0,
+    mordidaCruzadaTurns: mordidaCruzadaTurns > 0 ? mordidaCruzadaTurns : 0,
   };
 
   return {
@@ -322,5 +326,5 @@ export async function getKorkhauseTurnsModified({
     dist6a6Sup
   );
 
-  return { korkhauseModTurns };
+  return { korkhauseModTurns: korkhauseModTurns > 0 ? korkhauseModTurns : 0 };
 }
