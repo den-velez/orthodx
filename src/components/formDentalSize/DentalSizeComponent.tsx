@@ -7,7 +7,9 @@ export default function DentalSizeComponent({
   discrepancy = true,
   patient = true,
   upper = ["d13", "d12", "d11", "d21", "d22", "d23"],
-  lower = ["d33", "d32", "d31", "d41", "d42", "d43"],
+  lower = ["d43", "d42", "d41", "d31", "d32", "d33"],
+  upperTreatment = ["none", "none", "none", "none", "none", "none"],
+  lowerTreatment = ["none", "none", "none", "none", "none", "none"],
   sumAbove,
   sumBelow,
   register,
@@ -16,6 +18,8 @@ export default function DentalSizeComponent({
   patient: boolean;
   upper?: string[];
   lower?: string[];
+  upperTreatment?: string[];
+  lowerTreatment?: string[];
   sumAbove: number;
   sumBelow: number;
   register: UseFormRegister<FormDataDentalSize>;
@@ -24,6 +28,19 @@ export default function DentalSizeComponent({
   const propocionalStyles = discrepancy
     ? "bg-msg-error text-center"
     : "bg-msg-success text-center";
+
+  const addStyle = (
+    toothArrayWithTreatment: string[],
+    indexToCompare: number
+  ) => {
+    const treatment = toothArrayWithTreatment[indexToCompare];
+
+    if (treatment === "none") return "";
+
+    return treatment === "increase"
+      ? "bg-msg-success"
+      : "bg-msg-error text-txtlight-100";
+  };
 
   return (
     <>
@@ -55,14 +72,17 @@ export default function DentalSizeComponent({
             </>
           ) : (
             <>
-              {upper.map((tooth, index: number) => (
-                <input
-                  key={index}
-                  type='number'
-                  className='p-2 text-center text-h5'
-                  {...register(tooth as keyof FormDataDentalSize)}
-                />
-              ))}
+              {upper.map((tooth, index: number) => {
+                const bgStyle = addStyle(upperTreatment, index);
+                return (
+                  <input
+                    key={index}
+                    type='number'
+                    className={`p-2 text-center text-h5 ${bgStyle}`}
+                    {...register(tooth as keyof FormDataDentalSize)}
+                  />
+                );
+              })}
             </>
           )}
         </div>
@@ -79,14 +99,17 @@ export default function DentalSizeComponent({
             </>
           ) : (
             <>
-              {lower.map((tooth, index: number) => (
-                <input
-                  key={index}
-                  type='number'
-                  className='p-2 text-center text-h5'
-                  {...register(tooth as keyof FormDataDentalSize)}
-                />
-              ))}
+              {lower.map((tooth, index: number) => {
+                const bgStyle = addStyle(lowerTreatment, index);
+                return (
+                  <input
+                    key={index}
+                    type='number'
+                    className={`p-2 text-center text-h5 ${bgStyle}`}
+                    {...register(tooth as keyof FormDataDentalSize)}
+                  />
+                );
+              })}
             </>
           )}
         </div>

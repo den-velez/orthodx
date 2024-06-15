@@ -117,12 +117,12 @@ export default function FormDentalSizeComponent({
 
   const upperValues = useWatch({
     control,
-    name: ["d11", "d12", "d13", "d21", "d22", "d23"],
+    name: ["d13", "d12", "d11", "d21", "d22", "d23"],
   });
 
   const lowerValues = useWatch({
     control,
-    name: ["d33", "d32", "d31", "d41", "d42", "d43"],
+    name: ["d43", "d42", "d41", "d31", "d32", "d33"],
   });
 
   const sumAboveFactor = 0.75;
@@ -134,6 +134,26 @@ export default function FormDentalSizeComponent({
     0
   );
   const discrepancyCalculated = sumAboveCalculated !== sumBelowCalculated;
+
+  const upperToothMeasuresTreatment = upperValues.map((value, index) => {
+    if (Number(value) > Number(patientMeasures.upper[index])) {
+      return "increase";
+    } else if (Number(value) < Number(patientMeasures.upper[index])) {
+      return "stripping";
+    } else {
+      return "none";
+    }
+  });
+
+  const lowerToothMeasuresTreatment = lowerValues.map((value, index) => {
+    if (Number(value) > Number(patientMeasures.lower[index])) {
+      return "increase";
+    } else if (Number(value) < Number(patientMeasures.lower[index])) {
+      return "stripping";
+    } else {
+      return "none";
+    }
+  });
 
   const onSubmit = async (data: FormDataDentalSize) => {
     const createdAt =
@@ -242,6 +262,8 @@ export default function FormDentalSizeComponent({
             register={register}
             sumAbove={sumAboveCalculated}
             sumBelow={sumBelowCalculated}
+            upperTreatment={upperToothMeasuresTreatment}
+            lowerTreatment={lowerToothMeasuresTreatment}
           />
         )}
         <div className='h-[60px] my-[48px] flex gap-6'>
