@@ -58,6 +58,7 @@ export default function DentalSizeComponent({
               {upper.map((tooth, index: number) => (
                 <input
                   key={index}
+                  type='number'
                   className='p-2 text-center text-h5'
                   {...register(tooth as keyof FormDataDentalSize)}
                 />
@@ -81,6 +82,7 @@ export default function DentalSizeComponent({
               {lower.map((tooth, index: number) => (
                 <input
                   key={index}
+                  type='number'
                   className='p-2 text-center text-h5'
                   {...register(tooth as keyof FormDataDentalSize)}
                 />
