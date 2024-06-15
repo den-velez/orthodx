@@ -58,7 +58,6 @@ export default async function PatientsContainer({
   let patientListRegular: IPatientCard[] = [];
 
   const calculateFavs = (totalPatients: number) => {
-    if (totalPatients >= 10) return 9;
     if (totalPatients % 2 == 0) return totalPatients;
     return totalPatients - 1;
   };
