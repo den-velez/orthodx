@@ -187,163 +187,243 @@ export default function FormArcadasComponent({
           </h3>
 
           <div className='px-6 grid grid-cols-6 gap-3'>
-            <input
-              placeholder='1.3'
-              className='h-8 mt-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d13")}
-            />
-            <input
-              placeholder='1.2'
-              className='h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d12")}
-            />
-            <input
-              placeholder='1.1'
-              className='h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d11")}
-            />
-            <input
-              placeholder='2.1'
-              className='h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d21")}
-            />
-            <input
-              placeholder='2.2'
-              className='h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d22")}
-            />
-            <input
-              placeholder='2.3'
-              className='h-8 mt-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d23")}
-            />
+            <div className='mt-8 flex flex-col items-center gap-1'>
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>1.3</span>
+              </label>
+              <input
+                placeholder='1.3'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d13")}
+              />
+            </div>
+            <div className='flex flex-col items-center gap-1'>
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>1.2</span>
+              </label>
+              <input
+                placeholder='1.2'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d12")}
+              />
+            </div>
+            <div className='flex flex-col items-center gap-1'>
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>1.1</span>
+              </label>
+              <input
+                placeholder='1.1'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d11")}
+              />
+            </div>
+            <div className='flex flex-col items-center gap-1'>
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>2.1</span>
+              </label>
+              <input
+                placeholder='2.1'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d21")}
+              />
+            </div>
+            <div className='flex flex-col items-center gap-1'>
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>2.2</span>
+              </label>
+              <input
+                placeholder='2.2'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d22")}
+              />
+            </div>
+            <div className='mt-8 flex flex-col items-center gap-1'>
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>2.3</span>
+              </label>
+              <input
+                placeholder='2.3'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d23")}
+              />
+            </div>
           </div>
-          <div className='flex flex-col items-center gap-3'>
-            <input
-              placeholder='dist 1 a 1'
-              className='h-8 w-20 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("loAnt")}
-            />
-            <input
-              placeholder='dist 4 a 4'
-              className='h-8 w-20 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d4a4")}
-            />
-            <input
-              placeholder='dist 6 a 6'
-              className='h-8 w-20 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("dist6a6Sup")}
-            />
-          </div>
-
-          <div className='mt-24 flex flex-col items-center gap-3'>
-            {getValues("dist6a6Inf") !== getValues("dist6a6Inf2") && (
+          <div className='h-[140px] flex flex-col items-center justify-end'>
+            <div className='flex flex-col items-center gap-1'>
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>Distancia 6 a 6 Superior</span>
+              </label>
               <input
                 placeholder='dist 6 a 6'
                 className='h-8 w-20 text-center no-spinner'
                 type='number'
                 step='0.1'
                 pattern='^\d+(\.\d{1})?$'
-                disabled
-                {...register("dist6a6Inf2")}
+                {...register("dist6a6Sup")}
               />
+            </div>
+          </div>
+
+          <div className='min-h-[180px]  mt-24 flex flex-col items-center justify-start gap-3'>
+            {getValues("dist6a6Inf") !== getValues("dist6a6Inf2") && (
+              <div className='flex flex-col items-center gap-1'>
+                <label
+                  htmlFor=''
+                  className='text-caption text-txtDark-090 flex flex-col items-center'>
+                  <span>Distancia 6 a 6 Inferior</span>
+                  <span>(Retroinclinación)</span>
+                </label>
+                <input
+                  placeholder='dist 6 a 6'
+                  className='h-8 w-20 text-center no-spinner'
+                  type='number'
+                  step='0.1'
+                  pattern='^\d+(\.\d{1})?$'
+                  disabled
+                  {...register("dist6a6Inf2")}
+                />
+              </div>
             )}
-            <input
-              placeholder='dist 6 a 6'
-              className='h-8 w-20 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("dist6a6Inf")}
-              onBlur={() => {
-                openModal();
-              }}
-            />
-            <input
-              placeholder='dist 3 a 3'
-              className='h-8 w-20 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("dist3a3Inf")}
-            />
+            <div className='flex flex-col items-center gap-1'>
+              <label htmlFor='' className='text-caption text-txtDark-090'>
+                Distancia 6 a 6 Inferior
+              </label>
+              <input
+                placeholder='dist 6 a 6'
+                className='h-8 w-20 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("dist6a6Inf")}
+                onBlur={() => {
+                  openModal();
+                }}
+              />
+            </div>
           </div>
           <div className='px-6 grid grid-cols-6 gap-3'>
-            <input
-              placeholder='4.3'
-              className='h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d43")}
-            />
-            <input
-              placeholder='4.2'
-              className='mt-8 h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d42")}
-            />
-            <input
-              placeholder='4.1'
-              className='mt-8 h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d41")}
-            />
-            <input
-              placeholder='3.1'
-              className='mt-8 h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d31")}
-            />
-            <input
-              placeholder='3.2'
-              className='mt-8 h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d32")}
-            />
-            <input
-              placeholder='3.3'
-              className='h-8 text-center no-spinner'
-              type='number'
-              step='0.1'
-              pattern='^\d+(\.\d{1})?$'
-              {...register("d33")}
-            />
+            <div className='flex flex-col items-center gap-1'>
+              <input
+                placeholder='4.3'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d43")}
+              />
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>4.3</span>
+              </label>
+            </div>
+            <div className='mt-8 flex flex-col items-center gap-1'>
+              <input
+                placeholder='4.2'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d42")}
+              />
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>4.2</span>
+              </label>
+            </div>
+            <div className='mt-8 flex flex-col items-center gap-1'>
+              <input
+                placeholder='4.1'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d41")}
+              />
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>4.1</span>
+              </label>
+            </div>
+            <div className='mt-8 flex flex-col items-center gap-1'>
+              <input
+                placeholder='3.1'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d31")}
+              />
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>3.1</span>
+              </label>
+            </div>
+            <div className='mt-8 flex flex-col items-center gap-1'>
+              <input
+                placeholder='3.2'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d32")}
+              />
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>3.2</span>
+              </label>
+            </div>
+            <div className='flex flex-col items-center gap-1'>
+              <input
+                placeholder='3.3'
+                className='w-full h-8 text-center no-spinner'
+                type='number'
+                step='0.1'
+                pattern='^\d+(\.\d{1})?$'
+                {...register("d33")}
+              />
+              <label
+                htmlFor=''
+                className='text-caption text-txtDark-090 flex flex-col items-center'>
+                <span>3.3</span>
+              </label>
+            </div>
           </div>
         </section>
         {!isSubmitted && (
