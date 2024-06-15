@@ -275,7 +275,6 @@ export default async function Diagnostic({
     }
   });
 
-  console.log(dxResults);
   return (
     <div>
       {cephalometry && (
