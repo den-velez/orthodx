@@ -225,7 +225,7 @@ export default function FormTreatmentsComponent({
           if (item.done) {
             return (
               <div key={item.treatment} className='flex items-center gap-3'>
-                <div className='px-1 h-full flex items-center bg-bgDark-070 text-ctaLight-090'>
+                <div className='px-1 h-full flex items-center  bg-bgDark-070 text-ctaLight-090'>
                   <input
                     className='w-7 h-7 '
                     type='checkbox'
@@ -237,10 +237,10 @@ export default function FormTreatmentsComponent({
                     }}
                   />
                 </div>
-                <div className='py-2 px-3 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
+                <div className='py-2 px-3 flex flex-grow items-center justify-between bg-bgDark-070 text-ctaLight-090'>
                   <span>{item.treatment}</span>
                 </div>
-                <div className='py-2 px-6 flex items-center justify-center bg-bgDark-070 text-ctaLight-090'>
+                <div className='min-w-[110px] md:min-w-[160px] h-full py-2 px-2 md:px-6 flex items-center justify-center bg-bgDark-070 text-ctaLight-090'>
                   <span>{item.updatedAt}</span>
                 </div>
               </div>
