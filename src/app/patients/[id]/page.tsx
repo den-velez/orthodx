@@ -32,11 +32,8 @@ export default async function Patient({
   const patientId = params.id || "";
   const patient = (await patientData(patientId)) as IPatient;
 
-  const treatmentsListDone =
-    patient.treatmentList?.filter((treatment) => treatment.done === true) || [];
-
-  const treatmentsListPending =
-    patient.treatmentList?.filter((treatment) => !treatment.done) || [];
+  const treatmentsListSorted =
+    patient.treatmentList?.sort((a, b) => a.priority - b.priority) || [];
 
   const links = {
     treatment: `/patients/${patientId}/treatments`,
@@ -88,12 +85,9 @@ export default async function Patient({
                 <>
                   <div className='w-full grid gap-[60px] px-6'>
                     <TreatmentPendingComponent
-                      treatments={treatmentsListPending}
+                      treatments={treatmentsListSorted}
                       unmutated
                     />
-                    {treatmentsListDone.length > 0 && (
-                      <TreatmentDoneComponent treatments={treatmentsListDone} />
-                    )}
                   </div>
                   <div className='mt-[60px] w-full px-6 grid grid-cols-2 auto-rows-[120px] gap-6'>
                     <ButtonComponent

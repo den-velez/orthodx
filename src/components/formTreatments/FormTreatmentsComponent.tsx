@@ -252,16 +252,19 @@ export default function FormTreatmentsComponent({
             ref={addTreatmentButtonRef}
             label='Agregar Tratamiento'
             variant='secondary'
-            onClick={() =>
-              appendPendingTreatment({
+            onClick={() => {
+              const lastPriority = Math.max(
+                ...treatmentList.map((o) => o.priority)
+              );
+              return appendPendingTreatment({
                 treatment: "",
-                priority: treatmentList.length + 1,
+                priority: lastPriority,
                 done: false,
                 finishedAt: "",
                 createdAt: getTodayDate(),
                 updatedAt: getTodayDate(),
-              })
-            }
+              });
+            }}
           />
         </div>
         {!isSubmitted && (

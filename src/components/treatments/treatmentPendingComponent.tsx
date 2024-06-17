@@ -10,8 +10,16 @@ function TreatmentItem({ treatment, disabled }: ITreatmentItem) {
   if (disabled) {
     return (
       <div className='flex items-center gap-3'>
-        <div className='px-3 py-2 flex flex-grow items-center bg-bgDark-070 text-ctaLight-090'>
+        <div className='px-3 py-2 flex flex-grow items-center justify-between bg-bgDark-070 text-ctaLight-090'>
           <span>{treatment.treatment}</span>
+          {treatment.done && (
+            <input
+              className='p-2 min-w-7 min-h-7'
+              type='checkbox'
+              disabled
+              checked
+            />
+          )}
         </div>
       </div>
     );
@@ -36,7 +44,7 @@ function TreatmentItem({ treatment, disabled }: ITreatmentItem) {
 
 export default function TreatmentPendingComponent({
   treatments = [],
-  title = "Tratamientos por Realizar",
+  title = "Tratamientos",
   unmutated,
 }: {
   treatments: ITreatment[];
@@ -53,7 +61,6 @@ export default function TreatmentPendingComponent({
       )}
       <div className='mt-3 grid gap-3'>
         {treatments.map((treatment) => {
-          if (treatment.done) return null;
           return (
             <TreatmentItem
               key={treatment.treatment}

@@ -45,7 +45,7 @@ export default async function TreatmentPlan({
 
   const treatmentsList = patient.treatmentList || [];
   treatmentsList.sort((a, b) => {
-    return a.updatedAt > b.updatedAt ? -1 : 1;
+    return a.priority > b.priority ? 1 : -1;
   });
 
   const expansionTurns = patient?.expansionDiagnostic || {
