@@ -55,7 +55,7 @@ export default async function DoctorPage({
   const doctor = (await doctorData(id)) as IDoctor;
 
   return (
-    <div className='bg-bgDark-090'>
+    <div className='bg-bgDark-090 h-screen'>
       <main className='px-3 pt-6 pb-[60px]'>
         <FormDoctorComponent {...doctor} />
         <div className='mt-[60px] h-[60px] px-6'>

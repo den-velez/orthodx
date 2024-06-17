@@ -64,7 +64,7 @@ export default async function PatientsList({
       </ModalComponent>
 
       <DoctorHeaderComponent />
-      <main className='flex flex-col gap-3 px-3 pt-6 bg-bgDark-090 min-h-screen'>
+      <main className='pb-[90px] flex flex-col gap-3 px-3 pt-6 bg-bgDark-090 min-h-screen'>
         <Suspense fallback={<div>Loading...</div>}>
           <SearcherComponent />
         </Suspense>

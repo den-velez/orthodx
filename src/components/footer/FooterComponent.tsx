@@ -97,7 +97,7 @@ const FooterComponent = (props: FooterProps) => {
   };
 
   return (
-    <footer className='flex items-center justify-evenly h-[90px] bg-bgDark-080'>
+    <footer className='fixed bottom-0 w-full max-w-[600px] mx-auto flex items-center justify-evenly h-[90px] bg-bgDark-080'>
       {getFooter().map((item, index) => (
         <button key={index} onClick={item.onClick}>
           <IconsComponent icon={item.icon} />
