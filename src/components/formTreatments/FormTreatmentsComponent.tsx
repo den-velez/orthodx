@@ -127,14 +127,9 @@ export default function FormTreatmentsComponent({
 
     await updatePatient(payload, patientId)
       .then(() => {
-        const treatmentsSorted = data.treatments.sort((a, b) => {
-          return a.done > b.done ? 1 : -1;
-        });
-
-        setValue("treatments", treatmentsSorted);
         reset({
           expansionTreatment: data.expansionTreatment,
-          treatments: treatmentsSorted,
+          treatments: data.treatments,
         });
 
         setSubmitted(true);
@@ -219,10 +214,7 @@ export default function FormTreatmentsComponent({
                 </div>
               </div>
             );
-          }
-        })}
-        {treatmentList.map((item, index) => {
-          if (item.done) {
+          } else {
             return (
               <div key={item.treatment} className='flex items-center gap-3'>
                 <div className='px-1 h-full flex items-center  bg-bgDark-070 text-ctaLight-090'>
@@ -247,8 +239,9 @@ export default function FormTreatmentsComponent({
             );
           }
         })}
-        <div className='mt-6 flex justify-center'>
+        <div className='mx-auto mt-6 w-[280px] h-[60px] flex justify-center'>
           <ButtonComponent
+            widthfull
             ref={addTreatmentButtonRef}
             label='Agregar Tratamiento'
             variant='secondary'
