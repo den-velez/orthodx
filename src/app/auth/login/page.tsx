@@ -50,7 +50,7 @@ const LoginPage = () => {
   };
 
   return (
-    <section className=' bg-gray-50 dark:bg-gray-900 h-screen'>
+    <section className='pb-[60px] bg-gray-50 dark:bg-gray-900 min-h-screen'>
       <div className='flex flex-col items-center justify-center px-3 py-3 mx-auto md:h-screen lg:py-0'>
         <a
           href='/'
@@ -137,6 +137,15 @@ const LoginPage = () => {
             </form>
           </div>
         </div>
+      </div>
+      <div className='w-full mt-10 px-10 flex justify-between items-center'>
+        <Link className=' text-txtBrand-secondary' href={"/terms"}>
+          Terminos y Condiciones
+        </Link>
+
+        <Link className='py-2 text-txtBrand-secondary' href={"/privacy"}>
+          Aviso de Privacidad
+        </Link>
       </div>
     </section>
   );

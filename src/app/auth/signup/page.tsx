@@ -201,6 +201,7 @@ const SignUpPage = () => {
                   </p>
                 )}
               </div>
+
               <div className='h-[60px]'>
                 <ButtonComponent
                   variant='primary'
@@ -224,6 +225,15 @@ const SignUpPage = () => {
               </p>
             </form>
           </div>
+        </div>
+        <div className='w-full mt-10 px-10 flex justify-between items-center'>
+          <Link className=' text-txtBrand-secondary' href={"/terms"}>
+            Terminos y Condiciones
+          </Link>
+
+          <Link className='py-2 text-txtBrand-secondary' href={"/privacy"}>
+            Aviso de Privacidad
+          </Link>
         </div>
       </div>
     </section>
