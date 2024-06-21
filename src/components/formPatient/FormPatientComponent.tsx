@@ -43,6 +43,8 @@ export default function FormPatientComponent({
     handleSubmit,
     getValues,
     setValue,
+    setError,
+    clearErrors,
     watch,
     formState: { errors },
   } = useForm<FormData>({
@@ -71,6 +73,12 @@ export default function FormPatientComponent({
     const file = e.target.files ? e.target.files[0] : null;
 
     if (!file) return;
+    if (newPatient) {
+      setError("avatar", {
+        message: "No se puede subir una imagen sin guardar el paciente",
+      });
+      return;
+    }
 
     if (imageURL.includes("firebasestorage")) {
       const url = await updateImage(
@@ -86,12 +94,9 @@ export default function FormPatientComponent({
           avatar: url,
         };
 
-        if (newPatient) {
-          await createPatient(payload);
-        } else {
-          const id = patient?.id || "";
-          await updatePatient(payload, id);
-        }
+        const id = patient?.id || "";
+        await updatePatient(payload, id);
+
         setValue("avatar", url);
       }
     } else {
@@ -103,12 +108,9 @@ export default function FormPatientComponent({
           avatar: url,
         };
 
-        if (newPatient) {
-          await createPatient(payload);
-        } else {
-          const id = patient?.id || "";
-          await updatePatient(payload, id);
-        }
+        const id = patient?.id || "";
+        await updatePatient(payload, id);
+
         setValue("avatar", url);
       }
     }
@@ -128,10 +130,19 @@ export default function FormPatientComponent({
         const patientId = patient?.id || "";
         await updatePatient(data, patientId);
       } else {
-        await createPatient(data);
+        await createPatient(data)
+          .then((id) => {
+            if (errors.avatar?.message) clearErrors("avatar");
+            router.push(`/patients/${id}/edit`);
+          })
+          .catch((e) => {
+            setError("root", {
+              message: "Error al guardar el paciente",
+            });
+          });
       }
-      reset({ name: "", age: "", doctorOffice: "", avatar: "" });
-      router.back();
+      // reset({ name: "", age: "", doctorOffice: "", avatar: "" });
+      // router.back();
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -164,6 +175,11 @@ export default function FormPatientComponent({
           />
         </div>
       </div>
+      {errors.avatar?.message && (
+        <div className='mt-10'>
+          <p className='text-center text-msg-error'>{errors.avatar?.message}</p>
+        </div>
+      )}
       <form className='w-full px-3' onSubmit={handleSubmit(onSubmit)}>
         <div className='flex flex-col mt-6'>
           <label className='text-small text-txtLight-100 ' htmlFor='name'>
@@ -223,7 +239,7 @@ export default function FormPatientComponent({
           <ButtonComponent
             type='button'
             variant='secondary'
-            label='Cancelar'
+            label='Salir'
             widthfull
             anchor
             anchorUrl={cancelButtonAction()}
