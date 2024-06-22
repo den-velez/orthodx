@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import {
   ButtonComponent,
-  TreatmentDoneComponent,
+  TextWithLineBreaksComponent,
   TreatmentPendingComponent,
   ModalComponent,
   NewImageComponent,
@@ -45,6 +45,7 @@ export default async function Patient({
     diagnostic: `/patients/${patientId}/diagnostic`,
     drawRequest: `/patients/${patientId}?draw=true`,
     odontogram: `/patients/${patientId}/odontogram`,
+    followup: `/patients/${patientId}/following`,
   };
 
   const patientCephalometry = patient.cephalometry ? true : false;
@@ -63,6 +64,8 @@ export default async function Patient({
     : false;
   const archesValorationDone = patient.valorationArches ? true : false;
 
+  const followupPatient = patient.followupList || [];
+
   return (
     <>
       <ModalComponent isOpen={searchParams.draw || false}>
@@ -75,11 +78,35 @@ export default async function Patient({
       </ModalComponent>
 
       <main className='grid gap-6 bg-bgDark-090 px-3 py-6'>
+        <section className=' flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
+          <h3 className='mb-[60px] text-h3 text-txtLight-100 text-center'>
+            Seguimiento del Paciente
+          </h3>
+          <div className='w-full px-6 flex flex-col gap-3 max-h-44 overflow-scroll'>
+            {followupPatient.map((f) => (
+              <div
+                key={f.createdAt}
+                className='w-full px-3 py-2 flex items-center gap-2 bg-bgDark-070 text-ctaLight-090'>
+                <TextWithLineBreaksComponent text={f.content} />
+              </div>
+            ))}
+          </div>
+          <div className='mt-[60px] w-full max-w-[280px] mx-auto'>
+            <ButtonComponent
+              label='Editar Seguimiento'
+              variant='primary-dark'
+              widthfull
+              anchor
+              anchorUrl={links.followup}
+            />
+          </div>
+        </section>
+
         {patientCephalometry && (
           <>
             <section className=' flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
               <h3 className='mb-[60px] text-h3 text-txtLight-100 text-center'>
-                Seguimiento
+                Tratamientos
               </h3>
               {treatmentsAdded > 0 ? (
                 <>

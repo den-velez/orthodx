@@ -34,6 +34,7 @@ export interface IPatient extends IPatientCard {
   assets?: IPatientAssets[];
   expansionDiagnostic?: IExpansion;
   expansionTreatment?: TExpansionTreatment;
+  followupList?: IFollowUp[];
 }
 
 export interface IPatientRequired extends Required<IPatient> {}
@@ -70,4 +71,11 @@ interface IPatientAssets {
   addedAt: string;
   urlImage: string;
   orderIndex: number;
+}
+
+export interface IFollowUp {
+  createdAt: string;
+  updatedAt: string;
+  content: string;
+  order: number;
 }

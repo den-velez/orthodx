@@ -21,6 +21,8 @@ import FormDentalSizeComponent from "./formDentalSize/FormDentalSizeComponent";
 import FormTreatmentsComponent from "./formTreatments/FormTreatmentsComponent";
 import FormDoctorComponent from "./formDoctor/FormDoctorComponent";
 import PurchaseComponent from "./PurchaseComponent/PurchaseComponent";
+import FormFollowUpComponent from "./formFollowUp/FormFollowUpComponent";
+import TextWithLineBreaksComponent from "./textWithLinesBreaks/TextWithLineBreaksComponent";
 
 export {
   ButtonComponent,
@@ -31,6 +33,7 @@ export {
   FormDentalComponent,
   FormDentalSizeComponent,
   FormDoctorComponent,
+  FormFollowUpComponent,
   FormOdontogramComponent,
   FormTreatmentsComponent,
   GalleryComponent,
@@ -43,6 +46,7 @@ export {
   FormPatientComponent,
   PatientHeaderComponent,
   ProductCardComponent,
+  TextWithLineBreaksComponent,
   TreatmentDoneComponent,
   TreatmentPendingComponent,
   SearcherComponent,
