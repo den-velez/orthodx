@@ -4,7 +4,7 @@ import React from "react";
 
 interface ButtonProps {
   label: string;
-  variant: "primary" | "primary-dark" | "secondary" | "alternative";
+  variant: "primary" | "primary-dark" | "secondary" | "alternative" | "delete";
   type?: "button" | "submit" | "reset";
   anchor?: boolean;
   anchorUrl?: string;
@@ -32,6 +32,8 @@ const ButtonComponent = React.forwardRef<HTMLButtonElement, ButtonProps>(
       switch (props.variant) {
         case "primary":
           return `h-full flex items-center justify-center gap-2 bg-cta-100 text-txtLight-100 text-center shadow border border-bgDark-080 capitalize hover:bg-ctaDark-090 hover:border-ctaLight-090 active:border-[4px] active:bg-cta-100 ${width} ${square}`;
+        case "delete":
+          return `h-full flex items-center justify-center gap-2 bg-msg-error text-txtLight-100 text-center shadow border border-bgDark-080 capitalize hover:bg-red-500 hover:border-ctaLight-090 active:border-[4px] active:bg-cta-100 ${width} ${square}`;
         case "primary-dark":
           return `h-full flex items-center justify-center gap-2 bg-ctaDark-090 text-txtBrand-secondary text-center shadow border border-bgDark-080 capitalize hover:bg-ctaDark-080 hover:text-txtLight-100 hover:border-ctaLight-090 active:border-[4px] active:bg-ctaDark-090 ${width} ${square}`;
         case "secondary":
