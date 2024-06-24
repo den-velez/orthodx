@@ -45,7 +45,7 @@ export default async function Patient({
     diagnostic: `/patients/${patientId}/diagnostic`,
     drawRequest: `/patients/${patientId}?draw=true`,
     odontogram: `/patients/${patientId}/odontogram`,
-    followup: `/patients/${patientId}/following`,
+    followup: `/patients/${patientId}/followup`,
   };
 
   const patientCephalometry = patient.cephalometry ? true : false;
