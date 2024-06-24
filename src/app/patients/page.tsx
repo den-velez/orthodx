@@ -26,6 +26,9 @@ const getData = async () => {
   const doctor = CryptoJS.AES.decrypt(doctorRaw, key).toString(
     CryptoJS.enc.Utf8
   );
+
+  if (!doctor) redirect("/auth/login");
+
   const q = query(collection(db, "doctors"), where("email", "==", doctor));
   const querySnapshot = await getDocs(q);
   const data = querySnapshot.docs.map((doc) => {

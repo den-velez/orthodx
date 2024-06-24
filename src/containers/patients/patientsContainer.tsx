@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { where, getDocs, collection, query } from "firebase/firestore";
 import CryptoJS from "crypto-js";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 import { PatientCardComponent } from "@/components";
 import { db } from "@/lib/firebase/firebase";
-import { cookies } from "next/headers";
 import { IPatientCard } from "@/interfaces";
 
 async function getPatientsData(doctor: string) {
@@ -30,6 +31,8 @@ export default async function PatientsContainer({
   const doctorEmail = CryptoJS.AES.decrypt(doctorRaw, key).toString(
     CryptoJS.enc.Utf8
   );
+
+  if (!doctorEmail) redirect("/auth/login");
 
   const patientList = (await getPatientsData(doctorEmail)) as IPatientCard[];
 
