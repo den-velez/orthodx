@@ -14,6 +14,8 @@ interface IDoctorHeaderComponent {
   avatar: string;
   name: string;
   credits: number;
+  paidCredits: number;
+  membershipExpireAt: string;
 }
 
 const getData = async (): Promise<IDoctorHeaderComponent | undefined> => {
@@ -57,14 +59,27 @@ export default async function DoctorHeaderComponent() {
     );
   }
 
+  const getSuscriptionExpire = (date: string) => {
+    const suscriptionArray = doctorData.membershipExpireAt.split("/");
+    const suscriptionDate = suscriptionArray.reverse().join("/");
+    return suscriptionDate;
+  };
+
   const avatar = doctorData.avatar || "/images/avatar.png";
+  const suscriptionExpire = getSuscriptionExpire(doctorData.membershipExpireAt);
+
   return (
     <header className='flex justify-between p-3 min-h-24 bg-bgDark-080 shadow'>
       <div className='flex flex-col justify-between text-txtBrand-secondary'>
         <h1 className='text-h4 capitalize'>{doctorData.name}</h1>
-        <p className=' '>
-          Creditos Disponibles:{" "}
-          <span className='text-h5'>{doctorData.credits}</span>
+        <p className='flex items-center gap-1 text-small'>
+          <span>{`Suscripción vence:`}</span>
+          <span>{suscriptionExpire}</span>
+        </p>
+        <p className='flex items-center gap-1 text-small'>
+          <span>{`Creditos Disponibles:`}</span>
+          <span>{doctorData.credits || 0 + doctorData.paidCredits || 0}</span>
+          <span>{`(${doctorData.paidCredits || 0} adicionales)`}</span>
         </p>
       </div>
       <div>

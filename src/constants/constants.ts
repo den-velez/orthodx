@@ -3,8 +3,8 @@ import { TCephalometryItem } from "@/interfaces/valorations.interface";
 export const BTN_STORE_TITLE = "store";
 export const BTN_STORE_LABEL = "comprar";
 
-export const DRAW_DESCRIPTION = "3 Creditos =  1 Trazado + Diagnostico";
-export const DX_DESCRIPTION = "1 Credito =  1 Diagnostico";
+export const DRAW_DESCRIPTION = "2 Creditos = Trazado Cefalometrico";
+export const DX_DESCRIPTION = "1 Credito =  1 Nuevo Paciente";
 
 export const CEPHALOMETRY_ITEMS: TCephalometryItem[] = [
   {

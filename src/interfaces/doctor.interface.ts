@@ -5,6 +5,9 @@ export interface IDoctor {
   name: string;
   avatar?: string;
   credits: number;
+  paidCredits: number;
+  memberCredits: number;
+  membershipExpireAt: string;
   createdAt: string;
   updatedAt: string;
 }
