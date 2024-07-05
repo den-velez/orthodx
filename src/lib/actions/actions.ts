@@ -15,19 +15,22 @@ import { cookies } from "next/headers";
 import CryptoJS from "crypto-js";
 import { auth, db, storage } from "@/lib/firebase/firebase";
 import { revalidatePath } from "next/cache";
-import { INewPurchase } from "@/interfaces";
+import { IDoctor, INewPurchase } from "@/interfaces";
 
 export async function login(email: string, password: string) {
   let emailCrypted = "";
   const key = process.env.CRYPTO_SECRET || "";
   let user;
+  let sessionUser;
+  let sessionUserCrypted;
 
   try {
     user = await signInWithEmailAndPassword(auth, email, password);
+    sessionUser = await getDoctorSubscription(email);
     emailCrypted = CryptoJS.AES.encrypt(email, key).toString();
+    sessionUserCrypted = CryptoJS.AES.encrypt(sessionUser, key).toString();
 
     const userVerified = user.user?.emailVerified;
-    console.log("User Verified: ", userVerified);
 
     if (!user) {
       throw new Error("El email o la contraseña son incorrectos");
@@ -42,7 +45,14 @@ export async function login(email: string, password: string) {
       secure: true,
       value: emailCrypted,
       path: "/",
-      maxAge: 60 * 60 * 24 * 30, // 30 days
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+    });
+    cookies().set({
+      name: "suscriptionUser",
+      secure: true,
+      value: sessionUserCrypted,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 1 week
     });
 
     return true;
@@ -67,6 +77,15 @@ export async function createPatient(newPatientData: {
     doctor: doctorEmail,
   };
 
+  const doctorData = (await getDoctorData(doctorEmail)) as IDoctor;
+
+  if (!doctorData) {
+    throw new Error("Doctor not found");
+  }
+
+  const { credits, paidCredits, memberCredits } = doctorData;
+
+  // get credits from doctor and add to patient
   try {
     const patient = await addDoc(collection(db, "patients"), payload);
     revalidatePath("/patients");
@@ -138,6 +157,51 @@ export async function updateDoctor(payload: any, doctorId: string) {
     console.error("Error adding document: ", e);
     return false;
   }
+}
+
+export async function getDoctorData(userID: string | null) {
+  if (!userID) return null;
+
+  const key = process.env.CRYPTO_SECRET || "";
+  const doctorRaw = cookies().get("userID")?.value || "";
+  const doctorEmail = CryptoJS.AES.decrypt(doctorRaw, key).toString(
+    CryptoJS.enc.Utf8
+  );
+
+  const q = query(collection(db, "doctors"), where("email", "==", doctorEmail));
+  const querySnapshot = await getDocs(q);
+  const data = querySnapshot.docs.map((doc) => {
+    const data = doc.data();
+    const doctorData = { ...data, id: doc.id } as IDoctor;
+    return doctorData;
+  });
+
+  return data[0] || null;
+}
+
+export async function getDoctorSubscription(email: string) {
+  const q = query(collection(db, "doctors"), where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+  const data = querySnapshot.docs.map((doc) => {
+    return {
+      ...doc.data(),
+      id: doc.id,
+    };
+  });
+
+  const doctorData = (data[0] as IDoctor) || null;
+
+  if (!doctorData) return "No membership date found";
+
+  const doctorExpiredDate = doctorData.membershipExpireAt || null;
+
+  if (!doctorExpiredDate) return "No membership date found";
+
+  const expiredDate = new Date(doctorExpiredDate);
+  const currentDate = new Date();
+  const isActive = currentDate <= expiredDate;
+
+  return isActive ? doctorExpiredDate : "No membership date found";
 }
 
 export async function newPurchase(newPurchaseData: INewPurchase) {

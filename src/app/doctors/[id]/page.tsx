@@ -29,7 +29,7 @@ export default async function DoctorPage({
   const { id } = params;
 
   const doctorData = async (id: string) => {
-    const baseDoctorData = {
+    const baseDoctorData: IDoctor = {
       id: "",
       greetings: "",
       email: "",
@@ -38,6 +38,9 @@ export default async function DoctorPage({
       credits: 0,
       createdAt: "",
       updatedAt: "",
+      paidCredits: 0,
+      memberCredits: 0,
+      membershipExpireAt: "",
     };
 
     if (!id || id === "new") {

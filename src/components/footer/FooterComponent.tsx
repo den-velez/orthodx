@@ -25,6 +25,7 @@ const FooterComponent = (props: FooterProps) => {
     try {
       await signOut(auth);
       Cookies.remove("userID");
+      Cookies.remove("suscriptionUser");
       router.push("/");
     } catch (error) {
       console.error(error);

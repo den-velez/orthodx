@@ -1,8 +1,8 @@
 import { Suspense } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
 import { cookies } from "next/headers";
-import CryptoJS from "crypto-js";
-import { db } from "@/lib/firebase/firebase";
+import { redirect } from "next/navigation";
+
+import { getDoctorData } from "@/lib/actions/actions";
 
 import {
   DoctorHeaderComponent,
@@ -13,36 +13,11 @@ import {
   ModalComponent,
 } from "@/components";
 import { PatientsContainer } from "@/containers";
-import { redirect } from "next/navigation";
+import { IDoctor } from "@/interfaces";
 
 type TSearcParams = {
   newpatient?: boolean;
   name?: string;
-};
-
-const getData = async () => {
-  const key = process.env.CRYPTO_SECRET || "";
-  const doctorRaw = cookies().get("userID")?.value || "";
-  const doctor = CryptoJS.AES.decrypt(doctorRaw, key).toString(
-    CryptoJS.enc.Utf8
-  );
-
-  if (!doctor) redirect("/auth/login");
-
-  const q = query(collection(db, "doctors"), where("email", "==", doctor));
-  const querySnapshot = await getDocs(q);
-  const data = querySnapshot.docs.map((doc) => {
-    return {
-      doctorId: doc.id,
-      credits: doc.data().credits,
-    };
-  });
-
-  if (data.length === 0) return null;
-
-  const { doctorId, credits } = data[0];
-
-  return { doctorId, credits };
 };
 
 export default async function PatientsList({
@@ -50,11 +25,16 @@ export default async function PatientsList({
 }: {
   searchParams: TSearcParams;
 }) {
-  const doctor = await getData();
+  const cookieUserID = cookies().get("userID")?.value || "";
+  const doctor = (await getDoctorData(cookieUserID)) as IDoctor;
 
-  const { doctorId, credits } = doctor || {};
+  if (!doctor) {
+    redirect("/auth/login");
+  }
 
-  if (!doctorId) {
+  const { id, credits } = doctor;
+
+  if (!id) {
     redirect("/doctors/new");
   }
 
@@ -74,7 +54,7 @@ export default async function PatientsList({
         <Suspense fallback={<div>Loading...</div>}>
           <PatientsContainer name={searchParams.name || null} />
         </Suspense>
-        {credits > 1 ? (
+        {credits >= 1 ? (
           <div className='mx-auto my-[48px] h-[60px] flex justify-center w-[240px]'>
             <ButtonComponent
               label='Agregar Paciente'
@@ -97,7 +77,7 @@ export default async function PatientsList({
         )}
       </main>
 
-      <FooterComponent type='home' doctorId={doctorId} />
+      <FooterComponent type='home' doctorId={id} />
     </>
   );
 }

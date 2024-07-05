@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { cookies } from "next/headers";
 import { ButtonComponent, PurchaseComponent } from "@/components";
 import { DRAW_DESCRIPTION, DX_DESCRIPTION } from "@/constants/constants";
 
