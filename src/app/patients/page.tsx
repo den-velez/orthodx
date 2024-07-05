@@ -32,7 +32,8 @@ export default async function PatientsList({
     redirect("/auth/login");
   }
 
-  const { id, credits } = doctor;
+  const { id, paidCredits, memberCredits } = doctor;
+  const credits = paidCredits + memberCredits || 0;
 
   if (!id) {
     redirect("/doctors/new");

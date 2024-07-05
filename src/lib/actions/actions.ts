@@ -83,11 +83,27 @@ export async function createPatient(newPatientData: {
     throw new Error("Doctor not found");
   }
 
-  const { credits, paidCredits, memberCredits } = doctorData;
+  const { paidCredits, memberCredits, id } = doctorData;
 
-  // get credits from doctor and add to patient
+  if (id === undefined) return false;
+
+  if (paidCredits + memberCredits == 0) {
+    throw new Error("Doctor has no credits");
+  }
+
+  let creditsSource;
+  let newCreditAmount;
+  if (memberCredits > 0) {
+    creditsSource = "memberCredits";
+    newCreditAmount = { memberCredits: memberCredits - 1 };
+  } else {
+    creditsSource = "paidCredits";
+    newCreditAmount = { paidCredits: paidCredits - 1 };
+  }
+
   try {
     const patient = await addDoc(collection(db, "patients"), payload);
+    await updateDoctor(newCreditAmount, id);
     revalidatePath("/patients");
     return patient.id;
   } catch (e) {

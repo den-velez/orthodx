@@ -13,7 +13,7 @@ interface IDoctorHeaderComponent {
   id: string;
   avatar: string;
   name: string;
-  credits: number;
+  memberCredits: number;
   paidCredits: number;
   membershipExpireAt: string;
 }
@@ -78,7 +78,9 @@ export default async function DoctorHeaderComponent() {
         </p>
         <p className='flex items-center gap-1 text-small'>
           <span>{`Creditos Disponibles:`}</span>
-          <span>{doctorData.credits || 0 + doctorData.paidCredits || 0}</span>
+          <span>
+            {doctorData.memberCredits || 0 + doctorData.paidCredits || 0}
+          </span>
           <span>{`(${doctorData.paidCredits || 0} adicionales)`}</span>
         </p>
       </div>
