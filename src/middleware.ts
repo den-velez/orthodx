@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import CryptoJS from "crypto-js";
 
 const PUBLIC_PATHS = [
+  "/",
   "/auth/login",
   "/auth/signup",
   "/auth/forgot-password",
