@@ -35,12 +35,14 @@ export default async function DoctorPage({
       email: "",
       name: "",
       avatar: "/images/avatar.png",
-      credits: 0,
       createdAt: "",
       updatedAt: "",
       paidCredits: 0,
+      paidCreditsExpireAt: "",
       memberCredits: 0,
       membershipExpireAt: "",
+      subscriptionActive: false,
+      memberCreditsExpireAt: "",
     };
 
     if (!id || id === "new") {
