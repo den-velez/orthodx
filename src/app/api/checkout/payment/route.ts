@@ -1,3 +1,4 @@
+import { doctor } from "@/components/icons/iconList";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -32,12 +33,15 @@ export async function POST(request: NextRequest) {
         quantity: 1,
       },
     ],
+    metadata: {
+      doctorEmail: body.doctorEmail,
+      productId: body.productId,
+    },
     mode: "payment",
     success_url: `${process.env.NEXT_PUBLIC_URL}/patients`,
     cancel_url: `${process.env.NEXT_PUBLIC_URL}/store`,
   });
 
-  console.log(session);
   const url = session.url;
 
   if (url) {

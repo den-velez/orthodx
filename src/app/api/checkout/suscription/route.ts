@@ -35,6 +35,10 @@ export async function POST(request: NextRequest) {
       },
     ],
     mode: "subscription",
+    metadata: {
+      doctorEmail: body.doctorEmail,
+      productId: body.productId,
+    },
     subscription_data: freeTrial
       ? {
           trial_period_days: freeTrial,
@@ -44,7 +48,6 @@ export async function POST(request: NextRequest) {
     cancel_url: `${process.env.NEXT_PUBLIC_URL}/store`,
   });
 
-  console.log(session);
   const url = session.url;
 
   if (url) {

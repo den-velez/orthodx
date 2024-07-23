@@ -15,7 +15,13 @@ import { cookies } from "next/headers";
 import CryptoJS from "crypto-js";
 import { auth, db, storage } from "@/lib/firebase/firebase";
 import { revalidatePath } from "next/cache";
-import { IDoctor, INewProduct, INewPurchase } from "@/interfaces";
+import {
+  IDoctor,
+  INewProduct,
+  INewPurchase,
+  IProduct,
+  IUpdateByPurchase,
+} from "@/interfaces";
 
 export async function login(email: string, password: string) {
   let emailCrypted = "";
@@ -165,10 +171,10 @@ export async function createDoctor(newDoctorData: {
 export async function updateDoctor(payload: any, doctorId: string) {
   try {
     const docRef = doc(db, "doctors", doctorId);
-    const doctor = await updateDoc(docRef, payload);
+    await updateDoc(docRef, payload);
 
     revalidatePath("/patients");
-    return doctor;
+    return true;
   } catch (e) {
     console.error("Error adding document: ", e);
     return false;
@@ -184,6 +190,19 @@ export async function getDoctorData(userID: string | null) {
     CryptoJS.enc.Utf8
   );
 
+  const q = query(collection(db, "doctors"), where("email", "==", doctorEmail));
+  const querySnapshot = await getDocs(q);
+  const data = querySnapshot.docs.map((doc) => {
+    const data = doc.data();
+    const doctorData = { ...data, id: doc.id } as IDoctor;
+    return doctorData;
+  });
+
+  return data[0] || null;
+}
+
+export async function getDoctorDataByEmail(doctorEmail: string) {
+  if (!doctorEmail) return null;
   const q = query(collection(db, "doctors"), where("email", "==", doctorEmail));
   const querySnapshot = await getDocs(q);
   const data = querySnapshot.docs.map((doc) => {
@@ -258,6 +277,18 @@ export async function getAllProducts() {
   return data || [];
 }
 
+export async function getProductById(id: string) {
+  const docRef = doc(db, "products", id);
+  const docSnap = await getDoc(docRef);
+  let resultData = undefined;
+  if (docSnap.exists()) {
+    resultData = docSnap.data();
+  } else {
+    console.log("No such document!");
+  }
+  return resultData;
+}
+
 export async function getPatientsByDoctor(doctor: string) {
   const q = query(collection(db, "patients"), where("doctor", "==", doctor));
   const querySnapshot = await getDocs(q);
@@ -311,4 +342,57 @@ export async function createProduct(product: INewProduct) {
     console.error("Error adding document: ", e);
     return false;
   }
+}
+
+export async function applyPurchase(productId: string, doctorEmail: string) {
+  const product = (await getProductById(productId)) as IProduct;
+  const doctor = (await getDoctorDataByEmail(doctorEmail)) as IDoctor;
+
+  if (!product || !doctor || !doctor.id) return false;
+
+  const { category, credits, suscriptionMonths } = product;
+
+  const today = new Date().toISOString().split("T")[0];
+  const newDate = new Date();
+  const newDateRaw = newDate.setMonth(newDate.getMonth() + suscriptionMonths);
+  const newDateFormatted = new Date(newDateRaw).toISOString().split("T")[0];
+
+  let payload: IUpdateByPurchase | undefined;
+
+  if (category === "credits") {
+    const updatedAt = today;
+    const paidCredits = credits + doctor.paidCredits;
+    const paidCreditsExpireAt = newDateFormatted;
+
+    payload = {
+      updatedAt,
+      paidCredits,
+      paidCreditsExpireAt,
+    };
+  }
+
+  if (category === "basic" || category === "plus") {
+    const updatedAt = today;
+    const memberCredits = credits;
+    const memberCreditsExpireAt = newDateFormatted;
+    const subscriptionActive = true;
+    const membershipExpireAt = newDateFormatted;
+
+    payload = {
+      updatedAt,
+      memberCredits,
+      memberCreditsExpireAt,
+      subscriptionActive,
+      membershipExpireAt,
+    };
+  }
+
+  if (!payload) return false;
+
+  const res = await updateDoctor(payload, doctor.id);
+
+  console.log("Applying res", res);
+  if (!res) return false;
+
+  return true;
 }

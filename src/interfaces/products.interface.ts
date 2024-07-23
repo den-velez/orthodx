@@ -9,6 +9,7 @@ export interface IProduct {
   createdAt: string;
   updatedAt: string;
   justOnePayment: boolean;
+  suscriptionMonths: number;
   category: "credits" | "basic" | "plus";
 }
 
