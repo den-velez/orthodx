@@ -15,7 +15,7 @@ import { cookies } from "next/headers";
 import CryptoJS from "crypto-js";
 import { auth, db, storage } from "@/lib/firebase/firebase";
 import { revalidatePath } from "next/cache";
-import { IDoctor, INewPurchase } from "@/interfaces";
+import { IDoctor, INewProduct, INewPurchase } from "@/interfaces";
 
 export async function login(email: string, password: string) {
   let emailCrypted = "";
@@ -220,32 +220,28 @@ export async function getDoctorSubscription(email: string) {
   return isActive ? doctorExpiredDate : "No membership date found";
 }
 
-export async function newPurchase(newPurchaseData: INewPurchase) {
+export async function paymentCheckout(
+  purchaseData: INewPurchase,
+  onePayment: boolean
+) {
+  const url = onePayment
+    ? `${process.env.NEXT_PUBLIC_URL}/api/checkout/payment`
+    : `${process.env.NEXT_PUBLIC_URL}/api/checkout/suscription`;
   try {
-    const purchase = await addDoc(collection(db, "purchases"), newPurchaseData);
-
-    const getProduct = await getDocById(newPurchaseData.productId, "products");
-    const doctor = await getDocById(newPurchaseData.doctorId, "doctors");
-
-    if (!getProduct || !doctor) {
-      throw new Error("Product or doctor not found");
-    }
-
-    const credits = getProduct.credits || 0;
-    const doctorCredits = doctor.credits || 0;
-    const creditsUpdated = credits + doctorCredits;
-
-    await updateDoctor({ credits: creditsUpdated }, newPurchaseData.doctorId);
-
-    revalidatePath("/patients");
-
-    return {
-      purchaseTicket: purchase.id,
-      message: "Purchase created successfully",
-    };
-  } catch (e) {
-    console.error("Error in purchase: ", e);
-    return false;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(purchaseData),
+    });
+    if (!response.ok) throw new Error("Error al procesar la solicitud");
+    const data = await response.json();
+    console.log(data);
+    return data.url;
+  } catch (error) {
+    console.error("Error in payment checkout: ", error);
+    return null;
   }
 }
 
@@ -262,7 +258,7 @@ export async function getAllProducts() {
   return data || [];
 }
 
-async function getPatientsByDoctor(doctor: string) {
+export async function getPatientsByDoctor(doctor: string) {
   const q = query(collection(db, "patients"), where("doctor", "==", doctor));
   const querySnapshot = await getDocs(q);
   const data = querySnapshot.docs.map((doc) => {
@@ -295,4 +291,24 @@ export async function getDoctorIdByEmail() {
   const { doctorId, credits } = data[0];
 
   return { doctorId, credits };
+}
+
+export async function getDoctorEmailbyCookie(userID: string | null) {
+  if (!userID) return null;
+  const key = process.env.CRYPTO_SECRET || "";
+  const doctorEmail = CryptoJS.AES.decrypt(userID, key).toString(
+    CryptoJS.enc.Utf8
+  );
+
+  return doctorEmail;
+}
+
+export async function createProduct(product: INewProduct) {
+  try {
+    const newProduct = await addDoc(collection(db, "products"), product);
+    return newProduct.id;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    return false;
+  }
 }

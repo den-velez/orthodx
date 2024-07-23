@@ -2,14 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import CardContainer from "@/containers/card/CardContainer";
 import ProductCardComponent from "@/components/productCard/productCardComponent";
-import { getAllProducts } from "@/lib/actions/actions";
-import { IProduct } from "@/interfaces";
 import { ButtonComponent } from "@/components";
+import { STORES_CATEGORIES } from "@/constants/constants";
 
 export default async function StorePage() {
-  const products = (await getAllProducts()) as IProduct[];
-  const productsSorted = products.sort((a, b) => a.price - b.price);
-
   return (
     <main className='min-h-screen px-3 pt-6 pb-[60px] bg-bgDark-090'>
       <CardContainer>
@@ -25,12 +21,12 @@ export default async function StorePage() {
         <h2 className='text-h1 text-txtLight-100 text-center'>Store</h2>
       </CardContainer>
       <section className='mt-[60px] flex flex-col gap-6'>
-        {productsSorted.map((product) => (
+        {STORES_CATEGORIES.map((product, index) => (
           <ProductCardComponent
-            key={product.id}
-            id={product.id}
+            key={index}
+            id={product.category}
             name={product.name}
-            price={product.price}
+            description={product.description}
           />
         ))}
         <div className='w-full mt-20 h-[60px] flex justify-center'>

@@ -1,12 +1,11 @@
 export interface IPurchase {
   id: string;
-  doctorId: string;
   doctorEmail: string;
   productId: string;
-  date: string;
+  priceID: string;
   amount: number;
-  description: string;
   paymentMethod?: string;
+  onePayment: boolean;
 }
 
 export interface INewPurchase extends Omit<IPurchase, "id"> {}

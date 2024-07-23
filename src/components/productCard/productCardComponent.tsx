@@ -4,7 +4,8 @@ import { ButtonComponent } from "@/components";
 interface IProductCardComponentProps {
   id: string;
   name: string;
-  price: number;
+  description?: string;
+  price?: number;
 }
 
 const ProductCardComponent = (props: IProductCardComponentProps) => {
@@ -14,10 +15,17 @@ const ProductCardComponent = (props: IProductCardComponentProps) => {
         <h3 className='text-h3 text-txtLight-100 text-center first-letter:uppercase'>
           {props.name}
         </h3>
-        <p className='text-h2 text-txtLight-100 text-center'>
-          <span>{"$ "}</span>
-          <span>{props.price}</span>
-        </p>
+        {props.description && (
+          <p className='mt-3 text-h5 text-txtLight-100 text-center'>
+            <span>{props.description}</span>
+          </p>
+        )}
+        {props.price && (
+          <p className='text-h2 text-txtLight-100 text-center'>
+            <span>{"$ "}</span>
+            <span>{props.price}</span>
+          </p>
+        )}
       </div>
       <div className='w-full h-[60px] flex justify-center'>
         <ButtonComponent

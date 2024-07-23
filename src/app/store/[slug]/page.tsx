@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ButtonComponent, PurchaseComponent } from "@/components";
 import { DRAW_DESCRIPTION, DX_DESCRIPTION } from "@/constants/constants";
 
-import { getDocById, getDoctorIdByEmail } from "@/lib/actions/actions";
+import { getAllProducts } from "@/lib/actions/actions";
 import { IProduct } from "@/interfaces";
 
 export default async function Product({
@@ -11,12 +11,14 @@ export default async function Product({
   params: { slug: string };
 }) {
   const slug = params.slug;
-  const doctorId = await getDoctorIdByEmail();
 
-  const product = (await getDocById(slug, "products")) as IProduct;
+  const allProducts = (await getAllProducts()) as IProduct[];
 
-  const creditsLabel = product.credits === 1 ? "credito" : "creditos";
-  const productWithId = { ...product, id: slug };
+  const products = allProducts.filter(
+    (product: IProduct) => product.category === slug
+  );
+
+  const productsSorted = products.sort((a, b) => a.price - b.price);
 
   return (
     <main className='min-h-screen px-3 pt-3 pb-[60px] bg-bgDark-090'>
@@ -29,11 +31,9 @@ export default async function Product({
           alt='logo'
         />
       </div>
-      <PurchaseComponent
-        product={productWithId}
-        creditsLabel={creditsLabel}
-        doctorId={doctorId?.doctorId ?? undefined}
-      />
+      {products.map((product: IProduct) => (
+        <PurchaseComponent product={product} />
+      ))}
       <div className='my-[60px] flex flex-col gap-6 items-center text-h5 text-txtDark-090'>
         <h2 className='text-h4'>¿Como puedo utilizar mis creditos?</h2>
         <p>{DX_DESCRIPTION}</p>

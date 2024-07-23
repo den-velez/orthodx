@@ -198,3 +198,24 @@ export const PAGE_TITLES = {
   arches: "Analísis Dental",
   dental: "Valoración Oclusal",
 };
+
+export const STORES_CATEGORIES = [
+  {
+    name: "Suscripción Basica",
+    description: "Acceso a la plataforma con 3 creditos mensuales",
+    buttonLabel: "comprar",
+    category: "basic",
+  },
+  {
+    name: "Suscripción Plus",
+    description: "Acceso a la plataforma con 10 creditos mensuales",
+    buttonLabel: "comprar",
+    category: "plus",
+  },
+  {
+    name: "Creditos Extras",
+    description: "Creditos para realizar trazados cefalometricos",
+    buttonLabel: "comprar",
+    category: "credits",
+  },
+];

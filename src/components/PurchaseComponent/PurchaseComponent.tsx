@@ -1,41 +1,52 @@
 "use client";
 
-import { useState } from "react";
-import { ButtonComponent, ModalComponent } from "@/components";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { ButtonComponent } from "@/components";
 import CardContainer from "@/containers/card/CardContainer";
 import { INewPurchase, IProduct } from "@/interfaces";
-import { newPurchase } from "@/lib/actions/actions";
+import { paymentCheckout, getDoctorEmailbyCookie } from "@/lib/actions/actions";
 
-export default function PurchaseComponent({
-  product,
-  creditsLabel,
-  doctorId,
-}: {
-  product: IProduct;
-  creditsLabel: string;
-  doctorId?: string;
-}) {
-  const [modalOpen, setModalOpen] = useState(false);
+export default function PurchaseComponent({ product }: { product: IProduct }) {
+  const router = useRouter();
+  const [doctorEmail, setDoctorEmail] = useState<string | null>(null);
+  const creditsLabel = product.credits > 1 ? "creditos" : "credito";
+
+  const purchase: INewPurchase = {
+    doctorEmail: doctorEmail ?? "",
+    productId: product.id,
+    amount: product.price,
+    priceID: product.priceID,
+    paymentMethod: "stripe",
+    onePayment: product.justOnePayment,
+  };
+
   const buyProduct = async (purchase: INewPurchase) => {
-    const response = await newPurchase(purchase);
-    if (response) {
-      setModalOpen(true);
-    } else {
+    try {
+      const getCheckoutUrl = await paymentCheckout(
+        purchase,
+        purchase.onePayment
+      );
+
+      router.push(getCheckoutUrl);
+    } catch (error) {
       alert("Error al realizar la compra");
     }
   };
 
-  const purchase = {
-    doctorId: doctorId ?? "",
-    doctorEmail: doctorId ?? "",
-    productId: product.id,
-    date: new Date().toISOString().split("T")[0],
-    amount: product.price,
-    description: product.name,
-    paymentMethod: "credit card",
-  };
+  useEffect(() => {
+    const getDoctorId = async () => {
+      const doctorRaw = Cookies.get("userID");
+      if (!doctorRaw) return;
 
-  if (!doctorId || doctorId === "") {
+      const doctorEmail = await getDoctorEmailbyCookie(doctorRaw);
+      setDoctorEmail(doctorEmail);
+    };
+    getDoctorId();
+  }, []);
+
+  if (!doctorEmail) {
     return (
       <CardContainer styles='mt-[60px] flex flex-col gap-[60px] text-txtLight-100 items-center'>
         <h1 className='text-h3 text-center'>
@@ -56,28 +67,13 @@ export default function PurchaseComponent({
 
   return (
     <>
-      <ModalComponent isOpen={modalOpen}>
-        <div className='max-w-[300px] min-h-[200px] py-14 flex flex-col gap-10'>
-          <h1 className='text-txtLight-100 text-center text-h3 '>
-            Tu compra ha sido realizada con exito!
-          </h1>
-
-          <div className='h-[60px]'>
-            <ButtonComponent
-              label='Volver a pacientes'
-              variant='primary'
-              widthfull
-              anchor
-              anchorUrl='/patients'
-            />
-          </div>
-        </div>
-      </ModalComponent>
       <CardContainer styles='mt-[60px] flex flex-col gap-[60px] text-txtLight-100 items-center'>
         <h1 className='text-h1 capitalize text-center'>{product.name}</h1>
         <div>
           <div>
-            <p className='text-h1 text-center'>{`$ ${product.price}`}</p>
+            <p className='text-h1 text-center'>{`$ ${new Intl.NumberFormat(
+              "mx-MX"
+            ).format(product.price)}`}</p>
           </div>
           <div>
             <p className='mt-2 text-h4 text-center'>{`Incluye ${product.credits} ${creditsLabel}`}</p>
@@ -85,7 +81,7 @@ export default function PurchaseComponent({
         </div>
         <div className='w-full h-20'>
           <ButtonComponent
-            label='comprar'
+            label={product.justOnePayment ? "Comprar" : "Suscribirme"}
             variant='primary'
             widthfull
             type='button'
