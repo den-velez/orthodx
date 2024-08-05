@@ -9,13 +9,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { auth } from "@/lib/firebase/firebase";
 
 import {
   ButtonComponent,
   ModalMessageComponent,
   ModalComponent,
 } from "@/components";
-import { auth } from "@/lib/firebase/firebase";
+import { LOGO_ORTHODX_WHITE } from "@/constants/constants";
 
 type FormData = {
   email: string;
@@ -70,7 +71,7 @@ const ForgotPasswordPage = () => {
           className='flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white'>
           <Image
             className='w-full h-auto mr-2 sm:max-w-md'
-            src='/images/logo-white.png'
+            src={LOGO_ORTHODX_WHITE}
             width={400}
             height={100}
             alt='logo'

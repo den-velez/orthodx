@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ButtonComponent } from "@/components";
 import { login } from "@/lib/actions/actions";
+import { LOGO_ORTHODX_WHITE } from "@/constants/constants";
 
 type FormData = {
   email: string;
@@ -57,7 +58,7 @@ const LoginPage = () => {
           className='flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white'>
           <Image
             className='w-full h-auto mr-2 sm:max-w-md'
-            src='/images/logo-white.png'
+            src={LOGO_ORTHODX_WHITE}
             width={400}
             height={100}
             alt='logo'

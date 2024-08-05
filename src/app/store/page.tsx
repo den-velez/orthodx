@@ -3,7 +3,7 @@ import Link from "next/link";
 import CardContainer from "@/containers/card/CardContainer";
 import ProductCardComponent from "@/components/productCard/productCardComponent";
 import { ButtonComponent } from "@/components";
-import { STORES_CATEGORIES } from "@/constants/constants";
+import { STORES_CATEGORIES, LOGO_ORTHODX_WHITE } from "@/constants/constants";
 
 export default async function StorePage() {
   return (
@@ -12,7 +12,7 @@ export default async function StorePage() {
         <Link href='/' className='flex justify-center p-3'>
           <Image
             className='w-full h-auto'
-            src='/images/logo-white.png'
+            src={LOGO_ORTHODX_WHITE}
             width={400}
             height={100}
             alt='logo'

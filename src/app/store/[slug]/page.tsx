@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { ButtonComponent, PurchaseComponent } from "@/components";
-import { DRAW_DESCRIPTION, DX_DESCRIPTION } from "@/constants/constants";
+import {
+  DRAW_DESCRIPTION,
+  DX_DESCRIPTION,
+  LOGO_ORTHODX_WHITE,
+} from "@/constants/constants";
 
 import { getAllProducts } from "@/lib/actions/actions";
 import { IProduct } from "@/interfaces";
@@ -25,7 +29,7 @@ export default async function Product({
       <div className='flex justify-center'>
         <Image
           className='w-full h-auto mr-2 sm:max-w-md'
-          src='/images/logo-white.png'
+          src={LOGO_ORTHODX_WHITE}
           width={400}
           height={100}
           alt='logo'

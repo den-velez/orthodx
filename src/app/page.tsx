@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CardContainer from "@/containers/card/CardContainer";
 import ButtonComponent from "@/components/button/ButtonComponent";
+import { LOGO_ORTHODX_WHITE } from "@/constants/constants";
 
 const HomePage = () => {
   return (
@@ -10,7 +11,7 @@ const HomePage = () => {
         <div className='flex justify-center p-3'>
           <Image
             className='w-full h-auto'
-            src='/images/logo-white.png'
+            src={LOGO_ORTHODX_WHITE}
             width={400}
             height={100}
             alt='logo'

@@ -219,3 +219,6 @@ export const STORES_CATEGORIES = [
     category: "credits",
   },
 ];
+
+export const LOGO_ORTHODX_WHITE =
+  "https://firebasestorage.googleapis.com/v0/b/orthodx-v2.appspot.com/o/orthodx%2Flogo-white.png?alt=media&token=8b917924-3f6f-434e-b178-a3b8e4b3457f";
