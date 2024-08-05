@@ -33,6 +33,7 @@ export default async function Product({
           width={400}
           height={100}
           alt='logo'
+          unoptimized
         />
       </div>
       {products.map((product: IProduct) => (

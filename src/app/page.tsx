@@ -15,6 +15,7 @@ const HomePage = () => {
             width={400}
             height={100}
             alt='logo'
+            unoptimized
           />
         </div>
         <h2 className='text-h2 text-txtLight-100 text-center'>

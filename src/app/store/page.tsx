@@ -16,6 +16,7 @@ export default async function StorePage() {
             width={400}
             height={100}
             alt='logo'
+            unoptimized
           />
         </Link>
         <h2 className='text-h1 text-txtLight-100 text-center'>Store</h2>
