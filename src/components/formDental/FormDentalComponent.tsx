@@ -204,8 +204,8 @@ export default function FormDentalComponent({
           </label>
           <textarea
             className='p-3 w-full rounded-[12px] focus:outline-none focus:ring-2 focus:ring-cta-100 focus:ring-opacity-50 text-h5'
-            name='observaciones'
             id=''
+            {...register("comments")}
             rows={6}></textarea>
         </div>
 

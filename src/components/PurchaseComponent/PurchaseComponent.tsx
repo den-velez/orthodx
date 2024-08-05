@@ -29,7 +29,8 @@ export default function PurchaseComponent({ product }: { product: IProduct }) {
         purchase.onePayment
       );
 
-      router.push(getCheckoutUrl);
+      window.open(getCheckoutUrl, "_blank");
+      // router.push(getCheckoutUrl);
     } catch (error) {
       alert("Error al realizar la compra");
     }

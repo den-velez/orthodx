@@ -411,6 +411,7 @@ export default function FormOdontogramComponent({
   const [tooth, setTooth] = useState({ label: "", image: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitted, setSubmitted] = useState(false);
+  const [pathologies, setPathologies] = useState<string[]>([]);
 
   const handleOpenModal = (label: string, image: string) => {
     setTooth({ label, image });
@@ -428,6 +429,7 @@ export default function FormOdontogramComponent({
     setError,
     setValue,
     getValues,
+    watch,
     control,
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -600,6 +602,20 @@ export default function FormOdontogramComponent({
                 </button>
               );
             })}
+          </div>
+          <div className='w-full px-[10%] mt-20 text-txtBrand-alternative '>
+            <h4 className='text-h4 mb-4'>Patologias</h4>
+            <ul className='flex flex-col gap-2 text-small'>
+              {Object.keys(getValues()).map((key) => {
+                if (key.startsWith("d")) {
+                  const allValues = getValues() as any;
+                  const pathology = allValues[key].pathology;
+                  if (pathology && pathology.length > 0) {
+                    return <li>{`${key}: ${pathology}`}</li>;
+                  }
+                }
+              })}
+            </ul>
           </div>
         </section>
         <section className='mt-6 p-6 bg-bgDark-080 rounded-[12px]'>
