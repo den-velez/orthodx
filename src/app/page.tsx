@@ -42,7 +42,6 @@ const HomePage = () => {
           </h5>
         </CardContainer>
       </div>
-
       <div className='w-full h-[60px] flex justify-center'>
         <ButtonComponent
           variant='secondary'
@@ -61,6 +60,23 @@ const HomePage = () => {
           anchorUrl='/auth/signup'
         />
       </div>
+      <br />
+      <CardContainer>
+        <div className='flex flex-col justify-center gap-3 text-h5 text-txtLight-100'>
+          <p className='text-body'>
+            Nuestra version anterior estara vigente por algunos meses
+          </p>
+          <div className='flex flex-wrap items-center gap-4 text-center'>
+            <p className='text-body'>Para acceder usa este link</p>
+            <Link
+              href='https://denprueba001.firebaseapp.com/'
+              target='_blank'
+              className='text-txtBrand-primary hover:text-txtBrand-primary-hover hover:underline'>
+              Version Anterior
+            </Link>
+          </div>
+        </div>
+      </CardContainer>
     </main>
   );
 };
