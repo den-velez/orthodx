@@ -25,19 +25,19 @@ export default async function PatientsList({
 }: {
   searchParams: TSearcParams;
 }) {
-  const cookieUserID = cookies().get("userID")?.value || "";
+  const cookieUserID = cookies().get("userID")?.value || null;
   const doctor = (await getDoctorData(cookieUserID)) as IDoctor;
 
-  if (!doctor) {
+  if (!cookieUserID && !doctor) {
     redirect("/auth/login");
+  }
+
+  if (!doctor) {
+    redirect("/doctors/new");
   }
 
   const { id, paidCredits, memberCredits } = doctor;
   const credits = paidCredits + memberCredits || 0;
-
-  if (!id) {
-    redirect("/doctors/new");
-  }
 
   return (
     <>
