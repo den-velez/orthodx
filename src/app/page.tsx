@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CardContainer from "@/containers/card/CardContainer";
-import ButtonComponent from "@/components/button/ButtonComponent";
+import { ButtonComponent, FaqComponent } from "@/components";
 import { LOGO_ORTHODX_WHITE } from "@/constants/constants";
 
 const HomePage = () => {
@@ -62,21 +62,26 @@ const HomePage = () => {
           anchorUrl='/auth/signup'
         />
       </div>
-      <br />
       <CardContainer>
-        <div className='flex flex-col justify-center gap-3 text-h5 text-txtLight-100'>
-          <p className='text-body'>
-            Nuestra version anterior estara vigente por algunos meses
-          </p>
-          <div className='flex flex-wrap items-center gap-4 text-center'>
-            <p className='text-body'>Para acceder usa este link</p>
+        <h3 className='my-5 text-h5 text-center text-light-090'>
+          Preguntas frecuentes
+        </h3>
+        <FaqComponent />
+      </CardContainer>
+
+      <CardContainer>
+        <div className='flex flex-col justify-center gap-3 text-h5 text-txtBrand-alternative'>
+          <div className='flex flex-wrap justify-center gap-4 text-center'>
             <Link
               href='https://denprueba001.firebaseapp.com/'
               target='_blank'
-              className='text-txtBrand-primary hover:text-txtBrand-primary-hover hover:underline'>
-              Version Anterior
+              className='p-2 border border-txtBrand-primary text-txtBrand-primary hover:text-txtBrand-primary-hover rounded-xl  hover:underline active:scale-95'>
+              IR LA VERSION ANTERIOR ORTHODX
             </Link>
           </div>
+          <p className='text-body text-center'>
+            Nuestra version anterior estara vigente por algunos meses
+          </p>
         </div>
       </CardContainer>
     </main>
