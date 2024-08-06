@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 import { PatientCardComponent } from "@/components";
 import { db } from "@/lib/firebase/firebase";
 import { IPatientCard } from "@/interfaces";
+import { NO_RESULTS_IMG } from "@/constants/constants";
 
 async function getPatientsData(doctor: string) {
   const q = query(collection(db, "patients"), where("doctor", "==", doctor));
@@ -46,7 +47,7 @@ export default async function PatientsContainer({
       <section className='min-h-[200px] p-6 rounded-[12px] bg-bgDark-080 '>
         <div className='flex flex-col items-center gap-3'>
           <Image
-            src='/images/noResults.png'
+            src={NO_RESULTS_IMG}
             alt='No hay pacientes registrados'
             width={300}
             height={225}
@@ -87,7 +88,7 @@ export default async function PatientsContainer({
         <div className='flex flex-col items-center gap-3'>
           caas
           <Image
-            src='/images/noResults.png'
+            src={NO_RESULTS_IMG}
             alt='No hay pacientes registrados'
             width={300}
             height={225}

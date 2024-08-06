@@ -23,10 +23,12 @@ import FormDoctorComponent from "./formDoctor/FormDoctorComponent";
 import PurchaseComponent from "./PurchaseComponent/PurchaseComponent";
 import FormFollowUpComponent from "./formFollowUp/FormFollowUpComponent";
 import TextWithLineBreaksComponent from "./textWithLinesBreaks/TextWithLineBreaksComponent";
+import FaqComponent from "./faq/FaqComponent";
 
 export {
   ButtonComponent,
   DoctorHeaderComponent,
+  FaqComponent,
   FooterComponent,
   FormArcadasComponent,
   FormCephalometryComponent,

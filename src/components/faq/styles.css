@@ -1,0 +1,11 @@
+.szh-accordion__item-btn {
+  text-align: left;
+}
+
+.szh-accordion__item--expanded {
+  color: #f9f9f9;
+}
+
+.szh-accordion__item-panel {
+  color: #bfdbfe;
+}

@@ -222,3 +222,43 @@ export const STORES_CATEGORIES = [
 
 export const LOGO_ORTHODX_WHITE =
   "https://firebasestorage.googleapis.com/v0/b/orthodx-v2.appspot.com/o/orthodx%2Flogo-white.png?alt=media&token=8b917924-3f6f-434e-b178-a3b8e4b3457f";
+
+export const NO_RESULTS_IMG =
+  "https://firebasestorage.googleapis.com/v0/b/orthodx-v2.appspot.com/o/orthodx%2FnoResults.png?alt=media&token=29959708-e18a-4c4f-b708-d133e2504a0c";
+
+export const FAQ_TEXTS = [
+  {
+    question: "¿Puedo acceder con mi usuario a la nueva versión?",
+    answer: "Sí, las credenciales se mantienen en la nueva versión.",
+  },
+  {
+    question: "¿Cuáles son las novedades de la nueva versión?",
+    answer:
+      "Nuevo diseño, Posibilidad de realizar pagos en línea,  Almacenamiento de fotos de cada paciente,  Registro de avances,  Optimizado para dispositivos móviles,  Mejor experiencia de usuario.",
+  },
+  {
+    question: "¿Cómo puedo acceder?",
+    answer:
+      "Cambia de compra de créditos a una suscripción mensual, en caso de que no haya expirado la suscripción actual.",
+  },
+  {
+    question: "¿Hay días de prueba?",
+    answer:
+      "Sí, por ahora ofrecemos un mes de prueba con pago recurrente con tarjeta de crédito. En los próximos días se habilitará un código promocional para pago único (Oxxo o tarjeta de crédito).",
+  },
+  {
+    question: "¿Podré acceder a mis pacientes de la versión anterior?",
+    answer:
+      "Sí, los pacientes se migrarán a la nueva versión solicitándolo al correo contact@denvelez.com",
+  },
+  {
+    question:
+      "Si aún tengo créditos en la versión anterior, ¿puedo usarlos en la nueva versión?",
+    answer:
+      "Sí, los créditos se mantienen en la nueva versión, pero requerirán una suscripción. Debe solicitar la migración al correo contact@denvelez.com",
+  },
+  {
+    question: "¿Puedo seguir accediendo a la versión anterior?",
+    answer: "Sí, la versión anterior estará vigente por algunos meses.",
+  },
+];
