@@ -51,6 +51,7 @@ export default async function PatientsContainer({
             alt='No hay pacientes registrados'
             width={300}
             height={225}
+            unoptimized
           />
           <p className='text-white text-center'>{noPatientsFound}</p>
         </div>
@@ -86,12 +87,12 @@ export default async function PatientsContainer({
     return (
       <section className='min-h-[200px] p-6 rounded-[12px] bg-bgDark-080 '>
         <div className='flex flex-col items-center gap-3'>
-          caas
           <Image
             src={NO_RESULTS_IMG}
             alt='No hay pacientes registrados'
             width={300}
             height={225}
+            unoptimized
           />
           <p className='text-white text-center'>{noPatientsFound}</p>
         </div>
