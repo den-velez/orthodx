@@ -44,7 +44,7 @@ export default async function PatientsContainer({
   if (!patientList || patientList.length === 0) {
     return (
       <section className='min-h-[200px] p-6 rounded-[12px] bg-bgDark-080 '>
-        <div className='grid grid-cols-1 gap-3'>
+        <div className='flex flex-col items-center gap-3'>
           <Image
             src='/images/noResults.png'
             alt='No hay pacientes registrados'
@@ -84,7 +84,8 @@ export default async function PatientsContainer({
   if (patientListFavs.length === 0 && patientListRegular.length === 0) {
     return (
       <section className='min-h-[200px] p-6 rounded-[12px] bg-bgDark-080 '>
-        <div className='grid grid-cols-1 gap-3'>
+        <div className='flex flex-col items-center gap-3'>
+          caas
           <Image
             src='/images/noResults.png'
             alt='No hay pacientes registrados'
