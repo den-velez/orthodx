@@ -108,7 +108,7 @@ export default function FormDoctorComponent(doctorData: IDoctor) {
         ? new Date().toISOString().split("T")[0]
         : doctorData.createdAt;
     const updatedAt = new Date().toISOString().split("T")[0];
-    const dataUpdated = { ...data, createdAt, updatedAt };
+    const dataUpdated = { ...doctorData, ...data, createdAt, updatedAt };
 
     try {
       if (doctorId === "" || doctorId === "new" || doctorId === undefined) {
