@@ -19,6 +19,7 @@ import {
   IDoctor,
   INewProduct,
   INewPurchase,
+  IPatient,
   IProduct,
   IUpdateByPurchase,
 } from "@/interfaces";
@@ -167,6 +168,16 @@ export async function createDoctor(newDoctorData: {
     return false;
   }
 }
+
+export const migrateAddPatients = async (payload: any) => {
+  try {
+    const patient = await addDoc(collection(db, "patients"), payload);
+    return patient.id;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    return false;
+  }
+};
 
 export async function updateDoctor(payload: any, doctorId: string) {
   try {

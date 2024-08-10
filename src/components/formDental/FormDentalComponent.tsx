@@ -87,7 +87,7 @@ function DentalFormItem({
       <label className='capitalize text-small text-ctaLight-090'>{label}</label>
       <select
         {...register(name)}
-        className='px-3 py-2 rounded-bl-[12px] bg-bgDark-070 text-ctaLight-090 text-h5'>
+        className='px-3 py-2 rounded-bl-[12px] bg-bgDark-070 text-ctaLight-090 text-h5 capitalize'>
         <option value=''>Seleccionar</option>
         {options.map((option, key) => (
           <option key={key} value={option}>
@@ -173,7 +173,7 @@ export default function FormDentalComponent({
                   Mordida Anterior en mm
                 </label>
                 <input
-                  className='p-3 w-[25%]  bg-bgDark-070 text-ctaLight-090 rounded-[12px] focus:outline-none focus:ring-2 focus:ring-cta-100 focus:ring-opacity-50 text-h5'
+                  className='p-3 w-[25%]  bg-bgDark-070 text-ctaLight-090 rounded-[12px] focus:outline-none focus:ring-2 focus:ring-cta-100 focus:ring-opacity-50 text-h5 text-center'
                   id='mordidaAnteriorMM'
                   type='number'
                   {...register("mordidaAnteriorMM")}

@@ -35,6 +35,15 @@ export interface IPatient extends IPatientCard {
   expansionDiagnostic?: IExpansion;
   expansionTreatment?: TExpansionTreatment;
   followupList?: IFollowUp[];
+  legacyTreatment?: {
+    doctorPlan?: string;
+    observations?: string;
+    rehabilitationTreatment?: string;
+    extractionsNow?: boolean;
+    extractionsNowList?: string[];
+    extractionsLater?: boolean;
+    extractionsLaterList?: string[];
+  };
 }
 
 export interface IPatientRequired extends Required<IPatient> {}
