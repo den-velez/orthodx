@@ -169,15 +169,15 @@ export async function createDoctor(newDoctorData: {
   }
 }
 
-export const migrateAddPatients = async (payload: any) => {
-  try {
-    const patient = await addDoc(collection(db, "patients"), payload);
-    return patient.id;
-  } catch (e) {
-    console.error("Error adding document: ", e);
-    return false;
-  }
-};
+// export const migrateAddPatients = async (payload: any) => {
+//   try {
+//     const patient = await addDoc(collection(db, "patients"), payload);
+//     return patient.id;
+//   } catch (e) {
+//     console.error("Error adding document: ", e);
+//     return false;
+//   }
+// };
 
 export async function updateDoctor(payload: any, doctorId: string) {
   try {
@@ -407,3 +407,23 @@ export async function applyPurchase(productId: string, doctorEmail: string) {
 
   return true;
 }
+
+// WIP: need to create new record at drawRequests collection, take 2 credits from doctor and add url into patient
+// export async function drawRequest(payload:any) {
+//   const createdat = new Date().toISOString().split("T")[0];
+//   const status = "pending";
+//   const urlRxImage = payload.urlRxImage;
+
+//   try {
+//     const docRef = doc(db, "drawRequests", patientId);
+//     await updateDoc(docRef, payload);
+
+//     revalidatePath("/patients");
+//     return true;
+//   } catch (e) {
+//     console.error("Error adding document: ", e);
+//     return false;
+//   }
+// }
+
+// WIP update request, just status pending, update url into patient, verify that already took credits from doctor
