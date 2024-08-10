@@ -64,6 +64,76 @@ export default async function TreatmentPlan({
         expansionTreatment={expansionTreatment}
         treatmentsList={treatmentsList}
       />
+      {patient.legacyTreatment && (
+        <section className='py-6 px-3 flex flex-col gap-3  bg-bgDark-080 rounded-[12px] shadow'>
+          <h4 className='text-txtBrand-alternative text-h4 text-center'>
+            Plan de Tratamiento
+          </h4>
+          <p className='text-txtBrand-alternative text-small text-center'>
+            Ingresado en versión anterior
+          </p>
+          {patient.legacyTreatment?.doctorPlan && (
+            <div className='mt-8 p-2 bg-bgDark-090 rounded-xl '>
+              <h5 className=' text-txtBrand-secondary text-h5 text-center'>
+                Plan de Tratamiento
+              </h5>
+              <p className='text-ctaLight-090 first-letter:uppercase'>
+                {patient.legacyTreatment?.doctorPlan}{" "}
+              </p>
+            </div>
+          )}
+          {patient.legacyTreatment?.rehabilitationTreatment && (
+            <div className='mt-8 p-2 bg-bgDark-090 rounded-xl '>
+              <h5 className='text-txtBrand-secondary text-h5 text-center'>
+                Rehabilitacion
+              </h5>
+              <p className='text-ctaLight-090 first-letter:uppercase'>
+                {patient.legacyTreatment.rehabilitationTreatment}
+              </p>
+            </div>
+          )}
+
+          <div className='mt-8 p-2 bg-bgDark-090 rounded-xl '>
+            <h5 className='text-txtBrand-secondary text-h5 text-center'>
+              Extracciones
+            </h5>
+            <p className='flex justify-center text-ctaLight-090 first-letter:uppercase'>
+              {}
+              {patient.legacyTreatment.extractionsNow ? (
+                <span>Inmediatas</span>
+              ) : (
+                patient.legacyTreatment.extractionsLater && (
+                  <span>Posibles</span>
+                )
+              )}
+            </p>
+            <div className='grid grid-cols-2 grid-rows-2 justify-items-center text-ctaLight-090 gap-4'>
+              <div className='py-1 w-full text-center rounded-md bg-bgDark-070'>
+                {patient.legacyTreatment?.extractionsLaterList?.[0] || ""}
+              </div>
+              <div className='py-1 w-full text-center rounded-md bg-bgDark-070'>
+                {patient.legacyTreatment?.extractionsLaterList?.[1] || ""}
+              </div>
+              <div className='py-1 w-full text-center rounded-md bg-bgDark-070'>
+                {patient.legacyTreatment?.extractionsNowList?.[0] || ""}
+              </div>
+              <div className='py-1 w-full text-center rounded-md bg-bgDark-070'>
+                {patient.legacyTreatment?.extractionsNowList?.[1] || ""}
+              </div>
+            </div>
+          </div>
+          {patient.legacyTreatment?.observations && (
+            <div className='mt-8 p-2 bg-bgDark-090 rounded-xl '>
+              <h5 className='text-txtBrand-secondary text-h5 text-center'>
+                Observaciones
+              </h5>
+              <p className='text-ctaLight-090 first-letter:uppercase'>
+                {patient.legacyTreatment?.observations}{" "}
+              </p>
+            </div>
+          )}
+        </section>
+      )}
     </div>
   );
 }
