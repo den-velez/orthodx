@@ -17,7 +17,7 @@ interface ButtonProps {
 
 const ButtonComponent = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {
-    const width = props.widthfull ? "w-full" : "";
+    const width = props.widthfull ? "w-full" : "px-6";
     const typeButton = props.type ? props.type : "button";
 
     const square = props.square ? "flex-col" : "";
