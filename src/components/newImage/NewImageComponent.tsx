@@ -37,6 +37,13 @@ export default function NewImageComponent({
       ? `/patients/${patientId}/gallery`
       : `/patients/${patientId}`;
 
+  const validateImage = (value: string | undefined) => {
+    const defaultImage = "/images/noResults.png";
+    if (!value) return defaultImage;
+    if (value === "") return defaultImage;
+    return value;
+  };
+
   const {
     setValue,
     getValues,
@@ -45,7 +52,7 @@ export default function NewImageComponent({
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      imageRx: imageURL ?? "/images/noResults.png",
+      imageRx: validateImage(imageURL),
     },
   });
 

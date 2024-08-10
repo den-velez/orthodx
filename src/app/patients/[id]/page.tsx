@@ -76,7 +76,6 @@ export default async function Patient({
           imageURL={patient.drawRequest?.urlRxImage}
         />
       </ModalComponent>
-
       <main className='grid gap-6 bg-bgDark-090 px-3 py-6'>
         <section className=' flex flex-col items-center bg-bgDark-080 rounded-[12px] py-6'>
           <h3 className='mb-[60px] text-h3 text-txtLight-100 text-center'>

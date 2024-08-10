@@ -97,21 +97,21 @@ export const DENTAL_ITEMS: TDentalItems[] = [
   {
     label: "relación molar izquierda",
     name: "relacionMolarIzq",
-    options: ["Clase I", "Clase II", "Clase III", "Ausente", "mesiorotación"],
+    options: ["clase I", "clase II", "clase III", "ausente", "mesiorotación"],
   },
   {
     label: "relación molar derecha",
     name: "relacionMolarDer",
-    options: ["Clase I", "Clase II", "Clase III", "Ausente", "mesiorotación"],
+    options: ["clase I", "clase II", "clase III", "ausente", "mesiorotación"],
   },
   {
     label: "relación canina izquierda",
     name: "relacionCaninaIzq",
     options: [
-      "Clase I",
-      "Clase II",
-      "Clase III",
-      "Ausente",
+      "clase I",
+      "clase II",
+      "clase III",
+      "ausente",
       "extópico",
       "retenido",
     ],
@@ -120,10 +120,10 @@ export const DENTAL_ITEMS: TDentalItems[] = [
     label: "relación canina derecha",
     name: "relacionCaninaDer",
     options: [
-      "Clase I",
-      "Clase II",
-      "Clase III",
-      "Ausente",
+      "clase I",
+      "clase II",
+      "clase III",
+      "ausente",
       "extópico",
       "retenido",
     ],
@@ -249,7 +249,7 @@ export const FAQ_TEXTS = [
   {
     question: "¿Podré acceder a mis pacientes de la versión anterior?",
     answer:
-      "Sí, los pacientes se migrarán a la nueva versión solicitándolo al correo contact@denvelez.com",
+      "Sí, los pacientes hasta agosto 08 del 2024 estan en la nueva versión, en caso que no pacietes creados posteriormente a esta fecha solicitarlo al correo contact@denvelez.com",
   },
   {
     question:
