@@ -408,22 +408,122 @@ export async function applyPurchase(productId: string, doctorEmail: string) {
   return true;
 }
 
-// WIP: need to create new record at drawRequests collection, take 2 credits from doctor and add url into patient
-// export async function drawRequest(payload:any) {
-//   const createdat = new Date().toISOString().split("T")[0];
-//   const status = "pending";
-//   const urlRxImage = payload.urlRxImage;
+export async function takeCredits(doctorId: string, creditsRequired: number) {
+  const docRef = doc(db, "doctors", doctorId);
+  const doctorData = (await getDoctorData(doctorId)) as IDoctor;
 
-//   try {
-//     const docRef = doc(db, "drawRequests", patientId);
-//     await updateDoc(docRef, payload);
+  const memberCredits = doctorData.memberCredits;
+  const paidCredits = doctorData.paidCredits;
 
-//     revalidatePath("/patients");
-//     return true;
-//   } catch (e) {
-//     console.error("Error adding document: ", e);
-//     return false;
-//   }
-// }
+  if (memberCredits + paidCredits < creditsRequired) {
+    throw new Error("Doctor has no enough credits");
+  }
 
-// WIP update request, just status pending, update url into patient, verify that already took credits from doctor
+  let cretidsLeft = creditsRequired;
+  let newPaidCredits = paidCredits;
+
+  const newMemberCredits =
+    memberCredits >= creditsRequired ? memberCredits - creditsRequired : 0;
+  cretidsLeft = cretidsLeft - memberCredits;
+
+  if (cretidsLeft > 0) {
+    newPaidCredits = paidCredits >= cretidsLeft ? paidCredits - cretidsLeft : 0;
+  }
+
+  const payload = {
+    memberCredits: newMemberCredits,
+    paidCredits: newPaidCredits,
+  };
+
+  try {
+    const res = await updateDoc(docRef, payload);
+
+    return true;
+  } catch (error) {
+    throw new Error("Error taking credits from doctor");
+  }
+}
+
+export async function saveCreditsUsage({
+  doctorId,
+  patientId,
+  creditsRequired,
+  operation,
+}: {
+  doctorId: string;
+  patientId: string;
+  creditsRequired: number;
+  operation: string;
+}) {
+  const createAt = new Date().toISOString().split("T")[0];
+  const payload = {
+    createAt,
+    operation,
+    creditsRequired,
+    doctorId,
+    patientId,
+  };
+
+  try {
+    await addDoc(collection(db, "creditsUsage"), payload);
+
+    revalidatePath("/patients");
+    return true;
+  } catch (e) {
+    console.error("Error taking credits from doctor: ", e);
+    return false;
+  }
+}
+
+export async function saveDrawRequest({
+  urlRxImage,
+  patientId,
+  doctorId,
+}: {
+  urlRxImage: string;
+  patientId: string;
+  doctorId: string;
+}) {
+  const createdat = new Date().toISOString().split("T")[0];
+  const status = "pending";
+
+  const payload = {
+    createdat,
+    status,
+    urlRxImage,
+    patientId,
+    doctorId,
+  };
+
+  try {
+    await addDoc(collection(db, "drawRequests"), payload);
+    revalidatePath("/patients");
+    return true;
+  } catch (e) {
+    console.error("Error drawing request: ", e);
+    return false;
+  }
+}
+
+export async function drawRequest({
+  doctorId,
+  patientId,
+}: {
+  doctorId: string;
+  patientId: string;
+}) {
+  try {
+    await takeCredits(doctorId, 2);
+    await saveCreditsUsage({
+      doctorId,
+      patientId,
+      creditsRequired: 2,
+      operation: "draw request",
+    });
+    await saveDrawRequest({
+      urlRxImage: "urlRxImage",
+      patientId,
+      doctorId,
+    });
+  } catch (error) {}
+}
