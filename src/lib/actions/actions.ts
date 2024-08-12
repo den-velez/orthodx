@@ -111,6 +111,12 @@ export async function createPatient(newPatientData: {
   try {
     const patient = await addDoc(collection(db, "patients"), payload);
     await updateDoctor(newCreditAmount, id);
+    await saveCreditsUsage({
+      doctorId: id,
+      patientId: patient.id,
+      creditsRequired: 1,
+      operation: "create patient",
+    });
     revalidatePath("/patients");
     return patient.id;
   } catch (e) {
@@ -168,16 +174,6 @@ export async function createDoctor(newDoctorData: {
     return false;
   }
 }
-
-// export const migrateAddPatients = async (payload: any) => {
-//   try {
-//     const patient = await addDoc(collection(db, "patients"), payload);
-//     return patient.id;
-//   } catch (e) {
-//     console.error("Error adding document: ", e);
-//     return false;
-//   }
-// };
 
 export async function updateDoctor(payload: any, doctorId: string) {
   try {
@@ -527,3 +523,13 @@ export async function drawRequest({
     });
   } catch (error) {}
 }
+
+// export const migrateAddPatients = async (payload: any) => {
+//   try {
+//     const patient = await addDoc(collection(db, "patients"), payload);
+//     return patient.id;
+//   } catch (e) {
+//     console.error("Error adding document: ", e);
+//     return false;
+//   }
+// };
