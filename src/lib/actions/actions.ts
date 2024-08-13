@@ -111,6 +111,12 @@ export async function createPatient(newPatientData: {
   try {
     const patient = await addDoc(collection(db, "patients"), payload);
     await updateDoctor(newCreditAmount, id);
+    await saveCreditsUsage({
+      doctorId: id,
+      patientId: patient.id,
+      creditsRequired: 1,
+      operation: "create patient",
+    });
     revalidatePath("/patients");
     return patient.id;
   } catch (e) {
@@ -168,16 +174,6 @@ export async function createDoctor(newDoctorData: {
     return false;
   }
 }
-
-// export const migrateAddPatients = async (payload: any) => {
-//   try {
-//     const patient = await addDoc(collection(db, "patients"), payload);
-//     return patient.id;
-//   } catch (e) {
-//     console.error("Error adding document: ", e);
-//     return false;
-//   }
-// };
 
 export async function updateDoctor(payload: any, doctorId: string) {
   try {
@@ -408,22 +404,144 @@ export async function applyPurchase(productId: string, doctorEmail: string) {
   return true;
 }
 
-// WIP: need to create new record at drawRequests collection, take 2 credits from doctor and add url into patient
-// export async function drawRequest(payload:any) {
-//   const createdat = new Date().toISOString().split("T")[0];
-//   const status = "pending";
-//   const urlRxImage = payload.urlRxImage;
+export async function takeCredits(doctorId: string, creditsRequired: number) {
+  const docRef = doc(db, "doctors", doctorId);
+  const doctorData = (await getDoctorData(doctorId)) as IDoctor;
 
+  const memberCredits = doctorData.memberCredits;
+  const paidCredits = doctorData.paidCredits;
+
+  if (memberCredits + paidCredits < creditsRequired) {
+    throw new Error("Doctor has no enough credits");
+  }
+
+  let cretidsLeft = creditsRequired;
+  let newPaidCredits = paidCredits;
+
+  const newMemberCredits =
+    memberCredits >= creditsRequired ? memberCredits - creditsRequired : 0;
+  cretidsLeft = cretidsLeft - memberCredits;
+
+  if (cretidsLeft > 0) {
+    newPaidCredits = paidCredits >= cretidsLeft ? paidCredits - cretidsLeft : 0;
+  }
+
+  const payload = {
+    memberCredits: newMemberCredits,
+    paidCredits: newPaidCredits,
+  };
+
+  try {
+    const res = await updateDoc(docRef, payload);
+
+    return true;
+  } catch (error) {
+    throw new Error("Error taking credits from doctor");
+  }
+}
+
+export async function saveCreditsUsage({
+  doctorId,
+  patientId,
+  creditsRequired,
+  operation,
+}: {
+  doctorId: string;
+  patientId: string;
+  creditsRequired: number;
+  operation: string;
+}) {
+  const createAt = new Date().toISOString().split("T")[0];
+  const payload = {
+    createAt,
+    operation,
+    creditsRequired,
+    doctorId,
+    patientId,
+  };
+
+  try {
+    await addDoc(collection(db, "creditsUsage"), payload);
+
+    revalidatePath("/patients");
+    return true;
+  } catch (e) {
+    console.error("Error taking credits from doctor: ", e);
+    return false;
+  }
+}
+
+export async function saveDrawRequest({
+  patientId,
+  doctorId,
+}: {
+  patientId: string;
+  doctorId: string;
+}) {
+  const createdat = new Date().toISOString().split("T")[0];
+  const status = "pending";
+
+  const payload = {
+    createdat,
+    status,
+    patientId,
+    doctorId,
+  };
+
+  try {
+    const response = await addDoc(collection(db, "drawRequests"), payload);
+    return response.id;
+  } catch (e) {
+    console.error("Error drawing request: ", e);
+    return false;
+  }
+}
+
+export async function drawRequest({
+  doctorId,
+  patientId,
+}: {
+  doctorId: string;
+  patientId: string;
+}) {
+  try {
+    await takeCredits(doctorId, 2);
+    await saveCreditsUsage({
+      doctorId,
+      patientId,
+      creditsRequired: 2,
+      operation: "draw request",
+    });
+    const drawRequestID = await saveDrawRequest({
+      patientId,
+      doctorId,
+    });
+
+    await updatePatient(
+      {
+        drawRequest: {
+          createdAt: new Date().toISOString().split("T")[0],
+          status: "pending",
+          urlRxImage:
+            "https://firebasestorage.googleapis.com/v0/b/orthodx-v2.appspot.com/o/orthodx%2FnoResults.png?alt=media&token=29959708-e18a-4c4f-b708-d133e2504a0c",
+          drawRequestId: drawRequestID,
+        },
+      },
+      patientId
+    );
+
+    return drawRequestID;
+  } catch (error) {
+    throw new Error("Error drawing request ");
+  }
+}
+
+// export const migrateAddPatients = async (payload: any) => {
 //   try {
-//     const docRef = doc(db, "drawRequests", patientId);
-//     await updateDoc(docRef, payload);
-
-//     revalidatePath("/patients");
-//     return true;
+//     const patient = await addDoc(collection(db, "patients"), payload);
+//     return patient.id;
 //   } catch (e) {
 //     console.error("Error adding document: ", e);
 //     return false;
 //   }
-// }
-
-// WIP update request, just status pending, update url into patient, verify that already took credits from doctor
+// };
