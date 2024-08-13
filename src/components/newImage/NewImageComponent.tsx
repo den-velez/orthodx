@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
@@ -9,7 +9,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { uploadImage } from "@/lib/firebase/storage";
 import { ButtonComponent, IconsComponent } from "@/components";
 import { IDrawRequest } from "@/interfaces";
-import { updatePatient } from "@/lib/actions/actions";
+import {
+  updatePatient,
+  drawRequest,
+  getDoctorIdByEmail,
+} from "@/lib/actions/actions";
 
 type FormData = {
   imageRx: string;
@@ -25,13 +29,19 @@ export default function NewImageComponent({
   patientId,
   imageURL,
   updateGallery,
+  drawRequestID,
 }: {
   patientId: string;
   type: "assets" | "draw";
   title: string;
   imageURL?: string;
+  drawRequestID?: string;
   updateGallery?: (image: string) => void;
 }) {
+  const [drawRequested, setDrawRequested] = useState(false);
+  const [newDrawRequestID, setNewDrawRequestID] = useState<string | boolean>(
+    drawRequestID || false
+  );
   const linkToBack =
     type === "assets"
       ? `/patients/${patientId}/gallery`
@@ -81,6 +91,7 @@ export default function NewImageComponent({
         createdAt: new Date().toISOString().split("T")[0],
         status: "pending",
         urlRxImage: imageUrl,
+        drawRequestId: newDrawRequestID as string,
       } as IDrawRequest,
     };
 
@@ -92,6 +103,68 @@ export default function NewImageComponent({
         console.error("Error updating patient");
       });
   };
+
+  const handleDrawRequest = async (patientId: string) => {
+    try {
+      const doctor = await getDoctorIdByEmail();
+      const doctorId = doctor?.doctorId;
+
+      if (!doctorId) {
+        throw new Error("Doctor not found");
+      }
+
+      const response = await drawRequest({
+        patientId,
+        doctorId,
+      });
+      if (!response) {
+        throw new Error("Error requesting draw");
+      }
+
+      setNewDrawRequestID(response);
+      setDrawRequested(true);
+    } catch (error) {
+      alert("Error al solicitar el trazado");
+    }
+  };
+
+  useEffect(() => {
+    if (type !== "draw") {
+      setDrawRequested(true);
+    } else {
+      const isImageValid = imageURL && imageURL !== "";
+      if (isImageValid) setDrawRequested(isImageValid);
+    }
+  }, []);
+
+  if (!drawRequested) {
+    return (
+      <section className='w-full p-6 rounded-[12px] bg-bgDark-080 text-white'>
+        <h3 className='text-h3 text-txtLight-100 text-center'>
+          Se tomaran 2 creditos adicionales de tu cuenta
+          <div className='mx-auto mt-[60px] h-[60px] w-[250px]'>
+            <ButtonComponent
+              type='button'
+              variant='primary'
+              label='Aceptar'
+              widthfull
+              onClick={() => handleDrawRequest(patientId)}
+            />
+          </div>
+        </h3>
+        <div className='mx-auto mt-[30px] h-[60px] w-[250px]'>
+          <ButtonComponent
+            type='button'
+            variant='secondary'
+            label='Cerrar'
+            widthfull
+            anchor
+            anchorUrl={linkToBack}
+          />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className='w-full p-6 rounded-[12px] bg-bgDark-080'>

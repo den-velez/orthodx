@@ -472,11 +472,9 @@ export async function saveCreditsUsage({
 }
 
 export async function saveDrawRequest({
-  urlRxImage,
   patientId,
   doctorId,
 }: {
-  urlRxImage: string;
   patientId: string;
   doctorId: string;
 }) {
@@ -486,15 +484,13 @@ export async function saveDrawRequest({
   const payload = {
     createdat,
     status,
-    urlRxImage,
     patientId,
     doctorId,
   };
 
   try {
-    await addDoc(collection(db, "drawRequests"), payload);
-    revalidatePath("/patients");
-    return true;
+    const response = await addDoc(collection(db, "drawRequests"), payload);
+    return response.id;
   } catch (e) {
     console.error("Error drawing request: ", e);
     return false;
@@ -516,12 +512,28 @@ export async function drawRequest({
       creditsRequired: 2,
       operation: "draw request",
     });
-    await saveDrawRequest({
-      urlRxImage: "urlRxImage",
+    const drawRequestID = await saveDrawRequest({
       patientId,
       doctorId,
     });
-  } catch (error) {}
+
+    await updatePatient(
+      {
+        drawRequest: {
+          createdAt: new Date().toISOString().split("T")[0],
+          status: "pending",
+          urlRxImage:
+            "https://firebasestorage.googleapis.com/v0/b/orthodx-v2.appspot.com/o/orthodx%2FnoResults.png?alt=media&token=29959708-e18a-4c4f-b708-d133e2504a0c",
+          drawRequestId: drawRequestID,
+        },
+      },
+      patientId
+    );
+
+    return drawRequestID;
+  } catch (error) {
+    throw new Error("Error drawing request ");
+  }
 }
 
 // export const migrateAddPatients = async (payload: any) => {

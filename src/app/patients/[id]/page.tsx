@@ -54,7 +54,9 @@ export default async function Patient({
     ? patient.drawRequest.status
     : false;
   const drawButtonText =
-    drawRequested === false ? "Solicitar Trazado" : "Ver Trazado";
+    drawRequested === false || patient.drawRequest?.urlResultImage == ""
+      ? "Solicitar Trazado"
+      : "Ver Trazado";
 
   const treatmentsAdded = patient.treatmentList
     ? patient.treatmentList.length
@@ -74,6 +76,7 @@ export default async function Patient({
           patientId={patientId}
           title='Solicitar Trazado'
           imageURL={patient.drawRequest?.urlRxImage}
+          drawRequestID={patient.drawRequest?.drawRequestId}
         />
       </ModalComponent>
       <main className='grid gap-6 bg-bgDark-090 px-3 py-6'>
@@ -137,7 +140,7 @@ export default async function Patient({
                   </div>
                 </>
               ) : (
-                <div className='px-6 grid grid-cols-2 auto-rows-[160px] gap-6'>
+                <div className='w-full px-6 grid grid-cols-2 auto-rows-[160px] gap-6'>
                   <ButtonComponent
                     label='Plan de Tratamiento'
                     variant='primary-dark'

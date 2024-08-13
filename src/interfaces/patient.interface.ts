@@ -74,6 +74,7 @@ export interface IDrawRequest {
   status: "pending" | "done";
   urlRxImage: string;
   urlResultImage: string;
+  drawRequestId?: string;
 }
 
 interface IPatientAssets {
