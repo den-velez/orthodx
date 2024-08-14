@@ -62,6 +62,7 @@ export default function OdontogramModal({
           width={44}
           height={44}
           className='w-full h-full'
+          unoptimized
         />
       </div>
       <p className='text-h3 text-light-090'>
