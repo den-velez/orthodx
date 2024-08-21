@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { uploadImage } from "@/lib/firebase/storage";
 import { ButtonComponent, IconsComponent } from "@/components";
-import { IDrawRequest } from "@/interfaces";
+import { IDrawRequestPatient } from "@/interfaces";
 import {
   updatePatient,
   drawRequest,
@@ -27,17 +27,22 @@ export default function NewImageComponent({
   title,
   type,
   patientId,
+  patientAvatar,
+  patientName,
   imageURL,
   updateGallery,
   drawRequestID,
 }: {
-  patientId: string;
-  type: "assets" | "draw";
   title: string;
+  type: "assets" | "draw";
+  patientId: string;
+  patientAvatar: string;
+  patientName: string;
   imageURL?: string;
-  drawRequestID?: string;
   updateGallery?: (image: string) => void;
+  drawRequestID?: string;
 }) {
+  console.log("NewImageComponent -> imageURL", imageURL, drawRequestID);
   const [drawRequested, setDrawRequested] = useState(false);
   const [newDrawRequestID, setNewDrawRequestID] = useState<string | boolean>(
     drawRequestID || false
@@ -90,9 +95,9 @@ export default function NewImageComponent({
       drawRequest: {
         createdAt: new Date().toISOString().split("T")[0],
         status: "pending",
-        urlRxImage: imageUrl,
+        patientRxImg: imageUrl,
         drawRequestId: newDrawRequestID as string,
-      } as IDrawRequest,
+      } as IDrawRequestPatient,
     };
 
     await updatePatient(payload, patientId)
@@ -116,6 +121,9 @@ export default function NewImageComponent({
       const response = await drawRequest({
         patientId,
         doctorId,
+        patientAvatar: patientAvatar,
+        patientName: patientName,
+        patientRxImg: imageURL || "",
       });
       if (!response) {
         throw new Error("Error requesting draw");
