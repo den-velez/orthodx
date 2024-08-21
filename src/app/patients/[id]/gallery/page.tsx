@@ -55,6 +55,8 @@ export default function GalleryPatient({
           patientId={id}
           title='Agregar Imagen'
           type='assets'
+          patientAvatar=''
+          patientName=''
           updateGallery={(newImage) => {
             setGallery([...gallery, newImage]);
           }}
