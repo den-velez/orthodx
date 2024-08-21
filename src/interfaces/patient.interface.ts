@@ -21,7 +21,7 @@ export interface IPatient extends IPatientCard {
   age: number;
   doctorOffice: string;
   doctor: string;
-  drawRequest?: IDrawRequest;
+  drawRequest?: IDrawRequestPatient;
   cephalometry?: ICephalometryResult;
   valorationCephalometry?: ICephalometry;
   valorationDental?: IDental;
@@ -70,11 +70,38 @@ export interface IDiscrepancyDiagnostic {
 }
 
 export interface IDrawRequest {
-  createdAt: string;
-  status: "pending" | "done";
-  urlRxImage: string;
-  urlResultImage: string;
   drawRequestId?: string;
+  createdAt: string;
+  updatedAt: string;
+  doctorId: string;
+  patientId: string;
+  patientAvatar: string;
+  patientName: string;
+  patientRxImg: string;
+  urlResultImage?: string;
+  madeBy?: string;
+  status: "pending" | "completed" | "canceled";
+  isPaid: boolean;
+  paidDate?: string;
+  paidAmount?: number;
+  paidNumber?: string;
+}
+
+export interface ICreateDrawRequest {
+  doctorId: string;
+  patientId: string;
+  patientAvatar: string;
+  patientName: string;
+  patientRxImg: string;
+}
+
+export interface IDrawRequestPatient {
+  drawRequestId?: string;
+  createdAt: string;
+  updatedAt: string;
+  status: "pending" | "completed" | "canceled";
+  patientRxImg: string;
+  urlResultImage?: string;
 }
 
 interface IPatientAssets {

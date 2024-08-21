@@ -16,7 +16,9 @@ import CryptoJS from "crypto-js";
 import { auth, db, storage } from "@/lib/firebase/firebase";
 import { revalidatePath } from "next/cache";
 import {
+  ICreateDrawRequest,
   IDoctor,
+  IDrawRequest,
   INewProduct,
   INewPurchase,
   IPatient,
@@ -474,18 +476,29 @@ export async function saveCreditsUsage({
 export async function saveDrawRequest({
   patientId,
   doctorId,
+  patientAvatar,
+  patientName,
+  patientRxImg,
 }: {
   patientId: string;
   doctorId: string;
+  patientAvatar: string;
+  patientName: string;
+  patientRxImg: string;
 }) {
-  const createdat = new Date().toISOString().split("T")[0];
+  const createdAt = new Date().toISOString().split("T")[0];
   const status = "pending";
 
-  const payload = {
-    createdat,
+  const payload: IDrawRequest = {
+    createdAt,
+    updatedAt: createdAt,
     status,
     patientId,
     doctorId,
+    patientAvatar,
+    patientName,
+    patientRxImg,
+    isPaid: false,
   };
 
   try {
@@ -500,22 +513,28 @@ export async function saveDrawRequest({
 export async function drawRequest({
   doctorId,
   patientId,
-}: {
-  doctorId: string;
-  patientId: string;
-}) {
+  patientAvatar,
+  patientName,
+  patientRxImg,
+}: ICreateDrawRequest) {
   try {
     await takeCredits(doctorId, 2);
+    console.log("Credits taken");
     await saveCreditsUsage({
       doctorId,
       patientId,
       creditsRequired: 2,
       operation: "draw request",
     });
+    console.log("Credits usage saved");
     const drawRequestID = await saveDrawRequest({
       patientId,
       doctorId,
+      patientAvatar,
+      patientName,
+      patientRxImg,
     });
+    console.log("Draw request saved");
 
     await updatePatient(
       {
@@ -529,6 +548,7 @@ export async function drawRequest({
       },
       patientId
     );
+    console.log("Patient updated");
 
     return drawRequestID;
   } catch (error) {

@@ -75,7 +75,9 @@ export default async function Patient({
           type='draw'
           patientId={patientId}
           title='Solicitar Trazado'
-          imageURL={patient.drawRequest?.urlRxImage}
+          patientAvatar={patient.avatar}
+          patientName={patient.name}
+          imageURL={patient.drawRequest?.patientRxImg}
           drawRequestID={patient.drawRequest?.drawRequestId}
         />
       </ModalComponent>
