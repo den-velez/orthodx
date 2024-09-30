@@ -13,6 +13,7 @@ export interface IPatientCard {
   avatar: string;
   name: string;
   favorite: boolean;
+  doctorOffice: string;
 }
 
 export interface IPatient extends IPatientCard {
