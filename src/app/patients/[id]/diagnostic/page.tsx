@@ -1,8 +1,21 @@
-import { IArches, IToothSize, IPatientRequired } from "@/interfaces";
 import { db } from "@/lib/firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import Image from "next/image";
 import DxSection from "./DxSection";
+import {
+  IArches,
+  IToothSize,
+  IPatientRequired,
+  ToothLabel,
+  ITooth,
+  ToothName,
+} from "@/interfaces";
 import DxSectionDental from "./DxSectionDental";
+import {
+  odontogramUpItems,
+  odontogramDownItems,
+  STATUS_STYLES_ODONTOGRAM,
+} from "@/constants/odontogram.constants";
 
 const patientData = async (id: string) => {
   const docRef = doc(db, "patients", id);
@@ -46,6 +59,9 @@ const dxLabels = {
   },
   dentalSize: {
     title: "Ajustes Tamaño Dentario",
+  },
+  odontogram: {
+    title: "Odontograma",
   },
 };
 
@@ -130,6 +146,44 @@ export default async function Diagnostic({
       molarInferior: "",
       comments: "",
     },
+    valorationOdotontogram: {
+      createdAt: "",
+      updatedAt: "",
+      d11: "",
+      d12: "",
+      d13: "",
+      d14: "",
+      d15: "",
+      d16: "",
+      d17: "",
+      d18: "",
+      d21: "",
+      d22: "",
+      d23: "",
+      d24: "",
+      d25: "",
+      d26: "",
+      d27: "",
+      d28: "",
+      d31: "",
+      d32: "",
+      d33: "",
+      d34: "",
+      d35: "",
+      d36: "",
+      d37: "",
+      d38: "",
+      d41: "",
+      d42: "",
+      d43: "",
+      d44: "",
+      d45: "",
+      d46: "",
+      d47: "",
+      d48: "",
+      generalPathology: [],
+      comments: "",
+    },
   };
 
   const {
@@ -139,6 +193,7 @@ export default async function Diagnostic({
     expansionDiagnostic,
     cephalometry,
     valorationCephalometry,
+    valorationOdotontogram,
   } = patient as IPatientRequired;
 
   const getCephalometryData = () => {
@@ -400,6 +455,159 @@ export default async function Diagnostic({
                 stripping (mm)
               </span>
             </div>
+          </div>
+        </section>
+      )}
+
+      {valorationOdotontogram && (
+        <section className='mt-6 py-6 px-10 flex flex-col gap-3  bg-bgDark-080 rounded-[12px] shadow'>
+          <h5 className='text-h5 text-txtBrand-secondary text-center'>
+            {dxLabels.odontogram.title}
+          </h5>
+          <div className='p-6 flex flex-col gap-2 text-txtLight-100 text-h5 bg-bgDark-080 rounded-[12px] shadow'>
+            <div className='h-[300px] flex relative items-start justify-center'>
+              {odontogramUpItems.map((item, index) => {
+                const quadrant = item.label.at(0);
+                const tooth = Number(item.label.at(1));
+
+                const labelStyle = quadrant === "2" ? "-scale-x-[1]" : "";
+                const toothStyle =
+                  tooth >= 4
+                    ? "bottom-0 left-[55px] "
+                    : tooth >= 2
+                    ? "top-[-25px] left-[-5px]"
+                    : "top-[-30px] left-[calc(50%-10px)]";
+
+                const piecelabel: ToothName = `d${item.label}` as ToothLabel;
+                const piece = valorationOdotontogram[piecelabel] as ITooth;
+                let statusStyle = "";
+                if (piece) {
+                  const cariesIncluded = piece.state?.includes("caries");
+                  const cariesOclusal = piece.state?.includes("cariesOclusal");
+
+                  if (cariesIncluded && !cariesOclusal) {
+                    const position =
+                      Number(quadrant) === 1 || Number(quadrant) === 2
+                        ? "upper"
+                        : "lower";
+                    const style =
+                      STATUS_STYLES_ODONTOGRAM[piece.state as string];
+                    if (typeof style === "object") {
+                      statusStyle = style[position] || "";
+                    }
+                  } else {
+                    statusStyle = piece.state
+                      ? (STATUS_STYLES_ODONTOGRAM[piece.state] as string)
+                      : "";
+                  }
+                }
+                return (
+                  <button
+                    disabled
+                    type='button'
+                    key={item.label + index}
+                    className={item.styles ?? ""}>
+                    <div className='relative rounded-full'>
+                      <p
+                        className={`absolute text-light-090 ${labelStyle} ${toothStyle}`}>
+                        {item.label}
+                      </p>
+                      <Image
+                        className='w-full h-full'
+                        src={item.image}
+                        alt={item.label}
+                        width={44}
+                        height={40}
+                        unoptimized
+                      />
+                      <div className={statusStyle ?? "hidden"} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+            <div className='h-[300px] flex relative items-end justify-center '>
+              {odontogramDownItems.map((item, index) => {
+                const quadrant = item.label.at(0);
+                const tooth = Number(item.label.at(1));
+
+                const labelStyle = quadrant === "3" ? "-scale-x-[1]" : "";
+                const toothStyle =
+                  tooth >= 4
+                    ? "top-[10%] left-[65px] "
+                    : tooth >= 2
+                    ? "bottom-[-25px] left-[-5px]"
+                    : "bottom-[-30px] left-[calc(50%-10px)]";
+                const piecelabel: ToothName = `d${item.label}` as ToothLabel;
+                const piece = valorationOdotontogram[piecelabel] as ITooth;
+                let statusStyle = "";
+                if (piece) {
+                  const cariesIncluded = piece.state?.includes("caries");
+                  const cariesOclusal = piece.state?.includes("cariesOclusal");
+
+                  if (cariesIncluded && !cariesOclusal) {
+                    const position =
+                      Number(quadrant) === 1 || Number(quadrant) === 2
+                        ? "upper"
+                        : "lower";
+                    const style =
+                      STATUS_STYLES_ODONTOGRAM[piece.state as string];
+                    if (typeof style === "object") {
+                      statusStyle = style[position] || "";
+                    }
+                  } else {
+                    statusStyle = piece.state
+                      ? (STATUS_STYLES_ODONTOGRAM[piece.state] as string)
+                      : "";
+                  }
+                }
+
+                return (
+                  <button
+                    disabled
+                    type='button'
+                    key={item.label + index}
+                    className={item.styles ?? ""}>
+                    <div className='relative rounded-full'>
+                      <p
+                        className={`absolute text-light-090 ${labelStyle} ${toothStyle} `}>
+                        {item.label}
+                      </p>
+                      <Image
+                        className='w-full h-full'
+                        src={item.image}
+                        alt={item.label}
+                        width={44}
+                        height={40}
+                        unoptimized
+                      />
+                      <div className={statusStyle ?? "hidden"} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className='w-full px-[10%] mt-20 text-txtBrand-alternative '>
+            <h4 className='text-h4 mb-4'>Patologias</h4>
+            <ul className='flex flex-col gap-2 text-small'>
+              {Object.entries(valorationOdotontogram).map(([key, value]) => {
+                if (key.startsWith("d")) {
+                  const piece = value as ITooth;
+                  if (piece.pathology && piece.pathology.length > 0) {
+                    return <li key={key}>{`${key}: ${piece.pathology}`}</li>;
+                  }
+                }
+              })}
+            </ul>
+          </div>
+          <div className='mt-[60px] w-full flex flex-col gap-3'>
+            <label
+              className='w-full text-txtBrand-secondary text-center'
+              htmlFor='observaciones'>
+              Observaciones Generales
+            </label>
+            <p className='p-3 w-full rounded-[12px] focus:outline-none focus:ring-2 focus:ring-cta-100 focus:ring-opacity-50 text-h5 bg-light-090 min-h-10'></p>
           </div>
         </section>
       )}

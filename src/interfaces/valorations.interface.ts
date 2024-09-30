@@ -179,3 +179,5 @@ export interface ITooth {
   state?: ToothState;
   pathology?: ToothPathology;
 }
+
+export type ToothLabel = Exclude<ToothName, "">;
