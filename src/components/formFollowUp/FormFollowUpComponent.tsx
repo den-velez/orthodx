@@ -16,7 +16,7 @@ import {
 
 type FormData = {
   followup: string;
-  followupEdit: string;
+  followupEdit?: string;
 };
 
 type FollowupUpdateItem = {
@@ -26,7 +26,7 @@ type FollowupUpdateItem = {
 
 const FormSchema: ZodType<FormData> = z.object({
   followup: z.string().min(1, { message: "Campo requerido" }),
-  followupEdit: z.string(),
+  followupEdit: z.string().optional(),
 });
 
 export default function FormFollowUpComponent({
@@ -67,7 +67,7 @@ export default function FormFollowUpComponent({
     if (array.length === 0) {
       return 1;
     }
-    return 1 + Math.max(...array.map((f) => f.order));
+    return 1 + Math.max(...array.map((f) => f.sort));
   };
 
   const openModalEdit = (content: string, index: number) => {
@@ -146,7 +146,7 @@ export default function FormFollowUpComponent({
       content: data.followup,
       createdAt: getTodayDate(),
       updatedAt: getTodayDate(),
-      order: getNewOrderNumber(followupList),
+      sort: getNewOrderNumber(followupList),
     };
 
     const payload = {
@@ -248,7 +248,7 @@ export default function FormFollowUpComponent({
           <div className='flex flex-col-reverse gap-3'>
             {followupList.map((f, index) => (
               <div
-                key={f.createdAt}
+                key={index}
                 className='w-full flex justify-between px-3 py-2 bg-bgDark-070 text-ctaLight-090 rounded-[12px]'>
                 <div>
                   <p className='text-caption mb-2'>{f.createdAt}</p>

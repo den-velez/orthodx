@@ -115,5 +115,5 @@ export interface IFollowUp {
   createdAt: string;
   updatedAt: string;
   content: string;
-  order: number;
+  sort: number;
 }
