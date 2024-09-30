@@ -48,7 +48,7 @@ export default async function PatientsList({
       </ModalComponent>
 
       <DoctorHeaderComponent />
-      <main className='pb-[90px] flex flex-col gap-3 px-3 pt-6 bg-bgDark-090 min-h-screen'>
+      <main className='relative pb-[90px] flex flex-col gap-3 px-3 pt-6 bg-bgDark-090 min-h-screen'>
         <Suspense fallback={<div>Loading...</div>}>
           <SearcherComponent />
         </Suspense>
@@ -56,7 +56,7 @@ export default async function PatientsList({
           <PatientsContainer name={searchParams.name || null} />
         </Suspense>
         {credits >= 1 ? (
-          <div className='mx-auto my-[48px] h-[60px] flex justify-center w-[240px]'>
+          <div className='fixed left-0 right-0 bottom-28 mx-auto flex h-[60px] w-[240px]'>
             <ButtonComponent
               label='Agregar Paciente'
               variant='primary-dark'

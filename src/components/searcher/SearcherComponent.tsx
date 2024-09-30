@@ -24,8 +24,8 @@ export default function SearcherComponent() {
   }, WAIT_BEFORE_SEARCH);
 
   return (
-    <div className='px-3 py-6 bg-bgDark-080'>
-      <div className='px-3 flex items-center rounded-[12px] bg-bgDark-070'>
+    <div className='px-3 py-6 bg-bgDark-080 rounded-xl'>
+      <div className='px-3 flex items-center rounded-xl bg-bgDark-070'>
         <IconsComponent icon='search' />
         <input
           className='p-3 text-body min-h-12 bg-bgDark-070 text-txtDark-090 focus:text-txtLight-100 focus:outline-none'
