@@ -27,6 +27,22 @@ export type FormDataDentalSize = {
   discrepancy: boolean;
 };
 
+function getTeethSum(
+  valuesArray: number[],
+  factor?: number,
+  factorRounded?: boolean
+) {
+  if (!factor && !factorRounded) {
+    return valuesArray.reduce((a, b) => a + b, 0);
+  }
+  if (factor) {
+    if (factorRounded) {
+      return Math.round(valuesArray.reduce((a, b) => a + b, 0) * factor);
+    }
+    return valuesArray.reduce((a, b) => a + b, 0) * factor;
+  }
+}
+
 const FormSchema: ZodType<FormDataDentalSize> = z.object({
   d11: z.string(),
   d12: z.string(),
@@ -77,11 +93,34 @@ export default function FormDentalSizeComponent({
     d43: d43P,
   } = currentArcadas;
 
-  const {
-    sumAboveRounded: aboveSumP,
-    sumBelow: belowSumP,
-    discrepancy: discrepancyP,
-  } = discrepancyDx;
+  const { discrepancy: discrepancyP } = discrepancyDx;
+
+  const sumAboveRounded =
+    discrepancyDx.sumAboveRounded == 0
+      ? (getTeethSum(
+          [
+            Number(d13P) || 0,
+            Number(d12P) || 0,
+            Number(d11P) || 0,
+            Number(d21P) || 0,
+            Number(d22P) || 0,
+            Number(d23P) || 0,
+          ],
+          0.75,
+          true
+        ) as number)
+      : discrepancyDx.sumAboveRounded;
+  const sumBelow =
+    discrepancyDx.sumBelow == 0
+      ? getTeethSum([
+          Number(d43P) || 0,
+          Number(d42P) || 0,
+          Number(d41P) || 0,
+          Number(d31P) || 0,
+          Number(d32P) || 0,
+          Number(d33P) || 0,
+        ])
+      : discrepancyDx.sumBelow;
 
   const {
     register,
@@ -104,8 +143,8 @@ export default function FormDentalSizeComponent({
       d41: dentalSizeModified.d41 || d41P || "",
       d42: dentalSizeModified.d42 || d42P || "",
       d43: dentalSizeModified.d43 || d43P || "",
-      aboveSum: dentalSizeModified.aboveSum || aboveSumP,
-      belowSum: dentalSizeModified.belowSum || belowSumP,
+      aboveSum: dentalSizeModified.aboveSum || sumAboveRounded,
+      belowSum: dentalSizeModified.belowSum || sumBelow,
       discrepancy: dentalSizeModified.discrepancy || discrepancyP || false,
     },
   });
@@ -214,7 +253,7 @@ export default function FormDentalSizeComponent({
             <p key={index}>{suggestion}</p>
           ))}
           {discrepancyDx.suggestions?.length === 0 && <p>No hay sugerencias</p>}
-          <div className='h-[60px] my-6 flex gap-6'>
+          <div className='h-[60px] my-6 flex gap-6 w-[280px]'>
             <ButtonComponent
               label='Cerrar'
               variant='secondary'
@@ -250,8 +289,8 @@ export default function FormDentalSizeComponent({
             patient={true}
             upper={patientMeasures.upper ?? []}
             lower={patientMeasures.lower ?? []}
-            sumAbove={aboveSumP}
-            sumBelow={belowSumP}
+            sumAbove={sumAboveRounded}
+            sumBelow={sumBelow as number}
             register={register}
           />
         )}

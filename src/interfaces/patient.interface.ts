@@ -13,6 +13,7 @@ export interface IPatientCard {
   avatar: string;
   name: string;
   favorite: boolean;
+  doctorOffice: string;
 }
 
 export interface IPatient extends IPatientCard {
@@ -114,5 +115,5 @@ export interface IFollowUp {
   createdAt: string;
   updatedAt: string;
   content: string;
-  order: number;
+  sort: number;
 }

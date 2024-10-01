@@ -416,16 +416,21 @@ export async function takeCredits(doctorId: string, creditsRequired: number) {
   if (memberCredits + paidCredits < creditsRequired) {
     throw new Error("Doctor has no enough credits");
   }
+  console.log("Payload", memberCredits, paidCredits);
+  let creditsTaken = 0;
+  let newMemberCredits = 0;
+  let newPaidCredits = 0;
 
-  let cretidsLeft = creditsRequired;
-  let newPaidCredits = paidCredits;
+  if (memberCredits > 0) {
+    const creditsToTake = Math.min(memberCredits, creditsRequired);
+    newMemberCredits = memberCredits - creditsToTake;
+    creditsTaken = creditsToTake;
+  }
 
-  const newMemberCredits =
-    memberCredits >= creditsRequired ? memberCredits - creditsRequired : 0;
-  cretidsLeft = cretidsLeft - memberCredits;
-
-  if (cretidsLeft > 0) {
-    newPaidCredits = paidCredits >= cretidsLeft ? paidCredits - cretidsLeft : 0;
+  if (creditsTaken < creditsRequired) {
+    const creditsToTake = creditsRequired - creditsTaken;
+    newPaidCredits = paidCredits - creditsToTake;
+    creditsTaken += creditsToTake;
   }
 
   const payload = {
@@ -519,14 +524,12 @@ export async function drawRequest({
 }: ICreateDrawRequest) {
   try {
     await takeCredits(doctorId, 2);
-    console.log("Credits taken");
     await saveCreditsUsage({
       doctorId,
       patientId,
       creditsRequired: 2,
       operation: "draw request",
     });
-    console.log("Credits usage saved");
     const drawRequestID = await saveDrawRequest({
       patientId,
       doctorId,
@@ -534,7 +537,6 @@ export async function drawRequest({
       patientName,
       patientRxImg,
     });
-    console.log("Draw request saved");
 
     await updatePatient(
       {

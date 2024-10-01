@@ -77,8 +77,10 @@ export default async function PatientsContainer({
       }
     });
   } else {
-    const patientsSearch = patientList.filter((patient) =>
-      patient.name.toLowerCase().includes(name?.toLowerCase() ?? "")
+    const patientsSearch = patientList.filter(
+      (patient) =>
+        patient.name.toLowerCase().includes(name?.toLowerCase() ?? "") ||
+        patient.doctorOffice.toLowerCase().includes(name?.toLowerCase() ?? "")
     );
     patientListRegular = [...patientsSearch] as IPatientCard[];
   }

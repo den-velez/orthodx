@@ -473,13 +473,15 @@ export default function FormArcadasComponent({
               />
             )}
           </div>
-          <div className={`rounded-[12px] ${propocionalStyles}`}>
-            <h3 className='p-2 text-h5 text-center'>
-              {discrepancyDx
-                ? "Paciente con discrepancia"
-                : "Paciente Proporcional"}
-            </h3>
-          </div>
+          {discrepancyDx && (
+            <div className={`rounded-[12px] ${propocionalStyles}`}>
+              <h3 className='p-2 text-h5 text-center'>
+                {discrepancyDx
+                  ? "Paciente con discrepancia"
+                  : "Paciente Proporcional"}
+              </h3>
+            </div>
+          )}
         </section>
         {!isSubmitted && (
           <div className='h-[60px]'>

@@ -1,7 +1,7 @@
 {
   "short_name": "Ortho Dx",
   "name": "Ortho Diagnostic",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icons": [
     {
       "src": "/icons/icon_64x64.png",

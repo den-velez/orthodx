@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Nunito_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  manifest: "./manifest.json",
+  manifest: "/manifest.json",
   title: "OrthoDx",
   description: "Welcome to orthodx, the best orthodontic diagnotics app",
 };

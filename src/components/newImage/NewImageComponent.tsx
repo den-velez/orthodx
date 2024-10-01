@@ -42,7 +42,7 @@ export default function NewImageComponent({
   updateGallery?: (image: string) => void;
   drawRequestID?: string;
 }) {
-  console.log("NewImageComponent -> imageURL", imageURL, drawRequestID);
+  const [drawRquestError, setDrawRequestError] = useState(false);
   const [drawRequested, setDrawRequested] = useState(false);
   const [newDrawRequestID, setNewDrawRequestID] = useState<string | boolean>(
     drawRequestID || false
@@ -121,10 +121,11 @@ export default function NewImageComponent({
       const response = await drawRequest({
         patientId,
         doctorId,
-        patientAvatar: patientAvatar,
-        patientName: patientName,
+        patientAvatar: patientAvatar || "",
+        patientName: patientName || "",
         patientRxImg: imageURL || "",
       });
+
       if (!response) {
         throw new Error("Error requesting draw");
       }
@@ -132,7 +133,7 @@ export default function NewImageComponent({
       setNewDrawRequestID(response);
       setDrawRequested(true);
     } catch (error) {
-      alert("Error al solicitar el trazado");
+      setDrawRequestError(true);
     }
   };
 
@@ -140,10 +141,30 @@ export default function NewImageComponent({
     if (type !== "draw") {
       setDrawRequested(true);
     } else {
-      const isImageValid = imageURL && imageURL !== "";
+      const isImageValid = drawRequestID && drawRequestID !== "";
       if (isImageValid) setDrawRequested(isImageValid);
     }
   }, []);
+
+  if (drawRquestError) {
+    return (
+      <section className='w-full p-6 rounded-[12px] bg-bgDark-080 text-white'>
+        <h3 className='text-h3 text-txtLight-100 text-center'>
+          Ocurrio un error al solicitar el trazado, volver a intentar
+          <div className='mx-auto mt-[60px] h-[60px] w-[250px]'>
+            <ButtonComponent
+              type='button'
+              variant='primary'
+              label='Aceptar'
+              widthfull
+              anchor
+              anchorUrl={linkToBack}
+            />
+          </div>
+        </h3>
+      </section>
+    );
+  }
 
   if (!drawRequested) {
     return (
