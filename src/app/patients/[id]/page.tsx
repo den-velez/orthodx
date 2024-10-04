@@ -78,6 +78,7 @@ export default async function Patient({
           patientAvatar={patient.avatar}
           patientName={patient.name}
           imageURL={patient.drawRequest?.patientRxImg}
+          imageURLAditional={patient.drawRequest?.patientRxImgPanoramic}
           drawRequestID={patient.drawRequest?.drawRequestId}
         />
       </ModalComponent>

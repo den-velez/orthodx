@@ -102,6 +102,7 @@ export interface IDrawRequestPatient {
   updatedAt: string;
   status: "pending" | "completed" | "canceled";
   patientRxImg: string;
+  patientRxImgPanoramic?: string;
   urlResultImage?: string;
 }
 
