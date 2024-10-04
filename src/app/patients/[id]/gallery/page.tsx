@@ -75,7 +75,7 @@ export default function GalleryPatient({
       <h3 className='mb-6 text-h3 text-txtLight-100 text-center'>
         Galeria del paciente
       </h3>
-      <div className='max-h-[400px]  mx-auto grid grid-cols-2 gap-x-3 gap-y-6 overflow-auto'>
+      <div className='max-h-[55vh]  mx-auto grid grid-cols-2 gap-x-3 gap-y-6 overflow-auto'>
         {gallery.map((asset, index) => (
           <button
             onClick={() => toggleModal(asset)}

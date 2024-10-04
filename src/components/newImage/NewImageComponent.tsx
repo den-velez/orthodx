@@ -1,12 +1,13 @@
 "use client";
 
 import { ChangeEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { uploadImage } from "@/lib/firebase/storage";
+import { uploadImage, updateImage } from "@/lib/firebase/storage";
 import { ButtonComponent, IconsComponent } from "@/components";
 import { IDrawRequestPatient } from "@/interfaces";
 import {
@@ -16,11 +17,13 @@ import {
 } from "@/lib/actions/actions";
 
 type FormData = {
-  imageRx: string;
+  image: string;
+  imageAditional: string;
 };
 
 const FormSchema: ZodType<FormData> = z.object({
-  imageRx: z.string(),
+  image: z.string(),
+  imageAditional: z.string(),
 });
 
 export default function NewImageComponent({
@@ -30,6 +33,7 @@ export default function NewImageComponent({
   patientAvatar,
   patientName,
   imageURL,
+  imageURLAditional,
   updateGallery,
   drawRequestID,
 }: {
@@ -39,9 +43,11 @@ export default function NewImageComponent({
   patientAvatar: string;
   patientName: string;
   imageURL?: string;
+  imageURLAditional?: string;
   updateGallery?: (image: string) => void;
   drawRequestID?: string;
 }) {
+  const router = useRouter();
   const [drawRquestError, setDrawRequestError] = useState(false);
   const [drawRequested, setDrawRequested] = useState(false);
   const [newDrawRequestID, setNewDrawRequestID] = useState<string | boolean>(
@@ -53,9 +59,8 @@ export default function NewImageComponent({
       : `/patients/${patientId}`;
 
   const validateImage = (value: string | undefined) => {
-    const defaultImage = "/images/noResults.png";
-    if (!value) return defaultImage;
-    if (value === "") return defaultImage;
+    const defaultImage = "/images/addImage.png";
+    if (!value || value === "") return defaultImage;
     return value;
   };
 
@@ -67,22 +72,43 @@ export default function NewImageComponent({
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      imageRx: validateImage(imageURL),
+      image: validateImage(imageURL),
+      imageAditional: validateImage(imageURLAditional),
     },
   });
 
-  const imageURLUpdated = getValues("imageRx") || "/images/avatar.png";
+  const imageURLUpdated = getValues("image") || "/images/addImage.png";
+  const imageURLAditionalUpdated =
+    getValues("imageAditional") || "/images/addImage.png";
   const imageLabel =
-    imageURLUpdated === "/images/noResults.png" ? "Seleccionar" : "Cambiar";
+    imageURLUpdated === "/images/addImage.png" ? "Seleccionar" : "Cambiar";
+
+  const imageAditionalLabel =
+    imageURLAditionalUpdated === "/images/addImage.png"
+      ? "Seleccionar"
+      : "Cambiar";
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const imageName = e.target.id as "image" | "imageAditional";
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      const url = await uploadImage(file, type, { patientId });
+      const currentImage = getValues(imageName);
+      const isDefaultImage = currentImage === "/images/addImage.png";
+      console.log("currentImage", currentImage);
+      console.log("isDefaultImage", isDefaultImage);
+      let url = null;
+
+      if (isDefaultImage) {
+        url = await uploadImage(file, type, { patientId });
+      } else {
+        url = await updateImage(file, type, { patientId }, currentImage);
+      }
+
       if (url) {
-        setValue("imageRx", url);
+        setValue(imageName, url);
         if (updateGallery) {
           updateGallery(url);
+          router.push(linkToBack);
         } else {
           handleUpdatePatient(url);
         }
@@ -95,7 +121,8 @@ export default function NewImageComponent({
       drawRequest: {
         createdAt: new Date().toISOString().split("T")[0],
         status: "pending",
-        patientRxImg: imageUrl,
+        patientRxImg: watch("image"),
+        patientRxImgPanoramic: watch("imageAditional"),
         drawRequestId: newDrawRequestID as string,
       } as IDrawRequestPatient,
     };
@@ -199,9 +226,14 @@ export default function NewImageComponent({
     <section className='w-full p-6 rounded-[12px] bg-bgDark-080'>
       <h3 className='text-h3 text-txtLight-100 text-center'>{title}</h3>
       <div className='relative mt-[60px] flex flex-col justify-center items-center'>
+        {type === "draw" && (
+          <h4 className='py-2 text-light-090 text-center'>
+            Radiografia lateral
+          </h4>
+        )}
         <Image
           className='w-[250px] h-[250px] p-1 rounded-[12px] ring-2 dark:ring-bgDark-070 shadow'
-          src={watch("imageRx")}
+          src={watch("image")}
           alt='Radiografia lateral del paciente'
           width={200}
           height={200}
@@ -221,6 +253,36 @@ export default function NewImageComponent({
           />
         </div>
       </div>
+      {type === "draw" && (
+        <div className='relative mt-[60px] flex flex-col justify-center items-center'>
+          <h4 className='py-2 text-light-090 text-center'>
+            Radiografia Panorámica
+          </h4>
+          <Image
+            className='w-[250px] h-[250px] p-1 rounded-[12px] ring-2 dark:ring-bgDark-070 shadow'
+            src={watch("imageAditional")}
+            alt='Radiografia lateral del paciente'
+            width={200}
+            height={200}
+            unoptimized
+          />
+          <div className='absolute w-[200px] px-3 py-2 bottom-[-16px] bg-cta-090 text-h5 rounded-lg text-txtDark-090 '>
+            <label htmlFor='imageAditional' className='flex items-center gap-3'>
+              <IconsComponent icon='camera' />
+              <span className='h-full border-l px-2'>
+                {imageAditionalLabel}
+              </span>
+            </label>
+            <input
+              className='hidden'
+              type='file'
+              id='imageAditional'
+              accept='image/*'
+              onChange={handleImageChange}
+            />
+          </div>
+        </div>
+      )}
       <div className='mx-auto mt-[60px] h-[60px] w-[250px]'>
         <ButtonComponent
           type='button'
