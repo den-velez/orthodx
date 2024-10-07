@@ -23,9 +23,6 @@ export interface UpdateArchesDto {
   d41: number;
   d42: number;
   d43: number;
-  d4a4: number;
-  loAnt: number;
-  dist3a3Inf: number;
   dist6a6Inf: number;
   dist6a6Inf2: number;
   dist6a6Sup: number;
@@ -194,10 +191,7 @@ export async function getExpansionDiagnostic(ArchesValues: UpdateArchesDto) {
     d41,
     d42,
     d43,
-    d4a4,
     dist6a6Sup,
-    loAnt,
-    dist3a3Inf,
     dist6a6Inf,
     dist6a6Inf2,
   } = ArchesValues;
@@ -229,17 +223,9 @@ export async function getExpansionDiagnostic(ArchesValues: UpdateArchesDto) {
     ),
   };
   const archesDiffValues = {
-    diff4_4: getDifferences(
-      d4a4,
-      archesDistancesValues.distanceAbove4_4 as number
-    ),
     diff6_6: getDifferences(
       dist6a6Sup,
       archesDistancesValues.distanceAbove6_6 as number
-    ),
-    diffLongAnt: getDifferences(
-      loAnt,
-      archesDistancesValues.distanceLongAnt as number
     ),
   };
 

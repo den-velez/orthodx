@@ -6,7 +6,7 @@ import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ButtonComponent, ModalComponent } from "@/components";
-import { IArches, IDiscrepancyDiagnostic, IExpansion } from "@/interfaces";
+import { IArches, IExpansion } from "@/interfaces";
 import { updatePatient } from "@/lib/actions/actions";
 import {
   getDiscrepancyDiagnostic,
@@ -29,9 +29,6 @@ type FormData = {
   d41?: string;
   d42?: string;
   d43?: string;
-  d4a4: string;
-  loAnt?: string;
-  dist3a3Inf?: string;
   dist6a6Inf?: string;
   dist6a6Inf2?: string;
   dist6a6Sup?: string;
@@ -50,9 +47,6 @@ const FormSchema: ZodType<FormData> = z.object({
   d41: z.string().optional(),
   d42: z.string().optional(),
   d43: z.string().optional(),
-  d4a4: z.string().min(1),
-  loAnt: z.string().optional(),
-  dist3a3Inf: z.string().optional(),
   dist6a6Inf: z.string().optional(),
   dist6a6Inf2: z.string().optional(),
   dist6a6Sup: z.string().optional(),
@@ -69,7 +63,7 @@ export default function FormArcadasComponent({
   expansionDx: IExpansion;
   discrepancyDx?: boolean;
 }) {
-  const [isSubmitted, setSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const {
@@ -78,6 +72,7 @@ export default function FormArcadasComponent({
     formState: { errors },
     setError,
     setValue,
+    watch,
     getValues,
   } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -111,10 +106,7 @@ export default function FormArcadasComponent({
       d41: Number(data.d41) || 0,
       d42: Number(data.d42) || 0,
       d43: Number(data.d43) || 0,
-      loAnt: Number(data.loAnt) || 0,
-      d4a4: Number(data.d4a4) || 0,
       dist6a6Sup: Number(data.dist6a6Sup) || 0,
-      dist3a3Inf: Number(data.dist3a3Inf) || 0,
       dist6a6Inf: Number(data.dist6a6Inf) || 0,
       dist6a6Inf2: Number(data.dist6a6Inf2) || 0,
     };
@@ -129,7 +121,7 @@ export default function FormArcadasComponent({
 
     try {
       const user = await updatePatient(payload, patientId);
-      setSubmitted(true);
+      setIsSubmitted(true);
     } catch (error) {
       setError("root", {
         message: "El email o la contraseña son incorrectos",
@@ -159,6 +151,12 @@ export default function FormArcadasComponent({
   const propocionalStyles = discrepancyDx
     ? "bg-msg-error text-center"
     : "bg-msg-success text-center";
+
+  watch((value: FormData) => {
+    if (isSubmitted) {
+      setIsSubmitted(false);
+    }
+  });
 
   return (
     <>
