@@ -1,7 +1,9 @@
+import Image from "next/image";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/firebase";
 import {
   ButtonComponent,
+  DrawReviewComponent,
   TextWithLineBreaksComponent,
   TreatmentPendingComponent,
   ModalComponent,
@@ -27,7 +29,7 @@ export default async function Patient({
   searchParams,
 }: {
   params: { id: string };
-  searchParams: { draw?: boolean };
+  searchParams: { drawRequest?: boolean; drawDone?: boolean };
 }) {
   const patientId = params.id || "";
   const patient = (await patientData(patientId)) as IPatient;
@@ -43,7 +45,8 @@ export default async function Patient({
     dental: `/patients/${patientId}/dental`,
     dental_size: `/patients/${patientId}/dental-size`,
     diagnostic: `/patients/${patientId}/diagnostic`,
-    drawRequest: `/patients/${patientId}?draw=true`,
+    drawRequest: `/patients/${patientId}?drawRequest=true`,
+    drawDone: `/patients/${patientId}?drawDone=true`,
     odontogram: `/patients/${patientId}/odontogram`,
     followup: `/patients/${patientId}/followup`,
   };
@@ -70,7 +73,7 @@ export default async function Patient({
 
   return (
     <>
-      <ModalComponent isOpen={searchParams.draw || false}>
+      <ModalComponent isOpen={searchParams.drawRequest || false}>
         <NewImageComponent
           type='draw'
           patientId={patientId}
@@ -80,6 +83,16 @@ export default async function Patient({
           imageURL={patient.drawRequest?.patientRxImg}
           imageURLAditional={patient.drawRequest?.patientRxImgPanoramic}
           drawRequestID={patient.drawRequest?.drawRequestId}
+        />
+      </ModalComponent>
+      <ModalComponent isOpen={searchParams.drawDone || false}>
+        <DrawReviewComponent
+          images={[
+            patient.drawRequest?.patientRxImg || "",
+            patient.drawRequest?.patientRxImgPanoramic || "",
+          ]}
+          editUrl={links.drawRequest}
+          exitUrl={`/patients/${patientId}`}
         />
       </ModalComponent>
       <main className='grid gap-6 bg-bgDark-090 px-3 py-6'>
@@ -211,19 +224,17 @@ export default async function Patient({
             Valoración
           </h3>
           <div className='w-full px-6 grid grid-cols-1 gap-6'>
-            {(drawRequested ||
-              (!drawRequested && !chephalometryValorationDone)) && (
-              <div className='h-[90px] '>
-                <ButtonComponent
-                  label={drawButtonText}
-                  variant='primary-dark'
-                  widthfull
-                  anchor
-                  anchorUrl={links.drawRequest}
-                  iconSrc='/icons/draw_icon.svg'
-                />
-              </div>
-            )}
+            <div className='h-[90px] '>
+              <ButtonComponent
+                label={drawButtonText}
+                variant='primary-dark'
+                widthfull
+                anchor
+                anchorUrl={drawRequested ? links.drawDone : links.drawRequest}
+                iconSrc='/icons/draw_icon.svg'
+              />
+            </div>
+
             <div className='grid grid-cols-2 auto-rows-[160px] gap-6'>
               <ButtonComponent
                 label='Valoración Cefalométrica'
@@ -244,28 +255,24 @@ export default async function Patient({
                 square
               />
 
-              {chephalometryValorationDone && (
-                <>
-                  <ButtonComponent
-                    label='Valoración Oclusal'
-                    variant='primary-dark'
-                    widthfull
-                    anchor
-                    anchorUrl={links.dental}
-                    iconSrc='/icons/dental_icon.svg'
-                    square
-                  />
-                  <ButtonComponent
-                    label='Odontograma'
-                    variant='primary-dark'
-                    widthfull
-                    anchor
-                    anchorUrl={links.odontogram}
-                    iconSrc='/icons/odontogram_icon.svg'
-                    square
-                  />
-                </>
-              )}
+              <ButtonComponent
+                label='Valoración Oclusal'
+                variant='primary-dark'
+                widthfull
+                anchor
+                anchorUrl={links.dental}
+                iconSrc='/icons/dental_icon.svg'
+                square
+              />
+              <ButtonComponent
+                label='Odontograma'
+                variant='primary-dark'
+                widthfull
+                anchor
+                anchorUrl={links.odontogram}
+                iconSrc='/icons/odontogram_icon.svg'
+                square
+              />
             </div>
           </div>
         </section>

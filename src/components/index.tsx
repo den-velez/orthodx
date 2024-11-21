@@ -24,9 +24,11 @@ import PurchaseComponent from "./PurchaseComponent/PurchaseComponent";
 import FormFollowUpComponent from "./formFollowUp/FormFollowUpComponent";
 import TextWithLineBreaksComponent from "./textWithLinesBreaks/TextWithLineBreaksComponent";
 import FaqComponent from "./faq/FaqComponent";
+import DrawReviewComponent from "./drawReview/DrawReviewComponent";
 
 export {
   ButtonComponent,
+  DrawReviewComponent,
   DoctorHeaderComponent,
   FaqComponent,
   FooterComponent,

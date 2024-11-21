@@ -447,7 +447,7 @@ export default function FormArcadasComponent({
               }
             />
             <DxSectionDental
-              label='Mordida Anterior (giros)'
+              label='Mordida Cruzada (giros)'
               value={
                 expansionDx.korkhauseTurns == 0
                   ? "No requiere"
