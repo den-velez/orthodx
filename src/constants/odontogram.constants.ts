@@ -1,3 +1,4 @@
+// this data were added into component FormOdontogramComponent because tailwind didn't work with dynamic data
 export const odontogramUpItems = [
   {
     label: "18",
